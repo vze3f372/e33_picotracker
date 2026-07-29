@@ -1292,12 +1292,9 @@
       }
     };
 
-    var url = FIRESTORE_BASE + 'e33_saves/' + code
-      + FIRESTORE_KEY
-      + '&updateMask.fieldPaths=pictos'
-      + '&updateMask.fieldPaths=weapons'
-      + '&updateMask.fieldPaths=updatedAt';
+    var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
 
+    // PATCH creates the doc if it doesn't exist, replaces if it does
     fetch(url, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -1463,35 +1460,33 @@
         return;
       }
 
-      syncStatusText('Saving…');
+      syncStatusText('Loading…');
       syncStatusClass('');
 
-      // Save current data to the NEW code first, then reload
+      // 1. Set the new code before loading
       setSyncCode(input);
-      syncSaveToFirebase();
 
-      // Now load from the new code to merge any existing data
+      // 2. Load from Firestore FIRST — if data exists, it takes priority
       syncLoadFromFirebase(function(data) {
         var changed = false;
-        if (data) {
-          if (data.pictos) {
-            checked = data.pictos;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-            changed = true;
-          }
-          if (data.weapons) {
-            wChecked = data.weapons;
-            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-            changed = true;
-          }
-          if (changed) {
-            render();
-            wRender();
-          }
+        if (data && data.pictos) {
+          checked = data.pictos;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          changed = true;
+        }
+        if (data && data.weapons) {
+          wChecked = data.weapons;
+          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          changed = true;
+        }
+        if (changed) {
+          render();
+          wRender();
           syncStatusText('Synced');
           syncStatusClass('success');
         } else {
-          // No existing data under new code; our save created it
+          // 3. No existing data — save local data under this new code
+          syncSaveToFirebase();
           syncStatusText('New code ready');
           syncStatusClass('success');
         }
