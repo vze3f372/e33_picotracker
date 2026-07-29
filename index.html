@@ -1382,7 +1382,7 @@
           }, 2500);
         }
       }).catch(function() {});
-    }, 30000);
+    }, 15000);
   }
 
   function generateSyncCode() {
@@ -1468,18 +1468,19 @@
 
       // 2. Load from Firestore FIRST — if data exists, it takes priority
       syncLoadFromFirebase(function(data) {
-        var changed = false;
-        if (data && data.pictos) {
+        var hasPictos = data && data.pictos && Object.keys(data.pictos).length > 0;
+        var hasWeapons = data && data.weapons && Object.keys(data.weapons).length > 0;
+
+        if (hasPictos) {
           checked = data.pictos;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-          changed = true;
         }
-        if (data && data.weapons) {
+        if (hasWeapons) {
           wChecked = data.weapons;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-          changed = true;
         }
-        if (changed) {
+
+        if (hasPictos || hasWeapons) {
           render();
           wRender();
           syncStatusText('Synced');
