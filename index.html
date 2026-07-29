@@ -1315,16 +1315,22 @@
 
   /** Load pictos + weapons from Firestore via REST API. Calls callback(data) or callback(null). */
   function syncLoadFromFirebase(callback) {
-    if (!FIRESTORE_ENABLED) { callback(null); return; }
+    // callback(data, exists):
+    //   data   = parsed pictos/weapons object, or null if doc missing / error
+    //   exists = true  → document was found in Firestore (HTTP 200)
+    //            false → document was NOT found (HTTP 404)
+    //            null  → unknown (network error, etc.)
+    if (!FIRESTORE_ENABLED) { callback(null, null); return; }
     var code = getSyncCode();
     console.log('[sync] LOAD code=' + code);
     var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
 
     fetch(url).then(function(response) {
-      if (!response.ok) { console.log('[sync] LOAD failed:', response.status); callback(null); return; }
+      if (response.status === 404) { console.log('[sync] LOAD 404 (doc not found)'); callback(null, false); return; }
+      if (!response.ok) { console.log('[sync] LOAD failed:', response.status); callback(null, null); return; }
       return response.json();
     }).then(function(data) {
-      if (!data || !data.fields) { console.log('[sync] LOAD no data'); callback(null); return; }
+      if (!data || !data.fields) { console.log('[sync] LOAD no data'); callback(null, true); return; }
       var result = {};
 
       if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
@@ -1340,9 +1346,9 @@
 
       console.log('[sync] LOAD parsed result.pictos=' + (result.pictos ? Object.keys(result.pictos).length : 0)
         + ' result.weapons=' + (result.weapons ? Object.keys(result.weapons).length : 0));
-      callback(result);
+      callback(result, true);
     }).catch(function() {
-      callback(null);
+      callback(null, null);
     });
   }
 
@@ -1499,25 +1505,22 @@
       setSyncCode(input);
       var applyCode = input;
 
-      // 2. Load from Firestore FIRST — if data exists, it takes priority
-      syncLoadFromFirebase(function(data) {
+      // 2. Load from Firestore to check if data EXISTS under this code
+      syncLoadFromFirebase(function(data, exists) {
         // If the code changed again while loading, ignore
         if (getSyncCode() !== applyCode) {
           console.log('[sync] apply stale (code changed), ignoring');
           return;
         }
 
-        var hasPictos = data && data.pictos && Object.keys(data.pictos).length > 0;
-        var hasWeapons = data && data.weapons && Object.keys(data.weapons).length > 0;
-
-        console.log('[sync] apply callback hasPictos=' + hasPictos + ' hasWeapons=' + hasWeapons);
-
-        if (hasPictos || hasWeapons) {
-          if (hasPictos) {
+        if (exists === true) {
+          // CODE FOUND IN DATABASE → copy DB → browser (download)
+          console.log('[sync] code found in DB, applying to browser');
+          if (data && data.pictos) {
             checked = data.pictos;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           }
-          if (hasWeapons) {
+          if (data && data.weapons) {
             wChecked = data.weapons;
             localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           }
@@ -1525,12 +1528,20 @@
           wRender();
           syncStatusText('Synced');
           syncStatusClass('success');
-        } else {
-          // No existing data under this code — we won't save anything.
-          // The next check/uncheck will create the Firestore document.
-          syncStatusText('Code set');
+
+        } else if (exists === false) {
+          // CODE NOT FOUND IN DATABASE → copy browser → DB (create entry)
+          console.log('[sync] code not found in DB, creating entry from browser data');
+          syncSaveToFirebase();
+          syncStatusText('New code ready');
           syncStatusClass('success');
+
+        } else {
+          // Network error or unknown
+          syncStatusText('Sync error');
+          syncStatusClass('error');
         }
+
         document.getElementById('syncInput').value = '';
         syncUpdateCodeDisplay();
       });
@@ -2011,14 +2022,14 @@
 
     // ========== FIREBASE ASYNC LOAD ==========
     var initialSyncCode = getSyncCode();
-    syncLoadFromFirebase(function(data) {
+    syncLoadFromFirebase(function(data, exists) {
       // If the sync code changed since we started the fetch, ignore this response.
       // This avoids a race between the initial load and the user pasting a code manually.
       if (getSyncCode() !== initialSyncCode) {
         console.log('[sync] initial load stale (code changed), ignoring');
         return;
       }
-      if (data) {
+      if (exists === true && data) {
         var changed = false;
         if (data.pictos && typeof data.pictos === 'object') {
           console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
@@ -2039,6 +2050,7 @@
         syncStatusText('Synced');
         syncStatusClass('success');
       } else {
+        // Doc not found or error — keep local data
         syncStatusText('Using local');
         syncStatusClass('');
       }
