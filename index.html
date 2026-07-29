@@ -1253,10 +1253,6 @@
     <p style="margin-top:0.5rem;">Data sourced from community guides. Last updated for the <strong>Thank You Update</strong> (Verso&rsquo;s Drafts DLC).</p>
   </footer>
 
-  <!-- Firebase SDK (loaded async so it never blocks the page) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
   <script>
   // ============================================================
   // FIREBASE / SYNC CONFIG
@@ -1270,26 +1266,73 @@
   // ============================================================
   var FIREBASE_CONFIG = {
     apiKey: "AIzaSyAw3gw2QNqx29zFD3o4CFPXtpDuyT2_024",
-    authDomain: "e33-pictotracker.firebaseapp.com",
-    projectId: "e33-pictotracker",
-    storageBucket: "e33-pictotracker.firebasestorage.app",
-    messagingSenderId: "300297624457",
-    appId: "1:300297624457:web:275020bc6067f0446e9f58"
+    projectId: "e33-pictotracker"
   };
 
-  var FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
-  var db = null;
+  var FIRESTORE_BASE = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_CONFIG.projectId + '/databases/(default)/documents/';
+  var FIRESTORE_KEY = '?key=' + FIREBASE_CONFIG.apiKey;
+  var FIRESTORE_ENABLED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY" && FIREBASE_CONFIG.projectId);
   var SYNC_CODE_KEY = 'exp33_sync_code';
 
-  if (FIREBASE_ENABLED) {
-    try {
-      firebase.initializeApp(FIREBASE_CONFIG);
-      db = firebase.firestore();
-      db.settings({ merge: true });
-    } catch(e) {
-      console.warn('Firebase init failed; sync disabled.');
-      db = null;
-    }
+  /** Save both pictos + weapons to Firestore via REST API (no SDK). */
+  function syncSaveToFirebase() {
+    if (!FIRESTORE_ENABLED) return;
+    var code = getSyncCode();
+
+    var pictosFields = {};
+    for (var k in checked) { if (checked.hasOwnProperty(k)) pictosFields[k] = { 'booleanValue': true }; }
+    var weaponsFields = {};
+    for (var k in wChecked) { if (wChecked.hasOwnProperty(k)) weaponsFields[k] = { 'booleanValue': true }; }
+
+    var doc = {
+      'fields': {
+        'pictos': { 'mapValue': { 'fields': pictosFields } },
+        'weapons': { 'mapValue': { 'fields': weaponsFields } },
+        'updatedAt': { 'timestampValue': new Date().toISOString() }
+      }
+    };
+
+    var url = FIRESTORE_BASE + 'e33_saves/' + code
+      + FIRESTORE_KEY
+      + '&updateMask.fieldPaths=pictos'
+      + '&updateMask.fieldPaths=weapons'
+      + '&updateMask.fieldPaths=updatedAt';
+
+    fetch(url, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(doc)
+    }).catch(function() {});
+  }
+
+  /** Load pictos + weapons from Firestore via REST API. Calls callback(data) or callback(null). */
+  function syncLoadFromFirebase(callback) {
+    if (!FIRESTORE_ENABLED) { callback(null); return; }
+    var code = getSyncCode();
+    var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
+
+    fetch(url).then(function(response) {
+      if (!response.ok) { callback(null); return; }
+      return response.json();
+    }).then(function(data) {
+      if (!data || !data.fields) { callback(null); return; }
+      var result = {};
+
+      if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
+        result.pictos = {};
+        var pf = data.fields.pictos.mapValue.fields;
+        for (var key in pf) { if (pf[key].booleanValue) result.pictos[key] = true; }
+      }
+      if (data.fields.weapons && data.fields.weapons.mapValue && data.fields.weapons.mapValue.fields) {
+        result.weapons = {};
+        var wf = data.fields.weapons.mapValue.fields;
+        for (var key in wf) { if (wf[key].booleanValue) result.weapons[key] = true; }
+      }
+
+      callback(result);
+    }).catch(function() {
+      callback(null);
+    });
   }
 
   function generateSyncCode() {
@@ -1359,7 +1402,7 @@
   }
 
   function initSyncUI() {
-    if (!FIREBASE_ENABLED) {
+    if (!FIRESTORE_ENABLED) {
       var bar = document.getElementById('syncBar');
       if (bar) bar.classList.add('sync-disabled');
       return;
