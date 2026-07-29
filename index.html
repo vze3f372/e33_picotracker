@@ -1338,6 +1338,8 @@
         for (var key in wf) { if (wf[key].booleanValue) result.weapons[key] = true; }
       }
 
+      console.log('[sync] LOAD parsed result.pictos=' + (result.pictos ? Object.keys(result.pictos).length : 0)
+        + ' result.weapons=' + (result.weapons ? Object.keys(result.weapons).length : 0));
       callback(result);
     }).catch(function() {
       callback(null);
@@ -1355,6 +1357,8 @@
       return r.json();
     }).then(function(data) {
       if (!data || !data.fields) return;
+      // If the sync code changed during the fetch, ignore this response
+      if (getSyncCode() !== code) return;
 
       var changed = false;
 
@@ -1493,30 +1497,38 @@
 
       // 1. Set the new code before loading
       setSyncCode(input);
+      var applyCode = input;
 
       // 2. Load from Firestore FIRST — if data exists, it takes priority
       syncLoadFromFirebase(function(data) {
+        // If the code changed again while loading, ignore
+        if (getSyncCode() !== applyCode) {
+          console.log('[sync] apply stale (code changed), ignoring');
+          return;
+        }
+
         var hasPictos = data && data.pictos && Object.keys(data.pictos).length > 0;
         var hasWeapons = data && data.weapons && Object.keys(data.weapons).length > 0;
 
-        if (hasPictos) {
-          checked = data.pictos;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-        }
-        if (hasWeapons) {
-          wChecked = data.weapons;
-          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-        }
+        console.log('[sync] apply callback hasPictos=' + hasPictos + ' hasWeapons=' + hasWeapons);
 
         if (hasPictos || hasWeapons) {
+          if (hasPictos) {
+            checked = data.pictos;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          }
+          if (hasWeapons) {
+            wChecked = data.weapons;
+            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          }
           render();
           wRender();
           syncStatusText('Synced');
           syncStatusClass('success');
         } else {
-          // 3. No existing data — save local data under this new code
-          syncSaveToFirebase();
-          syncStatusText('New code ready');
+          // No existing data under this code — we won't save anything.
+          // The next check/uncheck will create the Firestore document.
+          syncStatusText('Code set');
           syncStatusClass('success');
         }
         document.getElementById('syncInput').value = '';
@@ -1998,7 +2010,14 @@
     initSyncUI();
 
     // ========== FIREBASE ASYNC LOAD ==========
+    var initialSyncCode = getSyncCode();
     syncLoadFromFirebase(function(data) {
+      // If the sync code changed since we started the fetch, ignore this response.
+      // This avoids a race between the initial load and the user pasting a code manually.
+      if (getSyncCode() !== initialSyncCode) {
+        console.log('[sync] initial load stale (code changed), ignoring');
+        return;
+      }
       if (data) {
         var changed = false;
         if (data.pictos && typeof data.pictos === 'object') {
