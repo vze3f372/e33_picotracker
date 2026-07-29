@@ -1299,7 +1299,17 @@
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(doc)
-    }).catch(function() {});
+    }).then(function(r) {
+      if (!r.ok) {
+        r.text().then(function(txt) { console.warn('Firestore save failed:', r.status, txt); });
+        syncStatusText('Save failed');
+        syncStatusClass('error');
+      }
+    }).catch(function(e) {
+      console.warn('Firestore save error:', e);
+      syncStatusText('Save error');
+      syncStatusClass('error');
+    });
   }
 
   /** Load pictos + weapons from Firestore via REST API. Calls callback(data) or callback(null). */
@@ -1332,57 +1342,73 @@
     });
   }
 
-  /** Poll Firestore every 30s for remote changes (auto-sync for iOS web app). */
+  /** Poll Firestore for remote changes (auto-sync for iOS web app). */
+  function doSyncPoll() {
+    if (!FIRESTORE_ENABLED) return;
+    var code = getSyncCode();
+    var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
+
+    fetch(url).then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function(data) {
+      if (!data || !data.fields) return;
+
+      var changed = false;
+
+      // Parse pictos
+      if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
+        var newP = {};
+        var pf = data.fields.pictos.mapValue.fields;
+        for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
+        if (JSON.stringify(checked) !== JSON.stringify(newP)) {
+          checked = newP;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          changed = true;
+        }
+      }
+
+      // Parse weapons
+      if (data.fields.weapons && data.fields.weapons.mapValue && data.fields.weapons.mapValue.fields) {
+        var newW = {};
+        var wf = data.fields.weapons.mapValue.fields;
+        for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
+        if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
+          wChecked = newW;
+          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          changed = true;
+        }
+      }
+
+      if (changed) {
+        render();
+        wRender();
+        syncStatusText('Updated!');
+        syncStatusClass('success');
+        setTimeout(function() {
+          syncStatusText('Synced');
+          syncStatusClass('success');
+        }, 2500);
+      }
+    }).catch(function(e) {
+      // Only show errors if we were previously synced (not on initial load)
+      syncStatusText('Sync error');
+      syncStatusClass('error');
+      setTimeout(function() {
+        syncStatusText('Synced');
+        syncStatusClass('success');
+      }, 3000);
+    });
+  }
+
   function startSyncPolling() {
     if (!FIRESTORE_ENABLED) return;
-    setInterval(function() {
-      var code = getSyncCode();
-      var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
-
-      fetch(url).then(function(r) {
-        if (!r.ok) return null;
-        return r.json();
-      }).then(function(data) {
-        if (!data || !data.fields) return;
-
-        var changed = false;
-
-        // Parse pictos
-        if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
-          var newP = {};
-          var pf = data.fields.pictos.mapValue.fields;
-          for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
-          if (JSON.stringify(checked) !== JSON.stringify(newP)) {
-            checked = newP;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-            changed = true;
-          }
-        }
-
-        // Parse weapons
-        if (data.fields.weapons && data.fields.weapons.mapValue && data.fields.weapons.mapValue.fields) {
-          var newW = {};
-          var wf = data.fields.weapons.mapValue.fields;
-          for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
-          if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
-            wChecked = newW;
-            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-            changed = true;
-          }
-        }
-
-        if (changed) {
-          render();
-          wRender();
-          syncStatusText('Updated!');
-          syncStatusClass('success');
-          setTimeout(function() {
-            syncStatusText('Synced');
-            syncStatusClass('success');
-          }, 2500);
-        }
-      }).catch(function() {});
-    }, 15000);
+    // Poll every 15 seconds
+    setInterval(doSyncPoll, 15000);
+    // Also sync immediately when the page/tab regains focus
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) doSyncPoll();
+    });
   }
 
   function generateSyncCode() {
