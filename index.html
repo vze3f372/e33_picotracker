@@ -1333,15 +1333,19 @@
       if (!data || !data.fields) { console.log('[sync] LOAD no data'); callback(null, true); return; }
       var result = {};
 
-      if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
+      if (data.fields.pictos && data.fields.pictos.mapValue) {
         result.pictos = {};
         var pf = data.fields.pictos.mapValue.fields;
-        for (var key in pf) { if (pf[key].booleanValue) result.pictos[key] = true; }
+        if (pf) {
+          for (var key in pf) { if (pf[key].booleanValue) result.pictos[key] = true; }
+        }
       }
-      if (data.fields.weapons && data.fields.weapons.mapValue && data.fields.weapons.mapValue.fields) {
+      if (data.fields.weapons && data.fields.weapons.mapValue) {
         result.weapons = {};
         var wf = data.fields.weapons.mapValue.fields;
-        for (var key in wf) { if (wf[key].booleanValue) result.weapons[key] = true; }
+        if (wf) {
+          for (var key in wf) { if (wf[key].booleanValue) result.weapons[key] = true; }
+        }
       }
 
       console.log('[sync] LOAD parsed result.pictos=' + (result.pictos ? Object.keys(result.pictos).length : 0)
@@ -1368,11 +1372,13 @@
 
       var changed = false;
 
-      // Parse pictos
-      if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
+      // Parse pictos — handle both null/undefined fields (empty map) and populated fields
+      if (data.fields.pictos && data.fields.pictos.mapValue) {
         var newP = {};
         var pf = data.fields.pictos.mapValue.fields;
-        for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
+        if (pf) {
+          for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
+        }
         if (JSON.stringify(checked) !== JSON.stringify(newP)) {
           checked = newP;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
@@ -1381,10 +1387,12 @@
       }
 
       // Parse weapons
-      if (data.fields.weapons && data.fields.weapons.mapValue && data.fields.weapons.mapValue.fields) {
+      if (data.fields.weapons && data.fields.weapons.mapValue) {
         var newW = {};
         var wf = data.fields.weapons.mapValue.fields;
-        for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
+        if (wf) {
+          for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
+        }
         if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
           wChecked = newW;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
