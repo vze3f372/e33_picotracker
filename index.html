@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete Pictos checklist and database for Clair Obscur: Expedition 33 — track every Picto, Lumina, location, and effect.">
+  <title>Pictos &middot; Expedition 33</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep: #0d0a0a;
+      --bg-page: #141010;
+      --bg-card: #1c1616;
+      --bg-card-hover: #241e1e;
+      --bg-well: #2a2222;
+      --bg-input: #1a1414;
+      --border: #3a2f2f;
+      --border-light: #5a4a4a;
+      --text-primary: #e8ddd0;
+      --text-secondary: #b0a090;
+      --text-muted: #7a6e60;
+      --gold: #c9a84c;
+      --gold-light: #e8ca6a;
+      --gold-dark: #a08030;
+      --accent-blue: #4a7ab5;
+      --accent-purple: #7a4a8a;
+      --accent-red: #b54a4a;
+      --accent-green: #4a8a5a;
+      --check-color: var(--gold);
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --max-width: 1280px;
+      --radius: 6px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--text-primary);
+      background: var(--bg-deep);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-light); text-decoration: underline; }
+
+    ::selection { background: var(--gold-dark); color: var(--bg-deep); }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+    /* ============================================
+       ORNAMENTAL DIVIDER
+       ============================================ */
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      color: var(--gold-dark);
+      font-size: 1.2rem;
+      user-select: none;
+    }
+    .ornament::before,
+    .ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    }
+    .ornament i { font-style: normal; letter-spacing: 0.5em; }
+
+    /* ============================================
+       HEADER / HERO
+       ============================================ */
+    .hero {
+      position: relative;
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 50% -20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(74,122,181,0.05) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 80%, rgba(122,74,138,0.05) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      padding: 0.3rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+    .hero h1 .accent { color: var(--gold); }
+
+    .hero-sub {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-top: 0.75rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,10,10,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 52px;
+    }
+    .site-nav .nav-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gold);
+      white-space: nowrap;
+      margin-right: auto;
+    }
+    .nav-links { display: flex; gap: 0.25rem; }
+    .nav-links a {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      border-radius: var(--radius);
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--bg-well);
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ============================================
+       MAIN CONTAINER
+       ============================================ */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ============================================
+       GAME INFO SECTION
+       ============================================ */
+    .info-section {
+      padding: 2rem 0;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 60em) {
+      .info-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .info-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .info-card p, .info-card li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .info-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .info-card ul li {
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .info-card ul li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: var(--gold-dark);
+    }
+    .info-card table {
+      width: 100%;
+      font-size: 0.85rem;
+      border-collapse: collapse;
+    }
+    .info-card table th,
+    .info-card table td {
+      padding: 0.4rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-card table th {
+      font-weight: 600;
+      color: var(--gold);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .info-card table td { color: var(--text-secondary); }
+
+    .stat-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-right: 0.25rem;
+      margin-bottom: 0.15rem;
+    }
+    .stat-tag.health { background: rgba(74,138,90,0.2); color: #6aaa7a; border: 1px solid rgba(74,138,90,0.3); }
+    .stat-tag.speed  { background: rgba(74,122,181,0.2); color: #6a9ad5; border: 1px solid rgba(74,122,181,0.3); }
+    .stat-tag.defense{ background: rgba(181,74,74,0.2); color: #d55a5a; border: 1px solid rgba(181,74,74,0.3); }
+    .stat-tag.crit   { background: rgba(122,74,138,0.2); color: #9a6aaa; border: 1px solid rgba(122,74,138,0.3); }
+
+    /* ============================================
+       FILTERS / CONTROLS
+       ============================================ */
+    .controls {
+      padding: 1.5rem 0 0.5rem;
+    }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .controls-row + .controls-row { margin-top: 0.75rem; }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--gold-dark); }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .filter-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: var(--font-body);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover {
+      border-color: var(--border-light);
+      color: var(--text-primary);
+    }
+    .filter-btn.active {
+      background: var(--gold-dark);
+      border-color: var(--gold);
+      color: var(--bg-deep);
+    }
+    .filter-btn.stat-health.active { background: #4a8a5a; border-color: #6aaa7a; color: #fff; }
+    .filter-btn.stat-speed.active { background: #4a7ab5; border-color: #6a9ad5; color: #fff; }
+    .filter-btn.stat-defense.active { background: #b54a4a; border-color: #d55a5a; color: #fff; }
+    .filter-btn.stat-crit.active { background: #7a4a8a; border-color: #9a6aaa; color: #fff; }
+    .filter-btn.dlc.active { background: var(--accent-purple); border-color: #9a6aaa; color: #fff; }
+
+    .control-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+    .action-btn {
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: var(--font-body);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .action-btn:hover {
+      border-color: var(--gold-dark);
+      color: var(--gold);
+    }
+    .action-btn.primary {
+      background: var(--gold-dark);
+      border-color: var(--gold);
+      color: var(--bg-deep);
+    }
+    .action-btn.primary:hover {
+      background: var(--gold);
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      min-width: 120px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-well);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      border-radius: 3px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .progress-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 3.5rem;
+      text-align: right;
+    }
+
+    /* ============================================
+       PICTO GRID
+       ============================================ */
+    .pictos-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0.5rem 0;
+    }
+
+    .picto-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 1.5rem 0 4rem;
+    }
+    @media (min-width: 35em) {
+      .picto-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 55em) {
+      .picto-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ============================================
+       PICTO CARD
+       ============================================ */
+    .picto-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1rem 1rem 3rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      min-height: 90px;
+    }
+    .picto-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-light);
+    }
+    .picto-card.checked {
+      border-color: var(--gold-dark);
+      background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+    }
+    .picto-card.checked::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--gold);
+      border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .picto-card.dlc {
+      border-left: 3px solid var(--accent-purple);
+    }
+    .picto-card.dlc.checked::after {
+      background: var(--accent-purple);
+    }
+
+    /* Checkbox circle */
+    .picto-check {
+      position: absolute;
+      left: 0.75rem;
+      top: 1rem;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: transparent;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .picto-card:hover .picto-check {
+      border-color: var(--gold-dark);
+    }
+    .picto-card.checked .picto-check {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg-deep);
+    }
+    .picto-card.dlc.checked .picto-check {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+    }
+
+    .picto-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+    }
+    .picto-card.checked .picto-name {
+      color: var(--gold);
+    }
+    .picto-card.dlc.checked .picto-name {
+      color: #b08ad0;
+    }
+
+    .picto-location {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    .picto-location strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .picto-effect {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 0.4rem;
+    }
+
+    .picto-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    }
+    .picto-cost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .picto-cost::before {
+      content: '\2605';
+      font-size: 0.65rem;
+      color: var(--gold-dark);
+    }
+    .picto-dlc-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-purple);
+      border: 1px solid rgba(122,74,138,0.3);
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    /* ============================================
+       HIDDEN (filtered out)
+       ============================================ */
+    .picto-card.hidden { display: none; }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .site-footer a { color: var(--gold); }
+
+    /* ============================================
+       NOT FOUND
+       ============================================ */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================
+       RESPONSIVE TWEAKS
+       ============================================ */
+    @media (max-width: 40em) {
+      .hero { padding: 2.5rem 1rem 2rem; }
+      .hero-stats { gap: 1.5rem; }
+      .site-nav-inner { padding: 0 0.75rem; gap: 0.5rem; }
+      .nav-links a { padding: 0.3rem 0.5rem; font-size: 0.7rem; }
+      .controls-row { flex-direction: column; align-items: stretch; }
+      .control-actions { margin-left: 0; }
+      .search-wrap { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Clair Obscur &middot; Expedition 33</div>
+      <h1>Pictos <span class="accent">&amp;</span> Luminas</h1>
+      <p class="hero-sub">The complete checklist &mdash; every Picto, every effect, every location</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="totalCount">210</div>
+          <div class="hero-stat-label">Total Pictos</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="collectedCount">0</div>
+          <div class="hero-stat-label">Collected</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="progressPct">0%</div>
+          <div class="hero-stat-label">Progress</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== NAV ========== -->
+  <nav class="site-nav" id="siteNav">
+    <div class="site-nav-inner">
+      <span class="nav-title">Pictos</span>
+      <div class="nav-links">
+        <a href="#how-it-works" data-scroll>How It Works</a>
+        <a href="#stats" data-scroll>Stats</a>
+        <a href="#checklist" data-scroll>Checklist</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== INFO SECTION ========== -->
+  <section class="info-section" id="how-it-works">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>What Are Pictos?</h2>
+          <p>Pictos are the equipment system in <em>Clair Obscur: Expedition 33</em>. Each character can equip up to three Pictos at once, which provide both <strong>stat bonuses</strong> (Health, Defense, Speed, or Critical Rate) and a <strong>unique passive ability</strong> (the Lumina).</p>
+          <p style="margin-top:0.75rem;">After using a Picto in four battles, all characters permanently learn its Lumina &mdash; the passive can then be equipped in a Lumina slot using Lumina Points (LP), freeing up the Picto slot for something else.</p>
+        </div>
+        <div class="info-card">
+          <h2>How To Get Pictos</h2>
+          <ul>
+            <li><strong>Found in the world</strong> &mdash; scattered across every area, often tucked away in side paths</li>
+            <li><strong>Bought from merchants</strong> &mdash; some require defeating the merchant in combat first</li>
+            <li><strong>Dropped by enemies &amp; bosses</strong> &mdash; certain bosses always drop specific Pictos</li>
+            <li><strong>Quest rewards</strong> &mdash; completing side quests and challenges</li>
+            <li><strong>DLC (Verso&rsquo;s Drafts)</strong> &mdash; 17 new Pictos in the free Thank You Update</li>
+          </ul>
+          <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted);">Tip: Duplicate Pictos you find will stack and upgrade the level of the one you already own, improving its stats.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STATS TABLE ========== -->
+  <section class="info-section" id="stats">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>Stat Bonuses</h2>
+          <p>Each Picto boosts two of four stats. The amount scales with the Picto&rsquo;s level (max level 33).</p>
+          <table style="margin-top:0.75rem;">
+            <thead>
+              <tr><th>Icon</th><th>Stat</th><th>Effect</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="stat-tag health">HP</span></td><td>Health</td><td>Increases maximum HP</td></tr>
+              <tr><td><span class="stat-tag defense">DEF</span></td><td>Defense</td><td>Reduces incoming damage</td></tr>
+              <tr><td><span class="stat-tag speed">SPD</span></td><td>Speed</td><td>Affects turn order</td></tr>
+              <tr><td><span class="stat-tag crit">CRT</span></td><td>Critical Rate</td><td>Chance to deal bonus damage</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-card">
+          <h2>Lumina Costs</h2>
+          <p>Once a Lumina is learned, it can be equipped using Lumina Points (LP). Characters gain 1 LP per level-up; additional LP can be acquired using <em>Colour of Lumina</em> expedition resources.</p>
+          <table style="margin-top:0.75rem;">
+            <thead>
+              <tr><th>Cost</th><th>Categories</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1&ndash;5 LP</td><td>Basic passives, utility effects</td></tr>
+              <tr><td>5&ndash;15 LP</td><td>Strong combat passives</td></tr>
+              <tr><td>15&ndash;30 LP</td><td>Build-defining effects</td></tr>
+              <tr><td>30&ndash;40 LP</td><td>Ultra-powerful / unique effects</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CHECKLIST ========== -->
+  <section class="container" id="checklist">
+    <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+
+    <div class="controls">
+      <div class="controls-row">
+        <div class="search-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" id="searchInput" placeholder="Search pictos by name, effect, or location&hellip;" autocomplete="off">
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-text" id="progressText">0 / 210</span>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="filter-group" id="statFilters">
+          <button class="filter-btn" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="checked">&#10003; Collected</button>
+          <button class="filter-btn" data-filter="unchecked">&#9711; Missing</button>
+          <button class="filter-btn stat-health" data-filter="stat-health">HP</button>
+          <button class="filter-btn stat-speed" data-filter="stat-speed">SPD</button>
+          <button class="filter-btn stat-defense" data-filter="stat-defense">DEF</button>
+          <button class="filter-btn stat-crit" data-filter="stat-crit">CRT</button>
+          <button class="filter-btn dlc" data-filter="dlc">DLC</button>
+        </div>
+        <div class="control-actions">
+          <button class="action-btn" id="clearAllBtn">Clear All</button>
+          <button class="action-btn primary" id="checkAllBtn">Check All</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="pictos-count" id="resultCount">Showing 210 pictos</p>
+
+    <div class="picto-grid" id="pictoGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <p><em>Clair Obscur: Expedition 33</em> &copy; Sandfall Interactive &amp; Kepler Interactive. Fan site &mdash; no copyright infringement intended.</p>
+    <p style="margin-top:0.5rem;">Data sourced from community guides. Last updated for the <strong>Thank You Update</strong> (Verso&rsquo;s Drafts DLC).</p>
+  </footer>
+
+  <script>
+  // ============================================================
+  // PICTO DATA
+  // ============================================================
+  // Each entry: [name, stat1, stat2, effect, cost, location, dlc, notes]
+  //   name     - Picto name
+  //   stat1    - primary stat (Health/Defense/Speed/Crit Rate)
+  //   stat2    - secondary stat
+  //   effect   - Lumina passive effect description
+  //   cost     - Lumina Point cost (number)
+  //   location - where/how to obtain
+  //   dlc      - true if from Verso's Drafts DLC
+  //   notes    - optional extra notes (chroma cost, etc.)
+  // ============================================================
+  // To add or modify a Picto, simply edit an entry in this array.
+  // The site will rebuild automatically on next page load.
+  // ============================================================
+
+  var PICTO_DATA = [
+    // ---- A ----
+    {name:"Accelerating Heal",        stats:["Health","Speed"],      effect:"Healing an ally also applies Rush for 1 turn.",                                 cost:5,  location:"The Continent — beach camp on an island north of Flying Casino",                         dlc:false},
+    {name:"Accelerating Last Stand",  stats:["Health","Speed"],      effect:"Gain Rush if fighting alone.",                                                      cost:3,  location:"Hidden Gestral Arena — defeat the second challenge",                                     dlc:false},
+    {name:"Accelerating Shots",       stats:["Health","Defense"],    effect:"20% chance to gain Rush on Free Aim Shot.",                                          cost:3,  location:"Flying Manor — sold by merchant (fight first) for 89,650 Chroma",                         dlc:false},
+    {name:"Accelerating Tint",        stats:["Health","Speed"],      effect:"Healing tints also apply Rush.",                                                     cost:5,  location:"Endless Night Sanctuary — sold by merchant near Night Totem Flag for 80,040 Chroma",      dlc:false},
+    {name:"Aegis Revival",           stats:["Defense","Speed"],     effect:"+1 Shield on being revived.",                                                        cost:5,  location:"Spring Meadows — behind Paint Spike near the start",                                     dlc:false},
+    {name:"Alternating Critical",     stats:["Speed","Crit Rate"],   effect:"On Critical hit, 100% increased damage of the next non-Critical hit.",                cost:10, location:"Verso's Drafts — Candy Land, use the blue tunnel at entrance",                            dlc:true},
+    {name:"Anti-Blight",             stats:["Health","Defense"],    effect:"Immune to Blight.",                                                                  cost:10, location:"The Reacher — sold by merchant near hot air balloon for 67,350 Chroma",                   dlc:false},
+    {name:"Anti-Burn",               stats:["Health","Defense"],    effect:"Immune to Burn.",                                                                    cost:15, location:"Frozen Hearts — defeat the Gargant at the end of the area",                               dlc:false},
+    {name:"Anti-Charm",              stats:["Health","Defense"],    effect:"Immune to Charm.",                                                                   cost:10, location:"Sirene — defeat Tisseur boss",                                                           dlc:false},
+    {name:"Anti-Freeze",             stats:["Health","Defense"],    effect:"Immune to Freeze.",                                                                  cost:15, location:"Frozen Hearts — complete Paint Cage 12",                                                  dlc:false},
+    {name:"Anti-Stun",               stats:["Health","Defense"],    effect:"Immune to Stun.",                                                                    cost:5,  location:"The Continent — defeat Chromatic Pétank on a meadow east of Flying Casino",               dlc:false},
+    {name:"AP Discount",             stats:["Speed"],               effect:"Skills cost 1 less AP.",                                                             cost:30, location:"Verso's Drafts — sold by merchant at Reverie Path Flag for 217,000 Chroma",               dlc:true},
+    {name:"At Death's Door",         stats:["Defense","Crit Rate"], effect:"Deal 50% more damage if Health is below 10%.",                                       cost:5,  location:"Stone Wave Cliffs — defeat the Lampmaster boss",                                          dlc:false},
+    {name:"Attack Lifesteal",        stats:["Health","Crit Rate"],  effect:"Recover 15% Health on Base Attack.",                                                  cost:15, location:"Ancient Sanctuary — defeat a Sakapatate in a dark alley near Entrance Flag",               dlc:false},
+    {name:"Augmented Aim",           stats:["Speed","Crit Rate"],   effect:"50% increased Free Aim damage.",                                                      cost:3,  location:"Flying Waters — found in the area",                                                       dlc:false},
+    {name:"Augmented Attack",        stats:["Defense","Speed"],     effect:"50% increased Base Attack damage.",                                                   cost:7,  location:"Spring Meadows — found early in the area",                                                dlc:false},
+    {name:"Augmented Counter I",     stats:["Health","Crit Rate"],  effect:"35% increased Counterattack damage.",                                                 cost:3,  location:"Flying Waters — found in the area",                                                       dlc:false},
+    {name:"Augmented Counter II",    stats:["Defense","Crit Rate"], effect:"50% increased Counterattack damage.",                                                 cost:5,  location:"Visages — found in the area",                                                             dlc:false},
+    {name:"Augmented Counter III",   stats:["Defense","Crit Rate"], effect:"75% increased Counterattack damage.",                                                 cost:7,  location:"Frozen Hearts — found in the area",                                                       dlc:false},
+    {name:"Augmented First Strike",  stats:["Speed","Crit Rate"],   effect:"50% increased damage on the first hit. Once per battle.",                             cost:5,  location:"Esquie's Nest — found in the area",                                                       dlc:false},
+    {name:"Auto Death",              stats:["Crit Rate"],           effect:"Kill self on battle start.",                                                          cost:1,  location:"Yellow Harvest — found in the area",                                                      dlc:false},
+    {name:"Auto Powerful",           stats:["Speed","Crit Rate"],   effect:"Apply Powerful for 3 turns on battle start.",                                         cost:10, location:"Floating Cemetery — given by Chalier Nevron after helping them (missable)",                dlc:false},
+    {name:"Auto Regen",              stats:["Defense"],             effect:"Apply Regen for 3 turns on battle start.",                                            cost:10, location:"Sirene — found in the area",                                                              dlc:false},
+    {name:"Auto Rush",               stats:["Speed","Crit Rate"],   effect:"Apply Rush for 3 turns on battle start.",                                             cost:10, location:"Old Lumiere — found in the area",                                                         dlc:false},
+    {name:"Auto Shell",              stats:["Health"],              effect:"Apply Shell for 3 turns on battle start.",                                            cost:10, location:"Stone Wave Cliffs — found in the area",                                                   dlc:false},
+
+    // ---- B ----
+    {name:"Base Shield",             stats:["Speed","Crit Rate"],   effect:"+1 Shield if not affected by any Shield on turn start.",                             cost:20, location:"The Chosen Path — found in the area",                                                     dlc:false},
+    {name:"Beneficial Contamination",stats:["Defense","Speed"],     effect:"+2 AP on applying a Status Effect. Once per turn.",                                   cost:15, location:"Falling Leaves — found in the area",                                                      dlc:false},
+    {name:"Break Specialist",        stats:["Health","Speed"],      effect:"Break damage is increased by 50%, but base damage is reduced by 20%.",                cost:1,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Breaker",                 stats:["Speed","Crit Rate"],   effect:"25% increased Break damage.",                                                         cost:10, location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Breaking Attack",         stats:["Speed","Crit Rate"],   effect:"Base Attack can Break.",                                                             cost:10, location:"The Monolith — found in the area",                                                        dlc:false},
+    {name:"Breaking Burn",           stats:["Speed","Crit Rate"],   effect:"25% increased Break damage on Burning enemies.",                                     cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Breaking Counter",        stats:["Speed","Crit Rate"],   effect:"50% increased Break damage on Counterattack.",                                       cost:3,  location:"Stone Wave Cliffs — found in the area",                                                   dlc:false},
+    {name:"Breaking Death",          stats:["Speed","Crit Rate"],   effect:"Fully charge enemy's Break Bar on death.",                                            cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Breaking Shots",          stats:["Speed","Crit Rate"],   effect:"50% increased Break damage with Free Aim Shots.",                                    cost:1,  location:"Stone Wave Cliffs — found in the area",                                                   dlc:false},
+    {name:"Breaking Slow",           stats:["Speed","Crit Rate"],   effect:"25% increased Break damage against Slowed enemies.",                                  cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Burn Affinity",           stats:["Speed","Crit Rate"],   effect:"25% increased damage on Burning Targets.",                                            cost:10, location:"Frozen Hearts — found in the area",                                                        dlc:false},
+    {name:"Burning Break",           stats:["Health","Crit Rate"],  effect:"Apply 3 Burn stacks on Breaking a target.",                                           cost:3,  location:"Frozen Hearts — found in the area",                                                        dlc:false},
+    {name:"Burning Death",           stats:["Speed","Crit Rate"],   effect:"Apply 3 Burn to all enemies on Death.",                                               cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Burning Mark",            stats:["Health","Defense"],    effect:"Apply Burn on hitting a Marked enemy.",                                               cost:15, location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Burning Shots",           stats:["Speed","Crit Rate"],   effect:"20% chance to Burn on Free Aim shot.",                                                cost:3,  location:"Spring Meadows — found in the area",                                                       dlc:false},
+
+    // ---- C ----
+    {name:"Charging Alteration",     stats:["Defense","Speed"],     effect:"+10% of a Gradient Charge on applying a Buff. Once per turn.",                       cost:10, location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Charging Attack",         stats:["Speed","Crit Rate"],   effect:"+15% of a Gradient Charge on Base Attack.",                                           cost:7,  location:"The Reacher — found in the area",                                                          dlc:false},
+    {name:"Charging Burn",           stats:["Health","Speed"],      effect:"+20% of a Gradient Charge on applying Burn. Once per turn.",                          cost:10, location:"Renoir's Drafts — found in the area",                                                      dlc:false},
+    {name:"Charging Counter",        stats:["Health","Defense"],    effect:"+20% of a Gradient Charge on Counterattack.",                                         cost:10, location:"The Reacher — found in the area",                                                          dlc:false},
+    {name:"Charging Critical",       stats:["Defense","Crit Rate"], effect:"+20% of a Gradient Charge on Critical Hit. Once per turn.",                           cost:10, location:"Renoir's Drafts — found in the area",                                                      dlc:false},
+    {name:"Charging Mark",           stats:["Speed","Crit Rate"],   effect:"+20% of a Gradient Charge on hitting a Marked target. Once per turn.",                 cost:10, location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Charging Stun",           stats:["Health","Speed"],      effect:"+5% of a Gradient Charge on hitting a Stunned enemy.",                                cost:5,  location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Charging Tint",           stats:["Health","Defense"],    effect:"+5% of a Gradient Charge on using an item.",                                          cost:2,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Charging Weakness",       stats:["Speed","Crit Rate"],   effect:"+15% of a Gradient Charge on hitting a Weakness. Once per turn.",                      cost:5,  location:"The Reacher — found in the area",                                                          dlc:false},
+    {name:"Cheater",                 stats:["Health","Speed"],      effect:"Always play twice in a row.",                                                         cost:40, location:"The Continent (Overworld) — defeat Sprong Boss (level 70)",                                dlc:false},
+    {name:"Cleansing Tint",          stats:["Health","Defense"],    effect:"Healing Tints also remove all Status Effects from the target.",                        cost:5,  location:"Spring Meadows — found in the area",                                                       dlc:false},
+    {name:"Clea's Death",            stats:["Speed","Crit Rate"],   effect:"Upon death, allies gain +25% damage until they die.",                                 cost:15, location:"Endless Tower DLC — defeat Clea Unleashed",                                                dlc:true},
+    {name:"Clea's Life",             stats:["Health"],              effect:"On turn start, if no damage taken since last turn, recover 100% Health.",             cost:30, location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Combo Attack I",          stats:["Speed","Crit Rate"],   effect:"Base Attack has 1 extra hit.",                                                        cost:10, location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Combo Attack II",         stats:["Speed","Crit Rate"],   effect:"Base Attack has 1 extra hit.",                                                        cost:20, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Combo Attack III",        stats:["Speed","Crit Rate"],   effect:"Base Attack has 1 extra hit.",                                                        cost:30, location:"Dark Gestral Arena — found in the area",                                                    dlc:false},
+    {name:"Confident",               stats:["Speed","Crit Rate"],   effect:"Take 50% less damage, but can't be Healed.",                                          cost:20, location:"Stone Wave Cliffs — found in the area",                                                   dlc:false},
+    {name:"Confident Fighter",       stats:["Health","Crit Rate"],  effect:"30% increased damage, but can't be Healed.",                                          cost:15, location:"Visages — found in the area",                                                              dlc:false},
+    {name:"Consuming Attack",        stats:["Speed","Crit Rate"],   effect:"Base attack consumes up to 100 Burns to deal 10% more damage per Burn consumed.",     cost:10, location:"Verso's Drafts — sold by merchant at Reverie Path Flag for 130,200 Chroma",                dlc:true},
+    {name:"Critical Break",          stats:["Speed","Crit Rate"],   effect:"25% increased Break damage on Critical Hits.",                                        cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Critical Burn",           stats:["Speed","Crit Rate"],   effect:"25% increased Critical Chance on Burning enemies.",                                   cost:5,  location:"Spring Meadows — found in the area",                                                       dlc:false},
+    {name:"Critical Moment",         stats:["Speed","Crit Rate"],   effect:"50% increased Critical Chance if Health is below 30%.",                               cost:5,  location:"Gestral Village — found in the area",                                                      dlc:false},
+    {name:"Critical Stun",           stats:["Defense","Crit Rate"], effect:"100% Critical Chance on hitting a Stunned target.",                                   cost:5,  location:"Sacred River — found in the area",                                                         dlc:false},
+    {name:"Critical Vulnerability",  stats:["Defense","Crit Rate"], effect:"25% increased Critical Chance on Defenceless enemies.",                               cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Critical Weakness",       stats:["Speed","Crit Rate"],   effect:"25% increased Critical Chance on Weakness.",                                          cost:5,  location:"Endless Tower — complete Stage 6, Trial 3",                                                dlc:false},
+
+    // ---- D ----
+    {name:"Damage Share",            stats:["Health","Defense"],    effect:"50% damage taken is redirected to other allies (if possible).",                       cost:30, location:"Verso's Drafts — near a lake with jumping rings, defeat two Licorne enemies",              dlc:true},
+    {name:"Dead Energy I",           stats:["Speed","Crit Rate"],   effect:"+3 AP on killing an enemy.",                                                          cost:2,  location:"The Continent — near the Dark Shores portal",                                              dlc:false},
+    {name:"Dead Energy II",          stats:["Speed","Crit Rate"],   effect:"+3 AP on killing an enemy.",                                                          cost:2,  location:"Spring Meadows — on a bridge inside the blue area (Abandoned Expeditioner Camp Flag)",     dlc:false},
+    {name:"Death Bomb",              stats:["Speed","Crit Rate"],   effect:"On Death, deal damage to all enemies.",                                               cost:5,  location:"Yellow Harvest — found in the area",                                                       dlc:false},
+    {name:"Defensive Mode",          stats:["Health","Defense"],    effect:"On receiving damage, consume 1 AP to take 30% less damage, if possible.",              cost:1,  location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Dodger",                  stats:["Speed","Crit Rate"],   effect:"Gain 1 AP on Perfect Dodge. Once per turn.",                                          cost:1,  location:"Spring Meadows — found in the area",                                                       dlc:false},
+    {name:"Double Burn",             stats:["Speed","Crit Rate"],   effect:"On applying a Burn stack, apply a second one.",                                       cost:30, location:"Visages — found in the area",                                                              dlc:false},
+    {name:"Double Mark",             stats:["Speed"],               effect:"Mark requires 1 more hit to be removed.",                                             cost:20, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Double Third",            stats:["Health","Speed","Crit Rate"], effect:"Every third hit of a Skill deals double damage.",                                cost:10, location:"Verso's Drafts — defeat the enemy group on a cliff below Open Playground Flag",            dlc:true},
+    {name:"Draining Cleanse",        stats:["Health","Defense"],    effect:"Consume 1 AP to prevent Status Effects application, if possible.",                     cost:15, location:"The Reacher — found in the area",                                                          dlc:false},
+
+    // ---- E ----
+    {name:"Effective Heal",          stats:["Health","Defense"],    effect:"Double all Heals received.",                                                          cost:30, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Effective Support",       stats:["Health","Speed"],      effect:"+2 AP on using an item.",                                                             cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Empowered Healer",        stats:["Health","Crit Rate"],  effect:"Using a Healing Skill gives 50% more damage for 1 turn.",                             cost:10, location:"Verso's Drafts — Twisted Woods, take the right path to a Parkour challenge",               dlc:true},
+    {name:"Empowering Attack",       stats:["Speed","Crit Rate"],   effect:"Gain Powerful for 1 turn on Base Attack.",                                            cost:10, location:"Spring Meadows — found in the area",                                                       dlc:false},
+    {name:"Empowering Break",        stats:["Speed","Crit Rate"],   effect:"Gain Powerful on Breaking a target.",                                                 cost:3,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Empowering Dodge",        stats:["Speed","Crit Rate"],   effect:"5% increased damage for each consecutive successful Dodge. Max 10 stacks.",           cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Empowering Jumps",        stats:["Defense","Crit Rate"], effect:"Counters deal 100% more damage for each successful Jump Counter this turn.",          cost:5,  location:"Verso's Drafts — complete the Seesaw challenge",                                           dlc:true},
+    {name:"Empowering Last Stand",   stats:["Health","Crit Rate"],  effect:"Gain Powerful if fighting alone.",                                                     cost:3,  location:"Hidden Gestral Arena — defeat the first challenge",                                        dlc:false},
+    {name:"Empowering Parry",        stats:["Speed","Crit Rate"],   effect:"Each successful Parry increases damage by 5% until end of the following turn.",        cost:5,  location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Empowering Tint",         stats:["Health","Speed"],      effect:"Healing Tints also apply Powerful.",                                                  cost:5,  location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Energetic Healer",        stats:["Defense","Speed"],     effect:"+2 AP on Healing an Ally. Once per turn.",                                            cost:10, location:"Flying Manor — Central Plaza, after using the rope on the left path from the Flag",        dlc:false},
+    {name:"Energising Attack I",     stats:["Speed","Crit Rate"],   effect:"+1 AP on Base Attack.",                                                               cost:10, location:"Yellow Harvest — Yellow Spire Wrecks Flag, defeat Glaise (or buy in Renoir's Drafts for 144,650 Chroma)", dlc:false},
+    {name:"Energising Attack II",    stats:["Defense","Speed"],     effect:"+1 AP on Base Attack.",                                                               cost:15, location:"Sirene — Crumbling Path Flag, sold by merchant for 37,100 Chroma",                        dlc:false},
+    {name:"Energising Break",        stats:["Speed","Crit Rate"],   effect:"+3 AP on breaking an enemy.",                                                         cost:3,  location:"Flying Waters — found in the area",                                                        dlc:false},
+    {name:"Energising Burn",         stats:["Defense","Speed"],     effect:"+1 AP on applying Burn. Once per turn.",                                              cost:10, location:"Frozen Hearts — found in the area",                                                        dlc:false},
+    {name:"Energising Cleanse",      stats:["Health","Defense"],    effect:"Dispel the first negative Status Effect received and gain 2 AP.",                      cost:10, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Energising Death",        stats:["Defense","Speed"],     effect:"On death, +4 AP to allies.",                                                          cost:5,  location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Energising Gradient",     stats:["Speed","Crit Rate"],   effect:"+1 AP per Gradient Charge consumed.",                                                 cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Energising Heal",         stats:["Health","Speed"],      effect:"On Healing an ally, also give 2 AP.",                                                  cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Energising Jump",         stats:["Health","Speed"],      effect:"+1 AP on Jump Counterattack.",                                                         cost:5,  location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Energising Pain",         stats:["Health","Defense"],    effect:"No longer gain AP on Parry. +1 AP on getting hit.",                                   cost:10, location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Energising Parry",        stats:["Health"],              effect:"+1 AP on successful Parry.",                                                          cost:15, location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Energising Powerful",     stats:["Defense","Speed"],     effect:"Give 2 AP on applying Powerful.",                                                     cost:10, location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Energising Revive",       stats:["Health","Defense"],    effect:"+3 AP to all allies when revived.",                                                   cost:5,  location:"Stone Wave Cliffs Cave — found in the area",                                               dlc:false},
+    {name:"Energising Rush",         stats:["Defense","Speed"],     effect:"Give 2 AP on applying Rush.",                                                         cost:10, location:"Endless Tower — complete Stage 2, Trial 3",                                                 dlc:false},
+    {name:"Energising Shell",        stats:["Defense","Speed"],     effect:"Give 2 AP on applying Shell.",                                                        cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Energising Shots",        stats:["Speed","Crit Rate"],   effect:"20% chance to gain 1 AP on Free Aim shot.",                                           cost:10, location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Energising Start I",      stats:["Health"],              effect:"+1 AP on battle start.",                                                              cost:5,  location:"Yellow Harvest — found in the area",                                                       dlc:false},
+    {name:"Energising Start II",     stats:["Health"],              effect:"+1 AP on battle start.",                                                              cost:10, location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Energising Start III",    stats:["Health"],              effect:"+1 AP on battle start.",                                                              cost:15, location:"Esquie's Nest — found in the area",                                                        dlc:false},
+    {name:"Energising Start IV",     stats:["Health"],              effect:"+1 AP on battle start.",                                                              cost:20, location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Energising Stun",         stats:["Speed","Crit Rate"],   effect:"+1 AP on hitting a Stunned target with a Skill.",                                    cost:10, location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Energising Turn",         stats:["Speed"],               effect:"+1 AP on turn start.",                                                               cost:20, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Energy Master",           stats:["Health"],              effect:"Every AP gain is increased by 1.",                                                    cost:40, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Enfeebling Attack",       stats:["Health","Defense"],    effect:"Base Attack applies Powerless for 1 turn.",                                           cost:10, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Enfeebling Mark",         stats:["Defense","Speed"],     effect:"Marked targets deal 30% less damage.",                                                cost:10, location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Exhausting Power",        stats:["Health","Defense"],    effect:"50% increased damage if Exhausted.",                                                   cost:2,  location:"Stone Wave Cliffs Cave — found in the area",                                               dlc:false},
+    {name:"Exposing Attack",         stats:["Speed","Crit Rate"],   effect:"Base Attack applies Defenceless for 1 turn.",                                         cost:10, location:"Flying Waters — bought from Noco (missable)",                                              dlc:false},
+    {name:"Exposing Break",          stats:["Defense","Speed"],     effect:"Apply Defenceless on Break.",                                                         cost:5,  location:"The Reacher — found in the area",                                                          dlc:false},
+
+    // ---- F ----
+    {name:"Faster Than Strong",      stats:["Health","Defense"],    effect:"Always play twice in a row, but deal 50% less damage.",                               cost:10, location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Feint",                   stats:["Crit Rate"],           effect:"Start each turn with 4 Barbapapa stacks. Every 5th hit with a Skill deals 600% more damage.", cost:15, location:"Verso's Drafts — Gestral Carousel, talk to an NPC and parry their attacks",               dlc:true},
+    {name:"First Life",              stats:["Defense"],             effect:"25% increased damage until death. 20% decreased damage on death. (Once)",              cost:15, location:"Endless Tower DLC — defeat the Chromatic Lampmaster",                                      dlc:true},
+    {name:"First Offensive",         stats:["Speed","Crit Rate"],   effect:"First hit dealt and taken deals 50% more damage.",                                    cost:5,  location:"Abbest Cave — found in the area",                                                          dlc:false},
+    {name:"First Strike",            stats:["Speed","Crit Rate"],   effect:"Play first.",                                                                         cost:10, location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Frenzy",                  stats:["Defense","Speed"],     effect:"Each successive Skill hit deals 10% more damage.",                                    cost:20, location:"Verso's Drafts — defeat the Licornapieds boss at Licornapieds Station Flag",               dlc:true},
+    {name:"Fueling Break",           stats:["Speed","Crit Rate"],   effect:"Breaking a target doubles its Burn amount.",                                          cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Full Strength",           stats:["Health","Defense"],    effect:"25% increased damage on full Health.",                                                cost:15, location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+
+    // ---- G ----
+    {name:"Glass Canon",             stats:["Speed"],               effect:"Deal 25% more damage, but take 25% more damage.",                                    cost:10, location:"Visages — found in the area",                                                              dlc:false},
+    {name:"Gradient Break",          stats:["Speed","Crit Rate"],   effect:"+50% of a Gradient Charge on Breaking a target.",                                    cost:5,  location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Gradient Breaker",        stats:["Speed","Crit Rate"],   effect:"50% chance to apply Mark when attacking a Marked target.",                            cost:5,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Gradient Fighter",        stats:["Speed","Crit Rate"],   effect:"+25% increased damage with Gradient Attacks.",                                        cost:5,  location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Gradient Overcharge",     stats:["Health"],              effect:"On turn start, consume 3 Gradient Charges (if able) to deal 200% more damage this turn.", cost:15, location:"Verso's Drafts — left end of parkour challenge at Reverie Path Flag",                    dlc:true},
+    {name:"Gradient Parry",          stats:["Speed","Crit Rate"],   effect:"+5% of a Gradient charge on Parry.",                                                  cost:10, location:"Verso's Drafts — Twisted Woods, climb the ledge past an enemy on the right path",          dlc:true},
+    {name:"Greater Defenceless",     stats:["Speed","Crit Rate"],   effect:"+15% to Defenceless damage amplification.",                                           cost:15, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Greater Powerful",        stats:["Speed","Crit Rate"],   effect:"+15% to Powerful damage increase.",                                                   cost:10, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Greater Powerless",       stats:["Defense","Speed"],     effect:"+15% to Powerless damage reduction.",                                                 cost:15, location:"Endless Tower — complete Stage 10, Trial 3",                                                dlc:false},
+    {name:"Greater Rush",            stats:["Speed","Crit Rate"],   effect:"+25% Rush Speed increase.",                                                           cost:10, location:"Monoco's Station — sold by merchant for 85,750 Chroma (deliver Eternal Ice from Frozen Hearts)", dlc:false},
+    {name:"Greater Shell",           stats:["Health","Defense"],    effect:"+10% to Shell damage reduction.",                                                     cost:10, location:"Sirene — Dancing Classes Flag, in a room with Chromatic Greatsword Cultist",               dlc:false},
+    {name:"Greater Slow",            stats:["Defense","Speed"],     effect:"+15% to Slow Speed reduction.",                                                       cost:15, location:"Sky Island — climb the wall to find it at the end of a sidewalk",                          dlc:false},
+
+    // ---- H ----
+    {name:"Healing Boon",            stats:["Defense","Speed"],     effect:"Heal 15% HP on applying a buff.",                                                     cost:10, location:"The Reacher — found in the area",                                                          dlc:false},
+    {name:"Healing Counter",         stats:["Health"],              effect:"Recover 25% Health on Counterattack.",                                                cost:10, location:"Old Lumiere — found in the area",                                                          dlc:false},
+    {name:"Healing Death",           stats:["Speed","Crit Rate"],   effect:"On death, the rest of the Expedition recover all Health.",                             cost:5,  location:"Old Lumiere — found in the area",                                                          dlc:false},
+    {name:"Healing Fire",            stats:["Defense","Speed"],     effect:"Recover 25% Health when attacking a Burning target. Once per turn.",                   cost:10, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Healing Mark",            stats:["Defense"],             effect:"Recover 25% Health on hitting a Marked enemy. Once per turn.",                         cost:20, location:"Gestral Village — found in the area",                                                      dlc:false},
+    {name:"Healing Parry",           stats:["Health","Defense"],    effect:"Recover 3% Health on Parry.",                                                         cost:5,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Healing Share",           stats:["Health","Crit Rate"],  effect:"Receive 15% of all Heals affecting other characters.",                                cost:5,  location:"Visages — found in the area",                                                              dlc:false},
+    {name:"Healing Stun",            stats:["Health","Speed"],      effect:"Recover 5% Health on hitting a Stunned target.",                                     cost:10, location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Healing Tint Energy",     stats:["Health","Defense"],    effect:"Healing Tints also give 1 AP.",                                                       cost:1,  location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+
+    // ---- I ----
+    {name:"Immaculate",              stats:["Speed","Crit Rate"],   effect:"30% increased damage until a hit is received.",                                       cost:10, location:"Visages — found in the area",                                                              dlc:false},
+    {name:"In Medias Res",           stats:["Defense","Crit Rate"], effect:"+3 Shields on Battle Start, but max Health is halved.",                               cost:10, location:"Dark Shores — found in the area",                                                         dlc:false},
+    {name:"Inverted Affinity",       stats:["Health","Crit Rate"],  effect:"Apply Inverted on self for 3 turns on battle start. 50% increased damage while Inverted.", cost:5, location:"Forgotten Battlefield — found in the area",                                              dlc:false},
+
+    // ---- L ----
+    {name:"Last Stand Critical",     stats:["Health","Defense"],    effect:"100% Critical Chance while fighting alone.",                                          cost:3,  location:"Hidden Gestral Arena — defeat the third challenge",                                       dlc:false},
+    {name:"Longer Break",            stats:["Health","Defense","Speed"], effect:"Breaks last 1 more turn but the target can't be Broken twice.",                     cost:10, location:"Verso's Drafts — defeat the enemy group on a cliff below Open Playground Flag",           dlc:true},
+    {name:"Longer Burn",             stats:["Health","Defense"],    effect:"Burn duration is increased by 2.",                                                    cost:15, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Longer Powerful",         stats:["Health","Crit Rate"],  effect:"On applying Powerful, its duration is increased by 2.",                               cost:10, location:"Old Lumiere — found in the area",                                                          dlc:false},
+    {name:"Longer Rush",             stats:["Health","Speed"],      effect:"On applying Rush, its duration is increased by 2.",                                   cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Longer Shell",            stats:["Health","Defense"],    effect:"On applying Shell, its duration is increased by 2.",                                  cost:10, location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+
+    // ---- M ----
+    {name:"Marking Break",           stats:["Speed","Crit Rate"],   effect:"Apply Mark on Break.",                                                               cost:5,  location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Marking Shots",           stats:["Speed","Crit Rate"],   effect:"20% chance to apply Mark on Free Aim shot.",                                          cost:3,  location:"Flying Waters — found in the area",                                                        dlc:false},
+
+    // ---- P ----
+    {name:"Painted Power",           stats:["Health"],              effect:"Damage can exceed 9999.",                                                             cost:5,  location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Painter",                 stats:["Speed","Crit Rate"],   effect:"Convert all Physical damage to Void damage.",                                         cost:10, location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Perilous Parry",          stats:["Speed","Crit Rate"],   effect:"+1 AP on Parry, but damage received is doubled.",                                     cost:5,  location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Piercing Shot",           stats:["Health","Crit Rate"],  effect:"25% increased Free Aim damage. Free Aim shots ignore Shields.",                       cost:2,  location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Powered Attack",          stats:["Speed","Crit Rate"],   effect:"On every damage dealt, try to consume 1 AP. If successful, increase damage by 20%.",  cost:10, location:"Visages — found in the area",                                                              dlc:false},
+    {name:"Powerful Heal",           stats:["Health","Speed"],      effect:"Healing an ally also applies Powerful for 1 turn.",                                   cost:5,  location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Powerful Mark",           stats:["Speed","Crit Rate"],   effect:"Gain Powerful on hitting a Marked enemy.",                                            cost:5,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Powerful Revive",         stats:["Speed","Crit Rate"],   effect:"Apply Powerful for 3 turns when revived.",                                            cost:3,  location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Powerful Shield",         stats:["Speed","Crit Rate"],   effect:"10% increased damage per Shield Point on self.",                                      cost:5,  location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Powerful Shots",          stats:["Health","Defense"],    effect:"20% chance to gain Powerful on Free Aim shot.",                                       cost:3,  location:"Gestral Village — found in the area",                                                      dlc:false},
+    {name:"Powerful on Shell",       stats:["Defense","Crit Rate"], effect:"Apply Powerful on applying Shell.",                                                   cost:10, location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Pro Retreat",             stats:["Health","Speed"],      effect:"Allows Flee to be instantaneous.",                                                    cost:40, location:"Your Camp — talk to Sastro after finding all 9 Lost Gestrals",                             dlc:false},
+    {name:"Protecting Attack",       stats:["Health","Defense"],    effect:"Gain Shell for 1 turn on Base Attack.",                                               cost:10, location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Protecting Death",        stats:["Health","Defense"],    effect:"On death, allies gain Shell.",                                                        cost:5,  location:"Sirene — found in the area",                                                               dlc:false},
+    {name:"Protecting Heal",         stats:["Health","Defense"],    effect:"Healing an ally also applies Shell for 1 turn.",                                      cost:5,  location:"Esoteric Ruins — found in the area",                                                       dlc:false},
+    {name:"Protecting Last Stand",   stats:["Health","Defense"],    effect:"Gain Shell if fighting alone.",                                                       cost:3,  location:"Hidden Gestral Arena — defeat the fourth challenge",                                       dlc:false},
+    {name:"Protecting Shots",        stats:["Health","Defense"],    effect:"20% chance to gain Shell on Free Aim shot.",                                          cost:3,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Protecting Tint",         stats:["Health","Defense"],    effect:"Healing Tints also apply Shell.",                                                     cost:5,  location:"The Reacher — found in the area",                                                          dlc:false},
+
+    // ---- Q ----
+    {name:"Quick Break",             stats:["Speed","Crit Rate"],   effect:"Play again on Breaking a target.",                                                    cost:3,  location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+
+    // ---- R ----
+    {name:"Random Defense",          stats:["Crit Rate"],           effect:"Damage taken is randomly multiplied by a value between 50% and 200%.",                 cost:5,  location:"The Monolith — complete Paint Cage 20",                                                     dlc:false},
+    {name:"Recovery",                stats:["Health","Speed"],      effect:"Recovers 10% Health on turn start.",                                                   cost:10, location:"Red Woods — complete Benisseur Quest (give fountain Chroma until done)",                   dlc:false},
+    {name:"Rejuvenating Revive",     stats:["Health","Defense"],    effect:"Apply Regen for 3 turns when revived.",                                               cost:3,  location:"Stone Wave Cliffs — Tide Caverns Flag, northwest after breaking Paint Spike rock",         dlc:false},
+    {name:"Revive Paradox",          stats:["Speed","Crit Rate"],   effect:"Play immediately when revived.",                                                      cost:5,  location:"Old Lumiere — defeat Chromatic Danseuse after descending a rope",                          dlc:false},
+    {name:"Revive Tint Energy",      stats:["Health","Defense"],    effect:"Revive Tints also give 3 AP.",                                                         cost:10, location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+    {name:"Rewarding Mark",          stats:["Defense","Speed"],     effect:"+2 AP on dealing damage to a Marked target. Once per turn.",                          cost:5,  location:"Flying Waters — found in the area",                                                        dlc:false},
+    {name:"Roulette",                stats:["Defense","Crit Rate"], effect:"Every hit has a 50% chance to deal either 50% or 200% damage.",                       cost:5,  location:"Gestral Village — found in the area (from the Gestral Gambler)",                           dlc:false},
+    {name:"Rush on Powerful",        stats:["Speed","Crit Rate"],   effect:"Apply Rush on applying Powerful.",                                                    cost:10, location:"Endless Tower — complete Stage 14, Trial 3",                                               dlc:false},
+
+    // ---- S ----
+    {name:"Second Chance",           stats:["Health","Crit Rate"],  effect:"Revive with 100% Health. Once per battle.",                                            cost:40, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Shared Care",             stats:["Health","Defense"],    effect:"When healing an ally, also Heal self for 50% of that value.",                         cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Shell On Rush",           stats:["Defense","Speed"],     effect:"Apply Shell on applying Rush.",                                                       cost:10, location:"Endless Night Sanctuary — found in the area",                                              dlc:false},
+    {name:"Shield Affinity",         stats:["Speed","Crit Rate"],   effect:"30% increased damage while having Shields, but receiving any damage removes all Shields.", cost:15, location:"Sirene — found in the area",                                                             dlc:false},
+    {name:"Shielding Death",         stats:["Defense","Speed"],     effect:"On death, allies gain 3 Shield points.",                                              cost:10, location:"The Crows — shoot all Crows and defeat the boss",                                          dlc:false},
+    {name:"Shielding Tint",          stats:["Health","Defense"],    effect:"Healing Tints also add 2 Shields.",                                                   cost:10, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Shortcut",                stats:["Speed","Crit Rate"],   effect:"Immediately play when falling below 30% Health. Once per battle.",                    cost:5,  location:"Lumiere (Act III) — found in the area",                                                    dlc:false},
+    {name:"Slowing Attack",          stats:["Health","Speed"],      effect:"Base attack applies Slow for 1 turn.",                                                cost:10, location:"Verso's Drafts — Gestral Baths Flag, on a ledge in Gestral Baths",                         dlc:true},
+    {name:"Slowing Break",           stats:["Defense","Speed"],     effect:"Apply Slow on Break.",                                                                cost:5,  location:"Flying Manor — found in the area",                                                         dlc:false},
+    {name:"Sniper",                  stats:["Speed","Crit Rate"],   effect:"First Free Aim shot each turn deals 200% increased damage and can Break.",            cost:15, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Solidifying",             stats:["Defense","Speed"],     effect:"+2 Shields when the character's Health falls below 50%. Once per battle.",            cost:10, location:"Crushing Cavern — found in the area",                                                      dlc:false},
+    {name:"Solo Fighter",            stats:["Health","Defense"],    effect:"Deal 50% more damage if fighting alone.",                                             cost:1,  location:"Hidden Gestral Arena — defeat the fifth challenge",                                        dlc:false},
+    {name:"SOS Healing Tint",        stats:["Defense"],             effect:"Consume a Healing Tint when falling below 50% Health.",                                cost:10, location:"Verso's Drafts — near a lake with jumping rings, defeat the Franctale enemy",             dlc:true},
+    {name:"SOS Power",               stats:["Speed","Crit Rate"],   effect:"Apply Powerful when falling below 50% Health.",                                       cost:5,  location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"SOS Rush",                stats:["Defense","Speed"],     effect:"Apply Rush when falling below 50% Health.",                                           cost:5,  location:"Falling Leaves — found in the area",                                                       dlc:false},
+    {name:"SOS Shell",               stats:["Defense","Speed"],     effect:"Apply Shell when falling below 50% Health.",                                          cost:5,  location:"Flying Waters — found in the area",                                                        dlc:false},
+    {name:"Staggering Attack",       stats:["Speed","Crit Rate"],   effect:"50% increased Break damage on Base Attack.",                                          cost:1,  location:"Flying Waters — found in the area",                                                        dlc:false},
+    {name:"Stay Marked",             stats:["Speed","Crit Rate"],   effect:"50% chance to apply Mark when attacking a Marked target.",                            cost:10, location:"The Monolith — found in the area",                                                         dlc:false},
+    {name:"Stun Boost",              stats:["Speed","Crit Rate"],   effect:"30% increased damage on stunned targets.",                                            cost:10, location:"Ancient Sanctuary — found in the area",                                                    dlc:false},
+    {name:"Survivor",                stats:["Speed","Crit Rate"],   effect:"Prevents death, leaving 1 HP instead. Once per battle.",                              cost:20, location:"Monoco's Station — found in the area",                                                     dlc:false},
+    {name:"Sweet Kill",              stats:["Speed","Crit Rate"],   effect:"Recover 50% Health upon killing an enemy.",                                           cost:5,  location:"Forgotten Battlefield — found in the area",                                                dlc:false},
+
+    // ---- T ----
+    {name:"Tainted",                 stats:["Defense","Crit Rate"], effect:"15% increased damage for each Status Effect on Self.",                                cost:3,  location:"Stone Wave Cliffs — found in the area",                                                    dlc:false},
+    {name:"Teamwork",                stats:["Health","Defense"],    effect:"10% increased damage while all allies are alive.",                                    cost:5,  location:"Yellow Harvest — found in the area",                                                       dlc:false},
+    {name:"The One",                 stats:["Crit Rate"],           effect:"Max Health is reduced to 1.",                                                         cost:1,  location:"Sunless Cliffs — found in the area",                                                       dlc:false},
+    {name:"Time Tint",               stats:["Health","Defense"],    effect:"Energy Tints also apply Rush.",                                                       cost:10, location:"Endless Tower — complete Stage 18, Trial 3",                                                dlc:false},
+    {name:"Trigger-Happy",           stats:["Speed"],               effect:"After shooting 10 times in the same turn, gain +2 AP (once). Following Shots this turn deal 200% more damage.", cost:20, location:"Verso's Drafts — defeat the Gestral balloon miniboss",                                    dlc:true},
+
+    // ---- V ----
+    {name:"Versatile",               stats:["Speed","Crit Rate"],   effect:"After a Free Aim shot hit, Base Attack damage is increased by 50% for one turn.",     cost:5,  location:"Flying Waters — found in the area",                                                        dlc:false},
+
+    // ---- W ----
+    {name:"Warming Up",              stats:["Health","Crit Rate"],  effect:"5% increased damage per turn (can stack up to 5 times).",                              cost:15, location:"The Continent — found in the overworld",                                                   dlc:false},
+    {name:"Weakness Gain",           stats:["Speed","Crit Rate"],   effect:"Gives +1 AP on hitting an Enemy's weakness.",                                         cost:3,  location:"The Monolith — found in the area",                                                         dlc:false},
+  ];
+
+  // Keep data sorted by name
+  PICTO_DATA.sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+  // ============================================================
+  // APP STATE
+  // ============================================================
+  var STORAGE_KEY = 'expedition33_pictos';
+  var checked = {};
+  var currentFilter = 'all';
+  var currentSearch = '';
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+  function statClass(s) {
+    var map = { 'Health':'health','Defense':'defense','Speed':'speed','Crit Rate':'crit' };
+    return map[s] || '';
+  }
+
+  function statAbbr(s) {
+    var map = { 'Health':'HP','Defense':'DEF','Speed':'SPD','Crit Rate':'CRT' };
+    return map[s] || s;
+  }
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) { checked = JSON.parse(raw); }
+    } catch(e) { checked = {}; }
+  }
+
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch(e) {}
+  }
+
+  function isChecked(name) { return !!checked[name]; }
+  function toggleCheck(name) {
+    if (checked[name]) { delete checked[name]; }
+    else { checked[name] = true; }
+    saveState();
+    render();
+  }
+  function checkAll() {
+    PICTO_DATA.forEach(function(p) { checked[p.name] = true; });
+    saveState();
+    render();
+  }
+  function clearAll() {
+    checked = {};
+    saveState();
+    render();
+  }
+
+  function matchesSearch(p, search) {
+    if (!search) return true;
+    var lc = search.toLowerCase();
+    return p.name.toLowerCase().indexOf(lc) !== -1
+        || p.effect.toLowerCase().indexOf(lc) !== -1
+        || p.location.toLowerCase().indexOf(lc) !== -1;
+  }
+
+  function matchesFilter(p) {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'checked') return isChecked(p.name);
+    if (currentFilter === 'unchecked') return !isChecked(p.name);
+    if (currentFilter === 'dlc') return !!p.dlc;
+    if (currentFilter.indexOf('stat-') === 0) {
+      var target = currentFilter.replace('stat-', '');
+      var map = { 'health':'Health', 'speed':'Speed', 'defense':'Defense', 'crit':'Crit Rate' };
+      var full = map[target] || '';
+      if (!full) return true;
+      return (p.stats.indexOf(full) !== -1);
+    }
+    return true;
+  }
+
+  function getStats() {
+    var total = PICTO_DATA.length;
+    var collected = 0;
+    PICTO_DATA.forEach(function(p) { if (isChecked(p.name)) collected++; });
+    var pct = total > 0 ? Math.round((collected / total) * 100) : 0;
+    return { total: total, collected: collected, pct: pct };
+  }
+
+  // ============================================================
+  // RENDER
+  // ============================================================
+  function render() {
+    var stats = getStats();
+    var grid = document.getElementById('pictoGrid');
+    var visibleCount = 0;
+
+    // Update hero stats
+    document.getElementById('totalCount').textContent = stats.total;
+    document.getElementById('collectedCount').textContent = stats.collected;
+    document.getElementById('progressPct').textContent = stats.pct + '%';
+    document.getElementById('progressFill').style.width = stats.pct + '%';
+    document.getElementById('progressText').textContent = stats.collected + ' / ' + stats.total;
+
+    // Build cards
+    var html = '';
+    PICTO_DATA.forEach(function(p) {
+      var match = matchesSearch(p, currentSearch) && matchesFilter(p);
+      if (match) visibleCount++;
+
+      var chk = isChecked(p.name);
+      var cardClass = 'picto-card' + (chk ? ' checked' : '') + (p.dlc ? ' dlc' : '') + (match ? '' : ' hidden');
+
+      var statTags = '';
+      p.stats.forEach(function(s) {
+        statTags += '<span class="stat-tag ' + statClass(s) + '">' + statAbbr(s) + '</span>';
+      });
+
+      var dlcTag = p.dlc ? '<span class="picto-dlc-tag">DLC</span>' : '';
+
+      html += '<div class="' + cardClass + '" data-name="' + p.name.replace(/'/g, '&#39;') + '">'
+        + '<div class="picto-check">' + (chk ? '&#10003;' : '') + '</div>'
+        + '<div class="picto-name">' + p.name + '</div>'
+        + '<div class="picto-location"><strong>Location:</strong> ' + p.location + '</div>'
+        + '<div class="picto-effect">' + p.effect + '</div>'
+        + '<div class="picto-meta">'
+        +   '<span class="picto-cost">' + p.cost + ' LP</span>'
+        +   statTags
+        +   dlcTag
+        + '</div>'
+        + '</div>';
+    });
+
+    if (visibleCount === 0 && PICTO_DATA.length > 0) {
+      html += '<div class="no-results">No pictos match your search or filter.</div>';
+    }
+
+    grid.innerHTML = html;
+
+    document.getElementById('resultCount').textContent =
+      'Showing ' + visibleCount + ' of ' + stats.total + ' pictos';
+
+    // Attach click handlers
+    var cards = grid.querySelectorAll('.picto-card');
+    cards.forEach(function(c) {
+      c.addEventListener('click', function() {
+        toggleCheck(this.getAttribute('data-name'));
+      });
+    });
+  }
+
+  // ============================================================
+  // SCROLL NAV
+  // ============================================================
+  function initSmoothScroll() {
+    document.querySelectorAll('[data-scroll]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          var navH = document.getElementById('siteNav').offsetHeight || 55;
+          var top = target.getBoundingClientRect().top + window.scrollY - navH - 10;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', function() {
+    loadState();
+    render();
+    initSmoothScroll();
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', function() {
+      currentSearch = this.value;
+      render();
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        currentFilter = this.getAttribute('data-filter');
+        render();
+      });
+    });
+    // Activate "All" by default
+    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+
+    // Action buttons
+    document.getElementById('checkAllBtn').addEventListener('click', checkAll);
+    document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+  });
+  </script>
+
+</body>
+</html>
