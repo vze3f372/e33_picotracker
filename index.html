@@ -1850,18 +1850,25 @@
   // ============================================================
   // RENDER
   // ============================================================
+  function getActiveTab() {
+    var btn = document.querySelector('.tab-btn.active');
+    return btn ? btn.getAttribute('data-tab') : 'pictos';
+  }
+
   function render() {
     var stats = getStats();
     var grid = document.getElementById('pictoGrid');
     var visibleCount = 0;
 
-    // Update hero stats
-    document.getElementById('heroTotal').textContent = stats.total;
-    document.getElementById('heroCollected').textContent = stats.collected;
-    document.getElementById('heroProgress').textContent = stats.pct + '%';
-    document.getElementById('heroTotalLabel').textContent = 'Total Pictos';
-    document.getElementById('heroCollectedLabel').textContent = 'Collected';
-    document.getElementById('heroProgressLabel').textContent = 'Progress';
+    // Update hero stats only when Pictos tab is active
+    if (getActiveTab() === 'pictos') {
+      document.getElementById('heroTotal').textContent = stats.total;
+      document.getElementById('heroCollected').textContent = stats.collected;
+      document.getElementById('heroProgress').textContent = stats.pct + '%';
+      document.getElementById('heroTotalLabel').textContent = 'Total Pictos';
+      document.getElementById('heroCollectedLabel').textContent = 'Collected';
+      document.getElementById('heroProgressLabel').textContent = 'Progress';
+    }
     document.getElementById('progressFill').style.width = stats.pct + '%';
     document.getElementById('progressText').textContent = stats.collected + ' / ' + stats.total;
 
@@ -2260,13 +2267,15 @@
     document.getElementById('weaponProgressFill').style.width = stats.pct + '%';
     document.getElementById('weaponProgressText').textContent = stats.collected + ' / ' + stats.total;
 
-    // Update hero stats
-    document.getElementById('heroTotal').textContent = stats.total;
-    document.getElementById('heroCollected').textContent = stats.collected;
-    document.getElementById('heroProgress').textContent = stats.pct + '%';
-    document.getElementById('heroTotalLabel').textContent = 'Total Weapons';
-    document.getElementById('heroCollectedLabel').textContent = 'Collected';
-    document.getElementById('heroProgressLabel').textContent = 'Progress';
+    // Update hero stats only when Weapons tab is active
+    if (getActiveTab() === 'weapons') {
+      document.getElementById('heroTotal').textContent = stats.total;
+      document.getElementById('heroCollected').textContent = stats.collected;
+      document.getElementById('heroProgress').textContent = stats.pct + '%';
+      document.getElementById('heroTotalLabel').textContent = 'Total Weapons';
+      document.getElementById('heroCollectedLabel').textContent = 'Collected';
+      document.getElementById('heroProgressLabel').textContent = 'Progress';
+    }
 
     var html = '';
     WEAPON_DATA.forEach(function(w) {
