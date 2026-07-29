@@ -302,12 +302,12 @@
     .stat-tag {
       display: inline-block;
       font-family: var(--font-numbers);
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       font-weight: 400;
-      padding: 0.15rem 0.5rem;
+      padding: 0.2rem 0.6rem;
       border-radius: 3px;
-      margin-right: 0.25rem;
-      margin-bottom: 0.15rem;
+      margin-right: 0.3rem;
+      margin-bottom: 0.2rem;
       letter-spacing: 0.04em;
     }
     .stat-tag.health { background: rgba(74,138,90,0.2); color: #6aaa7a; border: 1px solid rgba(74,138,90,0.3); }
@@ -336,13 +336,13 @@
     }
     .search-wrap input {
       width: 100%;
-      padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+      padding: 0.7rem 0.9rem 0.7rem 2.4rem;
       background: var(--bg-input);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text-primary);
       font-family: var(--font-body);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       outline: none;
       transition: border-color 0.2s;
     }
@@ -350,11 +350,11 @@
     .search-wrap input::placeholder { color: var(--text-muted); }
     .search-wrap .search-icon {
       position: absolute;
-      left: 0.75rem;
+      left: 0.8rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       pointer-events: none;
     }
 
@@ -364,8 +364,8 @@
       gap: 0.4rem;
     }
     .filter-btn {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.75rem;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       font-family: var(--font-body);
       background: transparent;
@@ -397,8 +397,8 @@
       margin-left: auto;
     }
     .action-btn {
-      padding: 0.4rem 1rem;
-      font-size: 0.75rem;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.88rem;
       font-weight: 500;
       font-family: var(--font-body);
       background: transparent;
@@ -430,24 +430,24 @@
     }
     .progress-bar {
       flex: 1;
-      height: 6px;
+      height: 8px;
       background: var(--bg-well);
-      border-radius: 3px;
+      border-radius: 4px;
       overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--gold-dark), var(--gold));
-      border-radius: 3px;
+      border-radius: 4px;
       transition: width 0.3s ease;
       width: 0%;
     }
     .progress-text {
       font-family: var(--font-numbers);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
       white-space: nowrap;
-      min-width: 3.5rem;
+      min-width: 3.8rem;
       text-align: right;
       letter-spacing: 0.03em;
     }
@@ -457,7 +457,7 @@
        ============================================ */
     .pictos-count {
       font-family: var(--font-body);
-      font-size: 0.8rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
       padding: 0.5rem 0;
     }
@@ -465,7 +465,7 @@
     .picto-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 0.85rem;
       padding: 1.5rem 0 4rem;
     }
     @media (min-width: 35em) {
@@ -483,11 +483,11 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1rem 1rem 1rem 3rem;
+      padding: 1.15rem 1.15rem 1.15rem 3.4rem;
       cursor: pointer;
       transition: all 0.2s;
       user-select: none;
-      min-height: 90px;
+      min-height: 105px;
     }
     .picto-card:hover {
       background: var(--bg-card-hover);
@@ -515,16 +515,16 @@
     /* Checkbox circle */
     .picto-check {
       position: absolute;
-      left: 0.75rem;
-      top: 1rem;
-      width: 22px;
-      height: 22px;
+      left: 0.85rem;
+      top: 1.2rem;
+      width: 26px;
+      height: 26px;
       border: 2px solid var(--border-light);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       color: transparent;
       transition: all 0.2s;
       flex-shrink: 0;
@@ -544,11 +544,11 @@
 
     .picto-name {
       font-family: var(--font-display);
-      font-size: 1rem;
+      font-size: 1.15rem;
       font-weight: 600;
       color: var(--text-primary);
       line-height: 1.3;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
     }
     .picto-card.checked .picto-name {
       color: var(--gold);
@@ -559,9 +559,9 @@
 
     .picto-location {
       font-family: var(--font-dialog);
-      font-size: 0.75rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.35rem;
     }
     .picto-location strong {
       color: var(--text-secondary);
@@ -570,41 +570,41 @@
 
     .picto-effect {
       font-family: var(--font-dialog);
-      font-size: 0.82rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
-      line-height: 1.45;
-      margin-bottom: 0.4rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
     }
 
     .picto-meta {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
+      gap: 0.6rem;
+      font-size: 0.88rem;
     }
     .picto-cost {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.3rem;
       font-family: var(--font-numbers);
-      font-size: 0.85rem;
+      font-size: 1rem;
       color: var(--gold);
       font-weight: 400;
     }
     .picto-cost::before {
       content: '\2605';
-      font-size: 0.65rem;
+      font-size: 0.8rem;
       color: var(--gold-dark);
     }
     .picto-dlc-tag {
-      font-size: 0.65rem;
+      font-size: 0.78rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--accent-purple);
       border: 1px solid rgba(122,74,138,0.3);
-      padding: 0.1rem 0.4rem;
+      padding: 0.15rem 0.45rem;
       border-radius: 3px;
     }
 
@@ -612,6 +612,306 @@
        HIDDEN (filtered out)
        ============================================ */
     .picto-card.hidden { display: none; }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    /* ============================================
+       TAB SYSTEM
+       ============================================ */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin: 0 0 1.5rem;
+    }
+    .tab-btn {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--text-secondary); }
+    .tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    .tab-content { display: block; }
+    .tab-content.hidden { display: none; }
+
+    /* ============================================
+       CHARACTER ICONS
+       ============================================ */
+    .char-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--bg-well);
+    }
+    .char-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .char-icon-dual {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .char-icon-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .char-icon-fallback {
+      font-family: var(--font-numbers);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e8ddd0;
+    }
+
+    /* ============================================
+       ELEMENT TAGS
+       ============================================ */
+    .elem-tag {
+      display: inline-block;
+      font-family: var(--font-numbers);
+      font-size: 0.72rem;
+      font-weight: 400;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-right: 0.25rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .elem-Physical  { background: rgba(180,170,150,0.2); color: #c0b8a8; border: 1px solid rgba(180,170,150,0.3); }
+    .elem-Fire      { background: rgba(200,80,40,0.2);   color: #e08050; border: 1px solid rgba(200,80,40,0.3); }
+    .elem-Ice       { background: rgba(60,160,200,0.2);  color: #60c0e0; border: 1px solid rgba(60,160,200,0.3); }
+    .elem-Lightning { background: rgba(200,180,40,0.2);  color: #e0d050; border: 1px solid rgba(200,180,40,0.3); }
+    .elem-Earth     { background: rgba(120,160,60,0.2);  color: #90b850; border: 1px solid rgba(120,160,60,0.3); }
+    .elem-Light     { background: rgba(220,200,120,0.2); color: #e0d080; border: 1px solid rgba(220,200,120,0.3); }
+    .elem-Dark      { background: rgba(100,60,140,0.2);  color: #8860b8; border: 1px solid rgba(100,60,140,0.3); }
+    .elem-Void      { background: rgba(80,60,100,0.2);   color: #a080c0; border: 1px solid rgba(80,60,100,0.3); }
+
+    /* ============================================
+       SCALING RANK
+       ============================================ */
+    .scale-rank {
+      display: inline-block;
+      font-family: var(--font-numbers);
+      font-size: 0.65rem;
+      font-weight: 400;
+      padding: 0.08rem 0.35rem;
+      border-radius: 2px;
+      margin-right: 0.15rem;
+      min-width: 1.3rem;
+      text-align: center;
+    }
+    .scale-S { background: rgba(201,168,76,0.3); color: var(--gold-light); }
+    .scale-A { background: rgba(74,122,181,0.3); color: #8ab8e8; }
+    .scale-B { background: rgba(74,138,90,0.3);  color: #6aaa7a; }
+    .scale-C { background: rgba(120,110,100,0.3); color: #9a8a7a; }
+    .scale-D { background: rgba(100,90,80,0.2);   color: #7a7060; }
+
+    /* ============================================
+       WEAPON GRID & CARDS
+       ============================================ */
+    .weapon-controls {
+      padding: 0.5rem 0;
+    }
+    .weapon-count {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      padding: 0.5rem 0;
+    }
+    .weapon-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      padding: 1.5rem 0 4rem;
+    }
+    @media (min-width: 40em) {
+      .weapon-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 64em) {
+      .weapon-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .weapon-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .weapon-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-light);
+    }
+    .weapon-card.checked {
+      border-color: var(--gold-dark);
+      background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+    }
+    .weapon-card.checked::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--gold);
+      border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .weapon-card.dlc {
+      border-left: 3px solid var(--accent-purple);
+    }
+    .weapon-card.dlc.checked::after {
+      background: var(--accent-purple);
+    }
+    .weapon-card.hidden { display: none; }
+
+    .weapon-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+    .weapon-icon-placeholder {
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      background: var(--bg-well);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .weapon-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+      flex: 1;
+    }
+    .weapon-card.checked .weapon-name {
+      color: var(--gold);
+    }
+    .weapon-card.dlc.checked .weapon-name {
+      color: #b08ad0;
+    }
+
+    .weapon-chars {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      margin-top: 0.2rem;
+    }
+    .weapon-element {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.35rem 0 0.25rem;
+    }
+    .weapon-power {
+      font-family: var(--font-numbers);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .weapon-power strong {
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    .weapon-scalings {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin: 0.35rem 0;
+    }
+    .weapon-scaling-item {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+    }
+    .weapon-scaling-item .scale-label {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .weapon-passives {
+      margin: 0.35rem 0;
+      font-size: 0.85rem;
+    }
+    .weapon-passive {
+      color: var(--text-secondary);
+      line-height: 1.4;
+      padding: 0.15rem 0;
+    }
+    .weapon-passive .passive-lv {
+      color: var(--gold-dark);
+      font-family: var(--font-numbers);
+      font-size: 0.78rem;
+      margin-right: 0.35rem;
+    }
+    .weapon-passive.none {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .weapon-location {
+      font-family: var(--font-dialog);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+    .weapon-location strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .weapon-dlc-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-purple);
+      border: 1px solid rgba(122,74,138,0.3);
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      margin-left: auto;
+    }
+
+    .weapon-no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
 
     /* ============================================
        FOOTER
@@ -657,20 +957,20 @@
   <header class="hero">
     <div class="hero-content">
       <img src="e33logo.webp" alt="Clair Obscur: Expedition 33" class="game-logo">
-      <h2>Pictos <span class="accent">&amp;</span> Luminas</h2>
-      <p class="hero-sub">The complete checklist &mdash; every Picto, every effect, every location</p>
+      <h2>Pictos, Luminas, &amp; Weapons</h2>
+      <p class="hero-sub" id="heroSub">The complete tracker &mdash; every Picto, every Weapon, every detail</p>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-value" id="totalCount">210</div>
-          <div class="hero-stat-label">Total Pictos</div>
+          <div class="hero-stat-value" id="heroTotal">210</div>
+          <div class="hero-stat-label" id="heroTotalLabel">Total Pictos</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-value" id="collectedCount">0</div>
-          <div class="hero-stat-label">Collected</div>
+          <div class="hero-stat-value" id="heroCollected">0</div>
+          <div class="hero-stat-label" id="heroCollectedLabel">Collected</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-value" id="progressPct">0%</div>
-          <div class="hero-stat-label">Progress</div>
+          <div class="hero-stat-value" id="heroProgress">0%</div>
+          <div class="hero-stat-label" id="heroProgressLabel">Progress</div>
         </div>
       </div>
     </div>
@@ -679,7 +979,7 @@
   <!-- ========== NAV ========== -->
   <nav class="site-nav" id="siteNav">
     <div class="site-nav-inner">
-      <span class="nav-title">Pictos</span>
+      <span class="nav-title">Expedition 33</span>
       <div class="nav-links">
         <a href="#how-it-works" data-scroll>How It Works</a>
         <a href="#stats" data-scroll>Stats</a>
@@ -687,6 +987,17 @@
       </div>
     </div>
   </nav>
+
+  <!-- ========== TAB BAR ========== -->
+  <div class="container" style="padding-top:0.75rem;">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="pictos">&#9670; Pictos</button>
+      <button class="tab-btn" data-tab="weapons">&#9876; Weapons</button>
+    </div>
+  </div>
+
+  <!-- ========== TAB: PICTO CONTENT ========== -->
+  <div class="tab-content" id="tab-pictos">
 
   <!-- ========== INFO SECTION ========== -->
   <section class="info-section" id="how-it-works">
@@ -794,6 +1105,57 @@
       <!-- Cards injected by JS -->
     </div>
   </section>
+
+  </div><!-- /tab-pictos -->
+
+  <!-- ========== TAB: WEAPONS CONTENT ========== -->
+  <div class="tab-content hidden" id="tab-weapons">
+
+  <section class="container" id="weapon-checklist">
+    <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+
+    <div class="weapon-controls">
+      <div class="controls-row">
+        <div class="search-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" id="weaponSearch" placeholder="Search weapons by name, character, or location&hellip;" autocomplete="off">
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="weaponProgressFill"></div>
+          </div>
+          <span class="progress-text" id="weaponProgressText">0 / 0</span>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="filter-group" id="charFilters">
+          <button class="filter-btn" data-wfilter="all">All</button>
+          <button class="filter-btn" data-wfilter="checked">&#10003; Collected</button>
+          <button class="filter-btn" data-wfilter="unchecked">&#9711; Missing</button>
+          <button class="filter-btn" data-wfilter="char-gustave">Gustave</button>
+          <button class="filter-btn" data-wfilter="char-verso">Verso</button>
+          <button class="filter-btn" data-wfilter="char-lune">Lune</button>
+          <button class="filter-btn" data-wfilter="char-maelle">Maelle</button>
+          <button class="filter-btn" data-wfilter="char-sciel">Sciel</button>
+          <button class="filter-btn" data-wfilter="char-monoco">Monoco</button>
+          <button class="filter-btn" data-wfilter="dlc">DLC</button>
+        </div>
+        <div class="control-actions">
+          <button class="action-btn" id="weaponClearAll">Clear All</button>
+          <button class="action-btn primary" id="weaponCheckAll">Check All</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="weapon-count" id="weaponResultCount">Loading weapons&hellip;</p>
+
+    <div class="weapon-grid" id="weaponGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </section>
+
+  </div><!-- /tab-weapons -->
 
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
@@ -1160,9 +1522,12 @@
     var visibleCount = 0;
 
     // Update hero stats
-    document.getElementById('totalCount').textContent = stats.total;
-    document.getElementById('collectedCount').textContent = stats.collected;
-    document.getElementById('progressPct').textContent = stats.pct + '%';
+    document.getElementById('heroTotal').textContent = stats.total;
+    document.getElementById('heroCollected').textContent = stats.collected;
+    document.getElementById('heroProgress').textContent = stats.pct + '%';
+    document.getElementById('heroTotalLabel').textContent = 'Total Pictos';
+    document.getElementById('heroCollectedLabel').textContent = 'Collected';
+    document.getElementById('heroProgressLabel').textContent = 'Progress';
     document.getElementById('progressFill').style.width = stats.pct + '%';
     document.getElementById('progressText').textContent = stats.collected + ' / ' + stats.total;
 
@@ -1259,7 +1624,425 @@
     // Action buttons
     document.getElementById('checkAllBtn').addEventListener('click', checkAll);
     document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+    // ========== WEAPONS INIT ==========
+    initWeapons();
+    initTabs();
   });
+
+  // ============================================================
+  // WEAPON DATA
+  // ============================================================
+  // Fields: name, char (character(s)), elem, pow (max power at 33),
+  //   sc (scalings: VIt/Mig/Agi/Def/Lck ranks or '-'),
+  //   p (passives [lv4, lv10, lv20] or null), loc, dlc
+  // ============================================================
+
+  var WEAPON_DATA = [
+    // ---- GUSTAVE / VERSO ---- //
+    {n:"Noahram",    c:"Gustave/Verso", e:"Physical",   p:3228, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"-"}, pas:[null,null,null], loc:"Gustave's starting weapon", dlc:false},
+    {n:"Lanceram",   c:"Gustave/Verso", e:"Physical",   p:3713, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:[null,null,null], loc:"Spring Meadows — defeat first pair of Lanceliers", dlc:false},
+    {n:"Cruleram",   c:"Gustave/Verso", e:"Ice",        p:3454, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:[null,null,null], loc:"Flying Waters — defeat Cruler and Bruler in narrow cave", dlc:false},
+    {n:"Abysseram",  c:"Gustave/Verso", e:"Physical",   p:3228, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:["50% increased damage on Rank D","50% increased Base Attack damage","On Rank D, recover 20% Health with Base Attack"], loc:"Flying Waters — defeat Bourgeon optional boss", dlc:false},
+    {n:"Sakaram",    c:"Gustave/Verso", e:"Physical",   p:2938, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Ancient Sanctuary — defeat Robust Sakapatate", dlc:false},
+    {n:"Demonam",    c:"Gustave/Verso", e:"Light",      p:2809, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Gestral Village — buy from Jujubree for 4002 Chroma", dlc:false},
+    {n:"Delaram",    c:"Gustave/Verso", e:"Light",      p:3390, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Stone Wave Cliffs — open Paint Cage 4", dlc:false},
+    {n:"Gaulteram",  c:"Gustave/Verso", e:"Earth",      p:3261, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Yellow Harvest — defeat Gaults near entrance", dlc:false},
+    {n:"Chevalam",   c:"Gustave/Verso", e:"Physical",   p:3067, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Crimson Forest — defeat final boss of The Three Blades", dlc:false},
+    {n:"Blodam",     c:"Gustave/Verso", e:"Light",      p:3487, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"The Continent — defeat Chromatic Reaper Cultist on island", dlc:false},
+    {n:"Confuso",    c:"Gustave/Verso", e:"Light",      p:3067, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Visages — Joy Vale, defeat monster guarding weapon", dlc:false},
+    {n:"Contorso",   c:"Gustave/Verso", e:"Lightning",  p:2841, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Visages — Anger Vale, defeat enemy after activating mouth", dlc:false},
+    {n:"Corpeso",    c:"Gustave/Verso", e:"Fire",       p:3648, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Dark Shores — enemies near crashed ship", dlc:false},
+    {n:"Cultam",     c:"Gustave/Verso", e:"Dark",       p:3132, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:[null,null,null], loc:"Monoco's Station — merchant for 47,500 Chroma", dlc:false},
+    {n:"Dualiso",    c:"Gustave/Verso", e:"Lightning",  p:1776, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"Forgotten Battlefield — defeat boss at Ancient Bridge Flag", dlc:false},
+    {n:"Danseso",    c:"Gustave/Verso", e:"Fire",       p:2970, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Old Lumiere — defeat Chromatic Danseuse", dlc:false},
+    {n:"Glaceso",    c:"Gustave/Verso", e:"Ice",        p:2873, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:[null,null,null], loc:"The Continent — defeat enemy group northwest of Monoco's Station", dlc:false},
+    {n:"Liteso",     c:"Gustave/Verso", e:"Physical",   p:3551, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:[null,null,null], loc:"Lumiere Act III — defeat enemy group in Central Plaza", dlc:false},
+    {n:"Nosaram",    c:"Gustave/Verso", e:"Physical",   p:3551, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Renoir's Drafts — merchant for 107,475 Chroma", dlc:false},
+    {n:"Seeram",     c:"Gustave/Verso", e:"Light",      p:3713, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Coastal Cave — merchant Cruler for 21,275 Chroma", dlc:false},
+    {n:"Simoso",     c:"Gustave/Verso", e:"Light",      p:3228, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Renoir's Drafts — defeat Simon", dlc:false},
+    {n:"Sireso",     c:"Gustave/Verso", e:"Physical",   p:2583, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:[null,null,null], loc:"Sirene — take elevator past paint cage", dlc:false},
+    {n:"Tireso",     c:"Gustave/Verso", e:"Earth",      p:3713, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"The Reacher — merchant for 51,635 Chroma near hot air balloon", dlc:false},
+    {n:"Verleso",    c:"Gustave/Verso", e:"Physical",   p:3454, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"-"}, pas:[null,null,null], loc:"Verso's starting weapon", dlc:false},
+    {n:"Gesam",      c:"Gustave/Verso", e:"Physical",   p:3228, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Flying Manor — elevator left path or merchant for 81,500 Chroma", dlc:false},
+    {n:"Dreameso",   c:"Gustave/Verso", e:"Physical",   p:3067, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"The Monolith — Tainted Lumiere level, grapple near big tree", dlc:false},
+    {n:"Sucreso",    c:"Gustave/Verso", e:"Earth",      p:3713, sc:{vi:"A",mi:"-",ag:"-",df:"S",lk:"-"}, pas:[null,null,null], loc:"Verso's Drafts — treehouse above Gingerbread door", dlc:true},
+    {n:"Esquiso",    c:"Gustave/Verso", e:"Light",      p:3551, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Verso's Drafts — Root of All Evil, defeat Osquio", dlc:true},
+
+    // ---- LUNE ---- //
+    {n:"Lunerim",    c:"Lune", e:"Fire",       p:2421, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Lune's starting weapon", dlc:false},
+    {n:"Lighterim",  c:"Lune", e:"Fire",       p:2744, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["Fire Skills cost 1 less AP","20% increased Fire damage with Skills","Start battle with 1 Ice Stain"], loc:"Spring Meadows — drop from Abbests", dlc:false},
+    {n:"Deminerim",  c:"Lune", e:"Lightning",  p:2744, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:["Lightning Skills cost 1 less AP","20% increased Lightning damage with Skills","Start battle with 1 Fire Stain"], loc:"Flying Waters — complete Demineur's side quest", dlc:false},
+    {n:"Troubadim",  c:"Lune", e:"Physical",   p:3067, sc:{vi:"A",mi:"-",ag:"-",df:"S",lk:"-"}, pas:["Free Aim shots damage additional random target","50% increased Free Aim damage","Generate random Stain on Free Aim shot"], loc:"Flying Waters — defeat Chromatic Troubadour", dlc:false},
+    {n:"Trebuchim",  c:"Lune", e:"Lightning",  p:3067, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"A"}, pas:["Generate random Stain on Free Aim shot","+1 AP when Stains are consumed","Base Attack generates 2 random Stains"], loc:"Ancient Sanctuary — defeat Catapult Sakapatate", dlc:false},
+    {n:"Kralim",     c:"Lune", e:"Lightning",  p:3390, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:["Casting Skill increases other element damage by 20%","On turn start, if no Stains, generate 2 random","+1 AP when Stains are consumed"], loc:"Yellow Harvest — defeat Chromatic Ophelin", dlc:false},
+    {n:"Colim",      c:"Lune", e:"Light",      p:2583, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:["50% chance to generate Light Stain on consume","+1 AP on consuming Light Stain","20% increased Skill damage per active Light Stain"], loc:"The Continent — defeat any Chorale enemy", dlc:false},
+    {n:"Potierim",   c:"Lune", e:"Ice",        p:2906, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["Healing Skills generate 1 additional Light Stain","Consuming Light Stain applies Slow to random enemy","Base Attack generates Light Stain"], loc:"The Continent — defeat Potier enemy group", dlc:false},
+    {n:"Redalim",    c:"Lune", e:"Ice",        p:2583, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["Healing Skills generate 1 additional Light Stain","Generate 1 Ice Stain at start of each turn","Replay instantly on consuming Stains with Healing Skill"], loc:"Old Lumiere — complete Paint Cage 14", dlc:false},
+    {n:"Coralim",    c:"Lune", e:"Ice",        p:2744, sc:{vi:"A",mi:"-",ag:"-",df:"S",lk:"-"}, pas:["Ice Skills cost 1 less AP","20% increased Ice damage with Skills","Start battle with 1 Earth Stain"], loc:"Stone Wave Cliffs — handholds past rope climb", dlc:false},
+    {n:"Chapelim",   c:"Lune", e:"Earth",      p:3164, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["30% increased Break damage per Earth Stain","Gain 9 AP on Breaking an enemy","Generate 1 Earth Stain at start of each turn"], loc:"Visages — Joy Vale, defeat final boss", dlc:false},
+    {n:"Braselim",   c:"Lune", e:"Fire",       p:3390, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:["30% increased Critical Chance per Ice Stain","+5% Gradient Charge on Critical hit","20% increased Fire damage with Skills"], loc:"The Monolith — Tainted Hearts level, defeat enemy group", dlc:false},
+    {n:"Angerim",    c:"Lune", e:"Fire",       p:3293, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:["Base Attack applies 2 Burn per Fire Stain","Generate 1 Fire Stain at start of each turn","30% increased Burn damage per Fire Stain"], loc:"The Continent — defeat Chromatic Demineur", dlc:false},
+    {n:"Choralim",   c:"Lune", e:"Fire",       p:3551, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["100% Critical Chance when 4 Stains active","20% increased damage per turn without taking damage (stack 5)","Critical hits apply Burn"], loc:"Sirene's Dress — defeat Chromatic Glissando", dlc:false},
+    {n:"Scaverim",   c:"Lune", e:"Dark",       p:4197, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:["50% chance to generate Dark Stain on consume; 50% more Skill damage per active Dark","Base Attacks consume Dark Stain for 200% more damage","With 4 Dark Stains, Skills consume them for 300% more damage"], loc:"Falling Leaves — defeat boss behind locked gate", dlc:false},
+    {n:"Benisim",    c:"Lune", e:"Earth",      p:2744, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:["Healing Skills cost 1 less AP","Generate 1 Earth Stain at start of each turn","Replay instantly on consuming Stains with Healing Skill"], loc:"Forgotten Battlefield — merchant for 7,990 Chroma", dlc:false},
+    {n:"Snowim",     c:"Lune", e:"Ice",        p:3874, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:["Freeze self below 30% HP; prevent next damage","On turn start if Frozen, remove and recover 60% HP","Gain 2 Ice Stains and 3 AP when Frozen"], loc:"Frozen Hearts — defeat Gargant at end of area", dlc:false},
+    {n:"Betelim",    c:"Lune", e:"Earth",      p:3228, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:["Using Skill that consumes Stains increases damage 20% (stack 5)","On turn start if no Stains, generate 2 random","+1 AP when Stains are consumed"], loc:"Gestral Village — break rock with Paint Spike on right side", dlc:false},
+    {n:"Saperim",    c:"Lune", e:"Lightning",  p:3067, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:["Gradient Attack generates 1 additional Light Stain","When Fire Stain generated, also generate Lightning (once/turn)","Gradient Attacks and Counters deal 50% more damage"], loc:"The Continent — enemy group on far beach east of Sirene", dlc:false},
+    {n:"Elerim",     c:"Lune", e:"Earth",      p:3551, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:["Consuming Earth Stain applies 1 Shield to self","20% increased Earth damage with Skills","Base Attack generates Earth Stain"], loc:"Sinister Cave — under a statue", dlc:false},
+    {n:"Painerim",   c:"Lune", e:"Earth",      p:2744, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:["Earth Skills cost 1 less AP","20% increased Earth damage with Skills","Start battle with 1 Lightning Stain"], loc:"Renoir's Drafts — merchant for 93,045 Chroma", dlc:false},
+    {n:"Lithelim",   c:"Lune", e:"Void",       p:3099, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"A"}, pas:["50% chance to generate Dark or Light Stain on consume","+1 AP on consuming Light Stain","Base Attack consumes Dark Stain for 200% more damage"], loc:"The Monolith — Tainted Lumiere, defeat enemies past grapple", dlc:false},
+    {n:"Bonbim",     c:"Lune", e:"Lightning",  p:3810, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:["+5% Critical chance per Burn on target","Critical hits apply Burn","Lightning Skills consume up to 100 Burn for 2% more damage per Burn"], loc:"Verso's Drafts — merchant at Reverie Path Flag for 102,424 Chroma", dlc:true},
+    {n:"Esquim",     c:"Lune", e:"Dark",       p:3616, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["Skill that doesn't consume Stains increases damage 20%","Base attack changes all Stains into Dark Stains","With 4 Dark Stains, Skills consume them for 300% more damage"], loc:"Verso's Drafts — complete Paint Cage 22", dlc:true},
+    {n:"Cleim",      c:"Lune", e:"Light",      p:3551, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Endless Tower — defeat Clea Unleashed", dlc:true},
+
+    // ---- MAELLE ---- //
+    {n:"Maellum",    c:"Maelle", e:"Physical",   p:3228, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"-"}, pas:[null,null,null], loc:"Maelle's starting weapon", dlc:false},
+    {n:"Brulerum",   c:"Maelle", e:"Fire",       p:2744, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:["Critical hits apply Burn","Base Attack applies 2 Burn","100% Critical Chance while Stanceless"], loc:"Flying Waters — defeat Brulers near Noco's hut", dlc:false},
+    {n:"Sekarum",    c:"Maelle", e:"Physical",   p:3390, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:["Switch to Virtuose Stance on breaking any Shield","Free Aim shots break 2 Shields","In Virtuose Stance, all damage pierces Shields"], loc:"Gestral Village — buy from shady merchant for 4,380 Chroma", dlc:false},
+    {n:"Medalum",    c:"Maelle", e:"Physical",   p:2906, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["Start in Virtuose Stance","In Virtuose Stance, every Burn applied is doubled","In Virtuose Stance, Burn deals double damage"], loc:"Gestral Village — beat the Arena as Maelle (MISSABLE)", dlc:false},
+    {n:"Plenum",     c:"Maelle", e:"Ice",        p:3035, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:["On turn start if Stanceless, switch to Defensive Stance","In Defensive Stance, double Break Damage","Support Skills cost 1 less AP"], loc:"Yellow Harvest — defeat Glaise boss", dlc:false},
+    {n:"Duenum",     c:"Maelle", e:"Physical",   p:2421, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["In Defensive Stance, gaining AP also gives 1 AP to allies","If Stanceless, Base Attack switches to Defensive Stance","+1 AP on Stance switch"], loc:"Stone Wave Cliffs — complete Paint Cage 5", dlc:false},
+    {n:"Battlum",    c:"Maelle", e:"Physical",   p:3067, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:[null,null,null], loc:"Old Lumiere — defeat enemy group on main path", dlc:false},
+    {n:"Chalium",    c:"Maelle", e:"Light",      p:3422, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Sinister Cave — defeat final boss of area", dlc:false},
+    {n:"Chantenum",  c:"Maelle", e:"Fire",       p:2841, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Sirene — merchant for 18,645 Chroma", dlc:false},
+    {n:"Clierum",    c:"Maelle", e:"Lightning",  p:3196, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Visages — Anger Vale, defeat final boss", dlc:false},
+    {n:"Coldum",     c:"Maelle", e:"Ice",        p:2583, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"Monoco's Station — merchant for 39,200 Chroma", dlc:false},
+    {n:"Facesum",    c:"Maelle", e:"Physical",   p:3519, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Isle of the Eyes — defeat final boss", dlc:false},
+    {n:"Glaisum",    c:"Maelle", e:"Physical",   p:3713, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:[null,null,null], loc:"The Continent — defeat enemy group north of Endless Night Sanctuary", dlc:false},
+    {n:"Jarum",      c:"Maelle", e:"Physical",   p:2583, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:[null,null,null], loc:"The Continent — defeat boss on island south of White Tree", dlc:false},
+    {n:"Lithum",     c:"Maelle", e:"Void",       p:3228, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"The Reacher — defeat Alicia", dlc:false},
+    {n:"Melarum",    c:"Maelle", e:"Physical",   p:3584, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:[null,null,null], loc:"Old Lumiere — defeat Renoir in Manor Gardens", dlc:false},
+    {n:"Seashellum", c:"Maelle", e:"Fire",       p:3003, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Flying Manor — merchant for 75,795 Chroma", dlc:false},
+    {n:"Stalum",     c:"Maelle", e:"Fire",       p:3228, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:[null,null,null], loc:"The Continent — defeat Stalact on beach west of Forgotten Battlefield", dlc:false},
+    {n:"Tissenum",   c:"Maelle", e:"Earth",      p:3874, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Sirene — defeat Tisseur boss", dlc:false},
+    {n:"Veremum",    c:"Maelle", e:"Physical",   p:3293, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"The Monolith — Tainted Meadows, merchant for 27,744 Chroma", dlc:false},
+    {n:"Volesterum", c:"Maelle", e:"Physical",   p:3293, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Lumiere Act III — merchant for 31,008 Chroma", dlc:false},
+    {n:"Yeverum",    c:"Maelle", e:"Physical",   p:3358, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:[null,null,null], loc:"Renoir's Drafts — merchant for 101,608 Chroma", dlc:false},
+    {n:"Barrier Breaker", c:"Maelle", e:"Void",  p:3616, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:[null,null,null], loc:"The Camp — beat 2nd Axon, talk to Curator", dlc:false},
+    {n:"Esqium",     c:"Maelle", e:"Fire",       p:3680, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["On turn start, consume AP above 4 for 50% more damage per AP","On Virtuose, all hits apply Burn","Using a Skill costing <4 AP applies Mark to all enemies"], loc:"Verso's Drafts — defeat Chromatic Franctale", dlc:true},
+    {n:"Licorum",    c:"Maelle", e:"Physical",   p:3551, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:["Each successive Skill hit deals 10% more damage","First hit of Skill applies Mark","Second hit and following don't consume Mark"], loc:"Verso's Drafts — defeat Chromatic Licorne", dlc:true},
+
+    // ---- SCIEL ---- //
+    {n:"Scieleson",  c:"Sciel", e:"Physical",   p:3454, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Sciel's starting weapon", dlc:false},
+    {n:"Chation",    c:"Sciel", e:"Dark",       p:3551, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:["Sun Skills always apply 10 Foretell, but damage taken doubled","Base Attack gives 1 Moon charge, consumes Foretell for Burn","100% increased Burn damage in Twilight"], loc:"Stone Wave Cliffs — defeat enemy group after first Hexga", dlc:false},
+    {n:"Rangeson",   c:"Sciel", e:"Dark",       p:3132, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["Recover 5% HP per Foretell applied","Healing Skills cost 1 less AP","30% increased Heal per Moon charge; Base Attack gives 1 Moon charge"], loc:"Stone Wave Cliffs — merchant for 7,372 Chroma", dlc:false},
+    {n:"Algueron",   c:"Sciel", e:"Ice",        p:3228, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"A"}, pas:["Free Aim shots consume 1 Foretell for 100% more damage","Base Attack applies 3 Foretell","During Twilight, Free Aim shots deal double damage"], loc:"Old Lumiere — entrance merchant for 13,600 Chroma", dlc:false},
+    {n:"Bourgelon",  c:"Sciel", e:"Light",      p:3099, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:["Consuming Foretell applies 2 Burn per Sun Charge","100% increased Burn damage in Twilight","Sun Skills give one more charge"], loc:"The Monolith — Tainted Waters, defeat Chromatic Bourgeon", dlc:false},
+    {n:"Gobluson",   c:"Sciel", e:"Fire",       p:3358, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["During Twilight, Foretell applied also affects another random enemy","Apply 1 Burn every 3 Foretell applied with Skills","20% increased Fire damage with Skills"], loc:"Coastal Cave — merchant Cruler for 19,240 Chroma", dlc:false},
+    {n:"Lusteson",   c:"Sciel", e:"Dark",       p:3422, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:["Killing enemy with Foretell spreads Foretell to another","Apply Mark on consuming Foretell","20% increased Dark damage with Skills"], loc:"Forgotten Battlefield — defeat Chromatic Luster", dlc:false},
+    {n:"Hevason",    c:"Sciel", e:"Physical",   p:3454, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"Gestral Village — defeat Golgra 4 times", dlc:false},
+    {n:"Direton",    c:"Sciel", e:"Earth",      p:4035, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:["+1 AP per Moon charge on turn start","Base Attack gives 1 Moon charge","During Twilight, Base Attack consumes all AP for 50% more damage per AP"], loc:"Falling Leaves — merchant for 30,125 Chroma", dlc:false},
+    {n:"Minason",    c:"Sciel", e:"Physical",   p:2809, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:["Sun Skills do more damage per Foretell on target; Moon Skills no Moon charges","With 1+ Sun charge, +1 AP per Foretell consumed","Base Attack consumes 1 Sun charge to apply 5 Foretell"], loc:"The Crows — defeat Chromatic Chapelier", dlc:false},
+    {n:"Ramasson",   c:"Sciel", e:"Physical",   p:3519, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Forgotten Battlefield — defeat first enemy after giant gate", dlc:false},
+    {n:"Charnon",    c:"Sciel", e:"Void",       p:2970, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:[null,null,null], loc:"Renoir's Drafts — merchant for 89,884 Chroma", dlc:false},
+    {n:"Moisson",    c:"Sciel", e:"Physical",   p:3325, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"The Continent — defeat Chromatic Moissoneuse on red island", dlc:false},
+    {n:"Sadon",      c:"Sciel", e:"Light",      p:2583, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Visages — merchant for 12,400 Chroma", dlc:false},
+    {n:"Garganon",   c:"Sciel", e:"Fire",       p:3132, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"The Monolith — Tainted Hearts, merchant for 26,384 Chroma", dlc:false},
+    {n:"Blizzon",    c:"Sciel", e:"Ice",        p:4197, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:[null,null,null], loc:"Falling Leaves — defeat Chromatic Ballet", dlc:false},
+    {n:"Tisseron",   c:"Sciel", e:"Lightning",  p:3067, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Sirene — defeat Sirene boss", dlc:false},
+    {n:"Martenon",   c:"Sciel", e:"Earth",      p:3874, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:[null,null,null], loc:"Flying Manor — merchant for 97,800 Chroma", dlc:false},
+    {n:"Guleson",    c:"Sciel", e:"Lightning",  p:3132, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Endless Night Sanctuary — merchant for 80,040 Chroma", dlc:false},
+    {n:"Litheson",   c:"Sciel", e:"Physical",   p:2809, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Lumiere Act III — enemy group in Central Plaza", dlc:false},
+    {n:"Corderon",   c:"Sciel", e:"Dark",       p:2744, sc:{vi:"-",mi:"-",ag:"-",df:"S",lk:"A"}, pas:["Curse self on battle start; deal 50% more damage while Cursed","Reset Curse duration when entering Twilight","Play again when entering Twilight"], loc:"Sinister Cave — reach dead merchant in center", dlc:false},
+    {n:"Sucetton",   c:"Sciel", e:"Fire",       p:5948, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Verso's Drafts — defeat Chromatic Barbasucette", dlc:true},
+    {n:"Esquion",    c:"Sciel", e:"Physical",   p:3842, sc:{vi:"A",mi:"-",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Verso's Drafts — sidepath near Mime in Candy Land", dlc:true},
+    {n:"Duollison",  c:"Sciel", e:"Physical",   p:3680, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Endless Tower — defeat Duollistes", dlc:true},
+
+    // ---- MONOCO ---- //
+    {n:"Monocaro",   c:"Monoco", e:"Physical",   p:2744, sc:{vi:"-",mi:"-",ag:"S",df:"-",lk:"A"}, pas:[null,null,null], loc:"Monoco's starting weapon", dlc:false},
+    {n:"Ballaro",    c:"Monoco", e:"Light",      p:3067, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Sirene's Dress — defeat Chromatic Glissando", dlc:false},
+    {n:"Boucharo",   c:"Monoco", e:"Fire",       p:3228, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"S"}, pas:[null,null,null], loc:"Visages — Sadness Vale, defeat final boss", dlc:false},
+    {n:"Brumaro",    c:"Monoco", e:"Physical",   p:3390, sc:{vi:"S",mi:"-",ag:"A",df:"-",lk:"-"}, pas:[null,null,null], loc:"The Continent — defeat Chromatic Aberration on flying island", dlc:false},
+    {n:"Chromaro",   c:"Monoco", e:"Ice",        p:3390, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Renoir's Drafts — merchant for 102,585 Chroma", dlc:false},
+    {n:"Fragaro",    c:"Monoco", e:"Lightning",  p:4197, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:[null,null,null], loc:"The Monolith — Tainted Meadows, merchant for 35,360 Chroma", dlc:false},
+    {n:"Grandaro",   c:"Monoco", e:"Earth",      p:3551, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"Monoco's Station — merchant for 53,901 Chroma", dlc:false},
+    {n:"Joyaro",     c:"Monoco", e:"Lightning",  p:3713, sc:{vi:"-",mi:"-",ag:"S",df:"A",lk:"-"}, pas:[null,null,null], loc:"Endless Night Sanctuary — defeat Ultimate Sakapatate", dlc:false},
+    {n:"Nusaro",     c:"Monoco", e:"Dark",       p:4197, sc:{vi:"A",mi:"-",ag:"S",df:"-",lk:"-"}, pas:[null,null,null], loc:"Old Lumiere — find at end of left path from Right Street Flag", dlc:false},
+    {n:"Sidaro",     c:"Monoco", e:"Dark",       p:3035, sc:{vi:"-",mi:"A",ag:"-",df:"-",lk:"S"}, pas:[null,null,null], loc:"Flying Manor — merchant for 76,610 Chroma", dlc:false},
+    {n:"Urnaro",     c:"Monoco", e:"Earth",      p:3422, sc:{vi:"S",mi:"-",ag:"-",df:"-",lk:"A"}, pas:[null,null,null], loc:"Sky Island — defeat Chromatic Glaisse", dlc:false},
+    {n:"Baguettaro", c:"Monoco", e:"Fire",       p:3745, sc:{vi:"-",mi:"-",ag:"-",df:"A",lk:"S"}, pas:[null,null,null], loc:"Verso's Drafts — defeat the Mime at Candy Land Flag", dlc:true},
+    {n:"Cannaro",    c:"Monoco", e:"Light",      p:3648, sc:{vi:"-",mi:"-",ag:"A",df:"-",lk:"B"}, pas:["Free Aim Shots move Bestial Wheel 1 step forward","25% increased damage per Mask change this turn","Free Aim shots deal double damage in Almighty Mask"], loc:"Verso's Drafts — defeat Chromatic Machinapieds", dlc:true},
+    {n:"Esquiaro",   c:"Monoco", e:"Earth",      p:3745, sc:{vi:"S",mi:"-",ag:"-",df:"A",lk:"-"}, pas:[null,null,null], loc:"Verso's Drafts — attack Gestral blocking diving board at Gestral Baths", dlc:true},
+
+    // ---- SPECIAL: BAGUETTE (NG+) ---- //
+    {n:"Baguette",   c:"Any (NG+)", e:"Void",     p:6873, sc:{vi:"-",mi:"-",ag:"A",df:"S",lk:"-"}, pas:["Kill self on battle start","Revive with 100% HP once per battle","Play first"], loc:"New Game+ — keep a Festival Token from Prologue, exchange in Lumiere", dlc:false}
+  ];
+
+  // Sort by character then name
+  var CHAR_ORDER = { "Gustave/Verso":0, "Lune":1, "Maelle":2, "Sciel":3, "Monoco":4, "Any (NG+)":5 };
+  WEAPON_DATA.sort(function(a,b) {
+    var ca = (CHAR_ORDER[a.c] !== undefined ? CHAR_ORDER[a.c] : 99);
+    var cb = (CHAR_ORDER[b.c] !== undefined ? CHAR_ORDER[b.c] : 99);
+    if (ca !== cb) return ca - cb;
+    return a.n.localeCompare(b.n);
+  });
+
+  // ============================================================
+  // WEAPON STATE
+  // ============================================================
+  var WSTORAGE_KEY = 'expedition33_weapons';
+  var wChecked = {};
+  var wFilter = 'all';
+  var wSearch = '';
+
+  function wLoadState() {
+    try {
+      var raw = localStorage.getItem(WSTORAGE_KEY);
+      if (raw) wChecked = JSON.parse(raw);
+    } catch(e) { wChecked = {}; }
+  }
+  function wSaveState() {
+    try { localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked)); } catch(e) {}
+  }
+  function wIsChecked(name) { return !!wChecked[name]; }
+  function wToggle(name) {
+    if (wChecked[name]) delete wChecked[name];
+    else wChecked[name] = true;
+    wSaveState();
+    wRender();
+  }
+  function wCheckAll() {
+    WEAPON_DATA.forEach(function(w) { wChecked[w.n] = true; });
+    wSaveState();
+    wRender();
+  }
+  function wClearAll() {
+    wChecked = {};
+    wSaveState();
+    wRender();
+  }
+
+  function wGetStats() {
+    var total = WEAPON_DATA.length;
+    var collected = 0;
+    WEAPON_DATA.forEach(function(w) { if (wIsChecked(w.n)) collected++; });
+    return { total: total, collected: collected, pct: total > 0 ? Math.round((collected/total)*100) : 0 };
+  }
+
+  function wMatchesSearch(w, search) {
+    if (!search) return true;
+    var lc = search.toLowerCase();
+    return w.n.toLowerCase().indexOf(lc) !== -1
+        || w.c.toLowerCase().indexOf(lc) !== -1
+        || w.loc.toLowerCase().indexOf(lc) !== -1;
+  }
+
+  function wMatchesFilter(w) {
+    if (wFilter === 'all') return true;
+    if (wFilter === 'checked') return wIsChecked(w.n);
+    if (wFilter === 'unchecked') return !wIsChecked(w.n);
+    if (wFilter === 'dlc') return !!w.dlc;
+    if (wFilter.indexOf('char-') === 0) {
+      var target = wFilter.replace('char-', '');
+      var map = { 'gustave':'Gustave/Verso', 'verso':'Gustave/Verso', 'lune':'Lune', 'maelle':'Maelle', 'sciel':'Sciel', 'monoco':'Monoco' };
+      var full = map[target] || '';
+      if (!full) return true;
+      if (target === 'verso' || target === 'gustave') {
+        return w.c.indexOf('Gustave/Verso') !== -1;
+      }
+      return w.c === full;
+    }
+    return true;
+  }
+
+  function wCharIcon(c) {
+    if (c === 'Gustave/Verso') {
+      return '<span class="char-icon-dual" title="Gustave/Verso">'
+        + '<span class="char-icon"><img src="icons/gustave.png" alt="Gustave"></span>'
+        + '<span class="char-icon"><img src="icons/verso.png" alt="Verso"></span>'
+        + '</span>';
+    }
+    if (c === 'Any (NG+)') {
+      return '<span class="char-icon-all" title="All Characters">'
+        + '<span class="char-icon"><img src="icons/gustave.png" alt="Gustave"></span>'
+        + '<span class="char-icon"><img src="icons/lune.png" alt="Lune"></span>'
+        + '<span class="char-icon"><img src="icons/maelle.png" alt="Maelle"></span>'
+        + '<span class="char-icon"><img src="icons/sciel.png" alt="Sciel"></span>'
+        + '<span class="char-icon"><img src="icons/monoco.png" alt="Monoco"></span>'
+        + '</span>';
+    }
+    var iconMap = {
+      'Gustave':'gustave',
+      'Verso':'verso',
+      'Lune':'lune',
+      'Maelle':'maelle',
+      'Sciel':'sciel',
+      'Monoco':'monoco'
+    };
+    var file = iconMap[c];
+    if (file) {
+      return '<span class="char-icon" title="' + c + '"><img src="icons/' + file + '.png" alt="' + c + '"></span>';
+    }
+    return '<span class="char-icon char-icon-fallback" title="' + c + '">&#9733;</span>';
+  }
+
+  function wScaleBadge(rank) {
+    if (!rank || rank === '-') return '';
+    return '<span class="scale-rank scale-' + rank + '">' + rank + '</span>';
+  }
+
+  // ============================================================
+  // WEAPON RENDER
+  // ============================================================
+  function wRender() {
+    var stats = wGetStats();
+    var grid = document.getElementById('weaponGrid');
+    var visibleCount = 0;
+
+    document.getElementById('weaponProgressFill').style.width = stats.pct + '%';
+    document.getElementById('weaponProgressText').textContent = stats.collected + ' / ' + stats.total;
+
+    // Update hero stats
+    document.getElementById('heroTotal').textContent = stats.total;
+    document.getElementById('heroCollected').textContent = stats.collected;
+    document.getElementById('heroProgress').textContent = stats.pct + '%';
+    document.getElementById('heroTotalLabel').textContent = 'Total Weapons';
+    document.getElementById('heroCollectedLabel').textContent = 'Collected';
+    document.getElementById('heroProgressLabel').textContent = 'Progress';
+
+    var html = '';
+    WEAPON_DATA.forEach(function(w) {
+      var match = wMatchesSearch(w, wSearch) && wMatchesFilter(w);
+      if (match) visibleCount++;
+
+      var chk = wIsChecked(w.n);
+      var cardClass = 'weapon-card' + (chk ? ' checked' : '') + (w.dlc ? ' dlc' : '') + (match ? '' : ' hidden');
+
+      // Element tag
+      var elemTag = '<span class="elem-tag elem-' + w.e + '">' + w.e + '</span>';
+
+      // Scalings
+      var scHTML = '';
+      var scLabels = {vi:'VIT',mi:'MGT',ag:'AGI',df:'DEF',lk:'LCK'};
+      var anyScaling = false;
+      for (var k in scLabels) {
+        if (w.sc[k] && w.sc[k] !== '-') {
+          anyScaling = true;
+          scHTML += '<span class="weapon-scaling-item"><span class="scale-label">' + scLabels[k] + ':</span>' + wScaleBadge(w.sc[k]) + '</span>';
+        }
+      }
+
+      // Passives
+      var pasHTML = '';
+      if (w.pas && w.pas.some(function(p) { return p !== null; })) {
+        var lvLabels = ['Lv.4','Lv.10','Lv.20'];
+        w.pas.forEach(function(p, i) {
+          if (p) {
+            pasHTML += '<div class="weapon-passive"><span class="passive-lv">' + lvLabels[i] + ':</span> ' + p + '</div>';
+          }
+        });
+      } else {
+        pasHTML = '<div class="weapon-passive none">No unique passives</div>';
+      }
+
+      // DLC tag
+      var dlcTag = w.dlc ? '<span class="weapon-dlc-tag">DLC</span>' : '';
+
+      html += '<div class="' + cardClass + '" data-wname="' + w.n.replace(/'/g, '&#39;') + '">'
+        + '<div class="weapon-header">'
+        +   '<div class="weapon-icon-placeholder">&#9876;</div>'
+        +   '<div class="weapon-name">' + w.n + '</div>'
+        +   dlcTag
+        + '</div>'
+        + '<div class="weapon-chars">' + wCharIcon(w.c) + '</div>'
+        + '<div class="weapon-element">' + elemTag + '<span class="weapon-power"><strong>' + (w.p).toLocaleString() + '</strong> Power</span></div>'
+        + (anyScaling ? '<div class="weapon-scalings">' + scHTML + '</div>' : '')
+        + '<div class="weapon-passives">' + pasHTML + '</div>'
+        + '<div class="weapon-location"><strong>Location:</strong> ' + w.loc + '</div>'
+        + '</div>';
+    });
+
+    if (visibleCount === 0 && WEAPON_DATA.length > 0) {
+      html += '<div class="weapon-no-results">No weapons match your search or filter.</div>';
+    }
+
+    grid.innerHTML = html;
+
+    document.getElementById('weaponResultCount').textContent =
+      'Showing ' + visibleCount + ' of ' + stats.total + ' weapons';
+
+    // Click handlers
+    grid.querySelectorAll('.weapon-card').forEach(function(c) {
+      c.addEventListener('click', function() {
+        wToggle(this.getAttribute('data-wname'));
+      });
+    });
+  }
+
+  // ============================================================
+  // TAB SWITCHING
+  // ============================================================
+  function initTabs() {
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tab = this.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.add('hidden'); });
+        document.getElementById('tab-' + tab).classList.remove('hidden');
+
+        // Update hero subtitle
+        var sub = document.getElementById('heroSub');
+        if (tab === 'pictos') {
+          sub.textContent = 'The complete tracker \u2014 every Picto, every Weapon, every detail';
+        } else {
+          sub.textContent = 'All ' + WEAPON_DATA.length + ' weapons \u2014 stats, passives, locations & more';
+        }
+
+        // Refresh hero stats on tab switch
+        if (tab === 'weapons') {
+          if (!window._weaponsRendered) {
+            wRender();
+            window._weaponsRendered = true;
+          } else {
+            // Just update hero stats without rebuilding grid
+            var ws = wGetStats();
+            document.getElementById('heroTotal').textContent = ws.total;
+            document.getElementById('heroCollected').textContent = ws.collected;
+            document.getElementById('heroProgress').textContent = ws.pct + '%';
+            document.getElementById('heroTotalLabel').textContent = 'Total Weapons';
+            document.getElementById('heroCollectedLabel').textContent = 'Collected';
+            document.getElementById('heroProgressLabel').textContent = 'Progress';
+          }
+        } else {
+          // Pictos tab — restore hero stats from picto data
+          var ps = getStats();
+          document.getElementById('heroTotal').textContent = ps.total;
+          document.getElementById('heroCollected').textContent = ps.collected;
+          document.getElementById('heroProgress').textContent = ps.pct + '%';
+          document.getElementById('heroTotalLabel').textContent = 'Total Pictos';
+          document.getElementById('heroCollectedLabel').textContent = 'Collected';
+          document.getElementById('heroProgressLabel').textContent = 'Progress';
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // WEAPONS INIT
+  // ============================================================
+  function initWeapons() {
+    wLoadState();
+
+    document.getElementById('weaponSearch').addEventListener('input', function() {
+      wSearch = this.value;
+      wRender();
+    });
+
+    document.querySelectorAll('#charFilters .filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#charFilters .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        wFilter = this.getAttribute('data-wfilter');
+        wRender();
+      });
+    });
+    document.querySelector('#charFilters .filter-btn[data-wfilter="all"]').classList.add('active');
+
+    document.getElementById('weaponCheckAll').addEventListener('click', wCheckAll);
+    document.getElementById('weaponClearAll').addEventListener('click', wClearAll);
+  }
   </script>
 
 </body>
