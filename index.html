@@ -1360,15 +1360,16 @@
   function doSyncPoll() {
     if (!FIRESTORE_ENABLED) return;
     var code = getSyncCode();
+    console.log('[sync] poll running for code=' + code);
     var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
 
     fetch(url).then(function(r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).then(function(data) {
-      if (!data || !data.fields) return;
+      if (!data || !data.fields) { console.log('[sync] poll no data'); return; }
       // If the sync code changed during the fetch, ignore this response
-      if (getSyncCode() !== code) return;
+      if (getSyncCode() !== code) { console.log('[sync] poll stale'); return; }
 
       var changed = false;
 
@@ -1379,11 +1380,14 @@
         if (pf) {
           for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
         }
+        console.log('[sync] poll pictos: local=' + Object.keys(checked).length + ' remote=' + Object.keys(newP).length);
         if (JSON.stringify(checked) !== JSON.stringify(newP)) {
           checked = newP;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           changed = true;
         }
+      } else {
+        console.log('[sync] poll pictos field missing or null');
       }
 
       // Parse weapons
@@ -1393,14 +1397,18 @@
         if (wf) {
           for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
         }
+        console.log('[sync] poll weapons: local=' + Object.keys(wChecked).length + ' remote=' + Object.keys(newW).length);
         if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
           wChecked = newW;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           changed = true;
         }
+      } else {
+        console.log('[sync] poll weapons field missing or null');
       }
 
       if (changed) {
+        console.log('[sync] poll change detected, calling render()');
         render();
         wRender();
         syncStatusText('Updated!');
@@ -1409,8 +1417,12 @@
           syncStatusText('Synced');
           syncStatusClass('success');
         }, 2500);
+      } else {
+        console.log('[sync] poll no change');
       }
     }).catch(function(e) {
+      console.log('[sync] poll error:', e);
+      syncStatusText('Sync error');
       // Only show errors if we were previously synced (not on initial load)
       syncStatusText('Sync error');
       syncStatusClass('error');
@@ -1522,33 +1534,23 @@
         }
 
         if (exists === true) {
-          // CODE FOUND IN DATABASE → check if it has real data
-          var hasPictos = data && data.pictos && Object.keys(data.pictos).length > 0;
-          var hasWeapons = data && data.weapons && Object.keys(data.weapons).length > 0;
+          // CODE FOUND IN DATABASE → copy DB → browser (download) — even if empty
+          var pCount = data && data.pictos ? Object.keys(data.pictos).length : 0;
+          var wCount = data && data.weapons ? Object.keys(data.weapons).length : 0;
+          console.log('[sync] code found in DB with ' + pCount + ' pictos, ' + wCount + ' weapons, applying to browser');
 
-          if (hasPictos || hasWeapons) {
-            // Document has real data → copy DB → browser (download)
-            console.log('[sync] code found in DB with ' + (hasPictos ? Object.keys(data.pictos).length : 0)
-              + ' pictos, ' + (hasWeapons ? Object.keys(data.weapons).length : 0) + ' weapons, applying to browser');
-            if (hasPictos) {
-              checked = data.pictos;
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-            }
-            if (hasWeapons) {
-              wChecked = data.weapons;
-              localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-            }
-            render();
-            wRender();
-            syncStatusText('Synced');
-            syncStatusClass('success');
-          } else {
-            // Document exists but is empty (corrupted by earlier bug) → save local data to repair
-            console.log('[sync] code found in DB but data is empty, saving local data to repair');
-            syncSaveToFirebase();
-            syncStatusText('New code ready');
-            syncStatusClass('success');
+          if (data && data.pictos) {
+            checked = data.pictos;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           }
+          if (data && data.weapons) {
+            wChecked = data.weapons;
+            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          }
+          render();
+          wRender();
+          syncStatusText('Synced');
+          syncStatusClass('success');
 
         } else if (exists === false) {
           // CODE NOT FOUND IN DATABASE → copy browser → DB (create entry)
@@ -2051,34 +2053,25 @@
         return;
       }
       if (exists === true && data) {
-        var hasPictos = data.pictos && typeof data.pictos === 'object' && Object.keys(data.pictos).length > 0;
-        var hasWeapons = data.weapons && typeof data.weapons === 'object' && Object.keys(data.weapons).length > 0;
-
-        if (hasPictos || hasWeapons) {
-          var changed = false;
-          if (hasPictos) {
-            console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
-            checked = data.pictos;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-            changed = true;
-          }
-          if (hasWeapons) {
-            console.log('[sync] initial load weapons:', Object.keys(data.weapons).length);
-            wChecked = data.weapons;
-            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-            changed = true;
-          }
-          if (changed) {
-            render();
-            wRender();
-          }
-          syncStatusText('Synced');
-          syncStatusClass('success');
-        } else {
-          // Doc exists but empty — keep local data
-          syncStatusText('Using local');
-          syncStatusClass('');
+        var changed = false;
+        if (data.pictos && typeof data.pictos === 'object') {
+          console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
+          checked = data.pictos;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          changed = true;
         }
+        if (data.weapons && typeof data.weapons === 'object') {
+          console.log('[sync] initial load weapons:', Object.keys(data.weapons).length);
+          wChecked = data.weapons;
+          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          changed = true;
+        }
+        if (changed) {
+          render();
+          wRender();
+        }
+        syncStatusText('Synced');
+        syncStatusClass('success');
       } else {
         // Doc not found or error — keep local data
         syncStatusText('Using local');
