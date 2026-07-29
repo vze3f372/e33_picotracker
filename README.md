@@ -23,7 +23,9 @@ A comprehensive single-page checklist and reference for every **Picto** in *Clai
 The site draws from the game's **Belle Époque** meets **chiaroscuro** aesthetic:
 - Dark, oil-painted backgrounds
 - Gold accents and ornamental dividers
-- Serif display typography (Cormorant Garamond)
+- **Cinzel** for headings, **IM Fell Double Pica** for body text
+- **EB Garamond** for descriptions and flavour text
+- **Bebas Neue** for numbers, **Abril Fatface** for display stats
 - Subtle glow gradients and frameless cards
 
 ---
