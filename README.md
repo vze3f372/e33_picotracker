@@ -21,12 +21,14 @@ A comprehensive single-page checklist and reference for every **Picto** in *Clai
 ## Visual Style
 
 The site draws from the game's **Belle Époque** meets **chiaroscuro** aesthetic:
-- Dark, oil-painted backgrounds
-- Gold accents and ornamental dividers
-- **Cinzel** for headings, **IM Fell Double Pica** for body text
+- Dark, oil-painted backgrounds with radial glow gradients
+- Gold accents, ornamental dividers, and decorative fleurons
+- **Cinzel** for the game title logo and all headings
+- **IM Fell Double Pica** for body text
 - **EB Garamond** for descriptions and flavour text
 - **Bebas Neue** for numbers, **Abril Fatface** for display stats
-- Subtle glow gradients and frameless cards
+- Prominent title treatment with "Clair **Obscur**" highlighted in gold
+- Frameless card layout with subtle borders
 
 ---
 
