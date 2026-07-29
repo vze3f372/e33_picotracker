@@ -1359,28 +1359,6 @@
     return code;
   }
 
-  /** Save both pictos + weapons to Firestore (fire-and-forget). */
-  function syncSaveToFirebase() {
-    if (!db) return;
-    var code = getSyncCode();
-    db.collection('e33_saves').doc(code).set({
-      pictos: checked,
-      weapons: wChecked,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(function() {});
-  }
-
-  /** Load pictos + weapons from Firestore. Calls callback(data) or callback(null). */
-  function syncLoadFromFirebase(callback) {
-    if (!db) { callback(null); return; }
-    var code = getSyncCode();
-    db.collection('e33_saves').doc(code).get().then(function(doc) {
-      callback(doc.exists ? doc.data() : null);
-    }).catch(function() {
-      callback(null);
-    });
-  }
-
   // ============================================================
   // SYNC UI
   // ============================================================
