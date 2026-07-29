@@ -1283,6 +1283,7 @@
     for (var k in checked) { if (checked.hasOwnProperty(k)) pictosFields[k] = { 'booleanValue': true }; }
     var weaponsFields = {};
     for (var k in wChecked) { if (wChecked.hasOwnProperty(k)) weaponsFields[k] = { 'booleanValue': true }; }
+    console.log('[sync] SAVE code=' + code + ' pictos=' + Object.keys(pictosFields).length + ' weapons=' + Object.keys(weaponsFields).length);
 
     var doc = {
       'fields': {
@@ -1316,13 +1317,14 @@
   function syncLoadFromFirebase(callback) {
     if (!FIRESTORE_ENABLED) { callback(null); return; }
     var code = getSyncCode();
+    console.log('[sync] LOAD code=' + code);
     var url = FIRESTORE_BASE + 'e33_saves/' + code + FIRESTORE_KEY;
 
     fetch(url).then(function(response) {
-      if (!response.ok) { callback(null); return; }
+      if (!response.ok) { console.log('[sync] LOAD failed:', response.status); callback(null); return; }
       return response.json();
     }).then(function(data) {
-      if (!data || !data.fields) { callback(null); return; }
+      if (!data || !data.fields) { console.log('[sync] LOAD no data'); callback(null); return; }
       var result = {};
 
       if (data.fields.pictos && data.fields.pictos.mapValue && data.fields.pictos.mapValue.fields) {
@@ -2000,11 +2002,13 @@
       if (data) {
         var changed = false;
         if (data.pictos && typeof data.pictos === 'object') {
+          console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
           checked = data.pictos;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           changed = true;
         }
         if (data.weapons && typeof data.weapons === 'object') {
+          console.log('[sync] initial load weapons:', Object.keys(data.weapons).length);
           wChecked = data.weapons;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           changed = true;
