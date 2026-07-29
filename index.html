@@ -940,6 +940,76 @@
     /* ============================================
        RESPONSIVE TWEAKS
        ============================================ */
+    /* ============================================
+       SYNC BAR
+       ============================================ */
+    .sync-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .sync-bar .sync-icon {
+      font-size: 0.85rem;
+    }
+    .sync-bar .sync-code {
+      font-family: var(--font-numbers);
+      font-size: 0.85rem;
+      color: var(--gold);
+      background: var(--bg-well);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+    }
+    .sync-btn {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sync-btn:hover {
+      border-color: var(--gold-dark);
+      color: var(--gold);
+    }
+    .sync-input {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      width: 115px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sync-input:focus {
+      border-color: var(--gold-dark);
+    }
+    .sync-input::placeholder {
+      color: var(--text-muted);
+    }
+    .sync-status {
+      font-size: 0.7rem;
+      font-style: italic;
+      color: var(--text-muted);
+      min-width: 5rem;
+      text-align: left;
+    }
+    .sync-status.success { color: #6aaa7a; }
+    .sync-status.error { color: #d55a5a; }
+    .sync-disabled { display: none !important; }
+
     @media (max-width: 40em) {
       .hero { padding: 2.5rem 1rem 1.5rem; }
       .game-logo { max-width: 95%; }
@@ -949,6 +1019,8 @@
       .controls-row { flex-direction: column; align-items: stretch; }
       .control-actions { margin-left: 0; }
       .search-wrap { min-width: 0; }
+      .sync-bar { font-size: 0.7rem; gap: 0.3rem; }
+      .sync-input { width: 90px; }
     }
   </style>
 </head>
@@ -974,6 +1046,17 @@
           <div class="hero-stat-label" id="heroProgressLabel">Progress</div>
         </div>
       </div>
+
+      <div class="sync-bar" id="syncBar">
+        <span class="sync-icon">&#128279;</span>
+        <span class="sync-label">Sync:</span>
+        <code class="sync-code" id="syncCodeDisplay">------</code>
+        <button class="sync-btn" id="syncCopyBtn">Copy</button>
+        <input class="sync-input" type="text" id="syncInput" placeholder="Enter code..." maxlength="20">
+        <button class="sync-btn" id="syncApplyBtn">Sync</button>
+        <span class="sync-status" id="syncStatus"></span>
+      </div>
+
     </div>
   </header>
 
@@ -1164,7 +1247,180 @@
     <p style="margin-top:0.5rem;">Data sourced from community guides. Last updated for the <strong>Thank You Update</strong> (Verso&rsquo;s Drafts DLC).</p>
   </footer>
 
+  <!-- Firebase SDK (loaded async so it never blocks the page) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
   <script>
+  // ============================================================
+  // FIREBASE / SYNC CONFIG
+  // ============================================================
+  // To enable cross-device sync:
+  //   1. Go to https://console.firebase.google.com/ and create a project
+  //   2. Enable Firestore Database (start in test mode)
+  //   3. Click "Add app" -> "Web" -> copy the config object
+  //   4. Paste the values below (replace the placeholders)
+  //   5. Refresh the page — the sync bar will appear
+  // ============================================================
+  var FIREBASE_CONFIG = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  var FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
+  var db = null;
+  var SYNC_CODE_KEY = 'exp33_sync_code';
+
+  if (FIREBASE_ENABLED) {
+    try {
+      firebase.initializeApp(FIREBASE_CONFIG);
+      db = firebase.firestore();
+      db.settings({ merge: true });
+    } catch(e) {
+      console.warn('Firebase init failed; sync disabled.');
+      db = null;
+    }
+  }
+
+  function generateSyncCode() {
+    var chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+    var code = 'exp33-';
+    for (var i = 0; i < 8; i++) {
+      if (i === 4) code += '-';
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  function getSyncCode() {
+    var code = localStorage.getItem(SYNC_CODE_KEY);
+    if (!code) {
+      code = generateSyncCode();
+      localStorage.setItem(SYNC_CODE_KEY, code);
+    }
+    return code;
+  }
+
+  function setSyncCode(code) {
+    localStorage.setItem(SYNC_CODE_KEY, code);
+    return code;
+  }
+
+  /** Save both pictos + weapons to Firestore (fire-and-forget). */
+  function syncSaveToFirebase() {
+    if (!db) return;
+    var code = getSyncCode();
+    db.collection('e33_saves').doc(code).set({
+      pictos: checked,
+      weapons: wChecked,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function() {});
+  }
+
+  /** Load pictos + weapons from Firestore. Calls callback(data) or callback(null). */
+  function syncLoadFromFirebase(callback) {
+    if (!db) { callback(null); return; }
+    var code = getSyncCode();
+    db.collection('e33_saves').doc(code).get().then(function(doc) {
+      callback(doc.exists ? doc.data() : null);
+    }).catch(function() {
+      callback(null);
+    });
+  }
+
+  // ============================================================
+  // SYNC UI
+  // ============================================================
+  function syncStatusText(msg) {
+    var el = document.getElementById('syncStatus');
+    if (!el) return;
+    el.textContent = msg;
+  }
+
+  function syncStatusClass(cls) {
+    var el = document.getElementById('syncStatus');
+    if (!el) return;
+    el.className = 'sync-status' + (cls ? ' ' + cls : '');
+  }
+
+  function syncUpdateCodeDisplay() {
+    var el = document.getElementById('syncCodeDisplay');
+    if (el) el.textContent = getSyncCode();
+  }
+
+  function initSyncUI() {
+    if (!FIREBASE_ENABLED) {
+      var bar = document.getElementById('syncBar');
+      if (bar) bar.classList.add('sync-disabled');
+      return;
+    }
+
+    syncUpdateCodeDisplay();
+    syncStatusText('Syncing…');
+    syncStatusClass('');
+
+    document.getElementById('syncCopyBtn').addEventListener('click', function() {
+      var code = getSyncCode();
+      navigator.clipboard.writeText(code).then(function() {
+        syncStatusText('Copied!');
+        syncStatusClass('success');
+      }).catch(function() {
+        // Fallback: select and copy manually
+        syncStatusText('Copy manually');
+        syncStatusClass('');
+      });
+    });
+
+    document.getElementById('syncApplyBtn').addEventListener('click', function() {
+      var input = document.getElementById('syncInput').value.trim().toLowerCase();
+      if (!input || input.indexOf('exp33-') !== 0) {
+        syncStatusText('Invalid code');
+        syncStatusClass('error');
+        return;
+      }
+
+      syncStatusText('Saving…');
+      syncStatusClass('');
+
+      // Save current data to the NEW code first, then reload
+      setSyncCode(input);
+      syncSaveToFirebase();
+
+      // Now load from the new code to merge any existing data
+      syncLoadFromFirebase(function(data) {
+        var changed = false;
+        if (data) {
+          if (data.pictos) {
+            checked = data.pictos;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+            changed = true;
+          }
+          if (data.weapons) {
+            wChecked = data.weapons;
+            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+            changed = true;
+          }
+          if (changed) {
+            render();
+            wRender();
+          }
+          syncStatusText('Synced');
+          syncStatusClass('success');
+        } else {
+          // No existing data under new code; our save created it
+          syncStatusText('New code ready');
+          syncStatusClass('success');
+        }
+        document.getElementById('syncInput').value = '';
+        syncUpdateCodeDisplay();
+      });
+    });
+  }
+
   // ============================================================
   // PICTO DATA
   // ============================================================
@@ -1463,6 +1719,7 @@
 
   function saveState() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch(e) {}
+    syncSaveToFirebase();
   }
 
   function isChecked(name) { return !!checked[name]; }
@@ -1625,6 +1882,35 @@
     // Action buttons
     document.getElementById('checkAllBtn').addEventListener('click', checkAll);
     document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+    // ========== SYNC UI INIT ==========
+    initSyncUI();
+
+    // ========== FIREBASE ASYNC LOAD ==========
+    syncLoadFromFirebase(function(data) {
+      if (data) {
+        var changed = false;
+        if (data.pictos && typeof data.pictos === 'object') {
+          checked = data.pictos;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          changed = true;
+        }
+        if (data.weapons && typeof data.weapons === 'object') {
+          wChecked = data.weapons;
+          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          changed = true;
+        }
+        if (changed) {
+          render();
+          wRender();
+        }
+        syncStatusText('Synced');
+        syncStatusClass('success');
+      } else {
+        syncStatusText('Using local');
+        syncStatusClass('');
+      }
+    });
 
     // ========== WEAPONS INIT ==========
     initWeapons();
@@ -1795,6 +2081,7 @@
   }
   function wSaveState() {
     try { localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked)); } catch(e) {}
+    syncSaveToFirebase();
   }
   function wIsChecked(name) { return !!wChecked[name]; }
   function wToggle(name) {
