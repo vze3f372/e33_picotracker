@@ -1030,6 +1030,95 @@
     .sync-status.error { color: #d55a5a; }
     .sync-disabled { display: none !important; }
 
+    /* ============================================
+       ACHIEVEMENTS
+       ============================================ */
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .achievement-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      user-select: none;
+    }
+    .achievement-card:hover { background: var(--bg-card-hover); }
+    .achievement-card.checked {
+      background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+      border-color: var(--gold-dark);
+    }
+    .achievement-card.hidden { display: none; }
+    .achievement-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      border: 2px solid;
+    }
+    .achievement-icon.rarity-platinum { background: rgba(180,160,220,0.15); border-color: #b4a0dc; color: #d4c0f0; }
+    .achievement-icon.rarity-gold    { background: rgba(201,168,76,0.15);  border-color: #c9a84c; color: #e8d080; }
+    .achievement-icon.rarity-silver  { background: rgba(180,190,200,0.15); border-color: #b4bec8; color: #d0d8e0; }
+    .achievement-icon.rarity-bronze  { background: rgba(180,130,80,0.15);  border-color: #b48250; color: #d4a070; }
+    .achievement-card.checked .achievement-icon.rarity-platinum { background: rgba(180,160,220,0.35); color: #e8d8ff; }
+    .achievement-card.checked .achievement-icon.rarity-gold    { background: rgba(201,168,76,0.35);  color: #ffe8a0; }
+    .achievement-card.checked .achievement-icon.rarity-silver  { background: rgba(180,190,200,0.35); color: #e8f0f8; }
+    .achievement-card.checked .achievement-icon.rarity-bronze  { background: rgba(180,130,80,0.35);  color: #e8c090; }
+    .achievement-info { flex: 1; min-width: 0; }
+    .achievement-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .achievement-card.checked .achievement-name { color: var(--gold); }
+    .achievement-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+      line-height: 1.4;
+    }
+    .achievement-extra {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+      flex-wrap: wrap;
+    }
+    .achievement-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      background: var(--bg-well);
+      color: var(--text-muted);
+    }
+    .achievement-tag.secret { background: rgba(180,130,80,0.2); color: #c49060; }
+    .achievement-tag.missable { background: rgba(200,80,80,0.2); color: #d07070; }
+    .achievement-no-results {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 3rem 1rem;
+    }
+    .achievement-result-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
     @media (max-width: 40em) {
       .hero { padding: 2.5rem 1rem 1.5rem; }
       .game-logo { max-width: 95%; }
@@ -1096,6 +1185,7 @@
       <button class="tab-btn" data-tab="info">&#8505; Info</button>
       <button class="tab-btn active" data-tab="pictos">&#9670; Pictos</button>
       <button class="tab-btn" data-tab="weapons">&#9876; Weapons</button>
+      <button class="tab-btn" data-tab="achievements"><svg viewBox="0 0 14 14" width="13" height="13" style="vertical-align:-2px;margin-right:3px;" fill="currentColor"><path d="M7 1L8.5 5H13L9.5 7.5L11 12L7 9.5L3 12L4.5 7.5L1 5H5.5Z"/></svg> Achievements</button>
     </div>
   </div>
 
@@ -1314,6 +1404,40 @@
     <p style="margin-top:0.5rem;">Data sourced from community guides. Last updated for the <strong>Thank You Update</strong> (Verso&rsquo;s Drafts DLC).</p>
   </footer>
 
+  <!-- ========== TAB: ACHIEVEMENTS CONTENT ========== -->
+  <div class="tab-content hidden" id="tab-achievements">
+
+  <section class="container" id="achievement-checklist">
+    <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+
+    <div class="controls">
+      <div class="controls-row">
+        <div class="filter-group" id="rarityFilters">
+          <button class="filter-btn" data-afilter="all">All</button>
+          <button class="filter-btn" data-afilter="checked">&#10003; Earned</button>
+          <button class="filter-btn" data-afilter="unchecked">&#9711; Missing</button>
+          <button class="filter-btn" data-afilter="rarity-platinum">Platinum</button>
+          <button class="filter-btn" data-afilter="rarity-gold">Gold</button>
+          <button class="filter-btn" data-afilter="rarity-silver">Silver</button>
+          <button class="filter-btn" data-afilter="rarity-bronze">Bronze</button>
+        </div>
+      </div>
+      <div class="controls-row">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar">
+            <div class="progress-fill" id="achievementProgressFill" style="width:0%"></div>
+          </div>
+          <span class="progress-text" id="achievementProgressText">0 / 55</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="achievement-grid" id="achievementGrid"></div>
+    <div class="achievement-result-count" id="achievementResultCount"></div>
+  </section>
+
+  </div><!-- /tab-achievements -->
+
   <script>
   // ============================================================
   // FIREBASE / SYNC CONFIG
@@ -1344,12 +1468,15 @@
     for (var k in checked) { if (checked.hasOwnProperty(k)) pictosFields[k] = { 'booleanValue': true }; }
     var weaponsFields = {};
     for (var k in wChecked) { if (wChecked.hasOwnProperty(k)) weaponsFields[k] = { 'booleanValue': true }; }
-    console.log('[sync] SAVE code=' + code + ' pictos=' + Object.keys(pictosFields).length + ' weapons=' + Object.keys(weaponsFields).length);
+    var achievementsFields = {};
+    for (var k in aChecked) { if (aChecked.hasOwnProperty(k)) achievementsFields[k] = { 'booleanValue': true }; }
+    console.log('[sync] SAVE code=' + code + ' pictos=' + Object.keys(pictosFields).length + ' weapons=' + Object.keys(weaponsFields).length + ' achievements=' + Object.keys(achievementsFields).length);
 
     var doc = {
       'fields': {
         'pictos': { 'mapValue': { 'fields': pictosFields } },
         'weapons': { 'mapValue': { 'fields': weaponsFields } },
+        'achievements': { 'mapValue': { 'fields': achievementsFields } },
         'updatedAt': { 'timestampValue': new Date().toISOString() }
       }
     };
@@ -1411,8 +1538,18 @@
         }
       }
 
+      if (data.fields.achievements && data.fields.achievements.mapValue) {
+        var af = data.fields.achievements.mapValue.fields;
+        if (af) {
+          var temp = {};
+          for (var key in af) { if (af[key].booleanValue) temp[key] = true; }
+          if (Object.keys(temp).length > 0) result.achievements = temp;
+        }
+      }
+
       console.log('[sync] LOAD parsed result.pictos=' + (result.pictos ? Object.keys(result.pictos).length : 0)
-        + ' result.weapons=' + (result.weapons ? Object.keys(result.weapons).length : 0));
+        + ' result.weapons=' + (result.weapons ? Object.keys(result.weapons).length : 0)
+        + ' result.achievements=' + (result.achievements ? Object.keys(result.achievements).length : 0));
       callback(result, true);
     }).catch(function() {
       callback(null, null);
@@ -1480,10 +1617,32 @@
         console.log('[sync] poll weapons field missing or null');
       }
 
+      // Parse achievements
+      if (data.fields.achievements && data.fields.achievements.mapValue) {
+        var newA = {};
+        var af = data.fields.achievements.mapValue.fields;
+        if (af) {
+          for (var key in af) { if (af[key].booleanValue) newA[key] = true; }
+        }
+        console.log('[sync] poll achievements: local=' + Object.keys(aChecked).length + ' remote=' + Object.keys(newA).length);
+        if (Object.keys(newA).length > 0 || Object.keys(aChecked).length === 0) {
+          if (JSON.stringify(aChecked) !== JSON.stringify(newA)) {
+            aChecked = newA;
+            localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
+            changed = true;
+          }
+        } else {
+          console.log('[sync] poll achievements: remote is empty but local has data, keeping local');
+        }
+      } else {
+        console.log('[sync] poll achievements field missing or null');
+      }
+
       if (changed) {
         console.log('[sync] poll change detected, calling render()');
         render();
         wRender();
+        aRender();
         syncStatusText('Updated!');
         syncStatusClass('success');
         setTimeout(function() {
@@ -1610,7 +1769,8 @@
           // CODE FOUND IN DATABASE → copy DB → browser (download) — even if empty
           var pCount = data && data.pictos ? Object.keys(data.pictos).length : 0;
           var wCount = data && data.weapons ? Object.keys(data.weapons).length : 0;
-          console.log('[sync] code found in DB with ' + pCount + ' pictos, ' + wCount + ' weapons, applying to browser');
+          var aCount = data && data.achievements ? Object.keys(data.achievements).length : 0;
+          console.log('[sync] code found in DB with ' + pCount + ' pictos, ' + wCount + ' weapons, ' + aCount + ' achievements, applying to browser');
 
           if (data && data.pictos) {
             checked = data.pictos;
@@ -1620,8 +1780,13 @@
             wChecked = data.weapons;
             localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           }
+          if (data && data.achievements) {
+            aChecked = data.achievements;
+            localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
+          }
           render();
           wRender();
+          aRender();
           syncStatusText('Synced');
           syncStatusClass('success');
 
@@ -1916,9 +2081,12 @@
   // APP STATE
   // ============================================================
   var STORAGE_KEY = 'expedition33_pictos';
+  var ACH_KEY = 'expedition33_achievements';
   var checked = {};
+  var aChecked = {};
   var currentFilter = 'all';
   var currentSearch = '';
+  var aFilter = 'all';
 
   // ============================================================
   // HELPERS
@@ -2139,9 +2307,16 @@
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           changed = true;
         }
+        if (data.achievements && typeof data.achievements === 'object' && Object.keys(data.achievements).length > 0) {
+          console.log('[sync] initial load achievements:', Object.keys(data.achievements).length);
+          aChecked = data.achievements;
+          localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
+          changed = true;
+        }
         if (changed) {
           render();
           wRender();
+          aRender();
         }
         syncStatusText('Synced');
         syncStatusClass('success');
@@ -2154,6 +2329,9 @@
 
     // ========== SYNC POLLING ==========
     startSyncPolling();
+
+    // ========== ACHIEVEMENTS INIT ==========
+    initAchievements();
 
     // ========== WEAPONS INIT ==========
     initWeapons();
@@ -2309,6 +2487,69 @@
   });
 
   // ============================================================
+  // ACHIEVEMENT DATA
+  // ============================================================
+  // Fields: name, desc, rarity (bronze/silver/gold/platinum), secret, missable
+  var ACHIEVEMENT_DATA = [
+    {n:"The Greatest Expedition in History", d:"Obtain all trophies.",                          r:"platinum", s:false, m:false},
+    {n:"The End",                           d:"Reach the end.",                                r:"gold",    s:true,  m:false},
+    {n:"Peace At Last",                     d:"Beat Simon.",                                   r:"gold",    s:true,  m:false},
+    {n:"Paintress",                         d:"Defeat the Paintress.",                         r:"silver",  s:true,  m:false},
+    {n:"Clea",                              d:"Beat Clea.",                                    r:"silver",  s:true,  m:false},
+    {n:"\"Endless\"",                       d:"Reach the top of the Endless Tower.",            r:"silver",  s:true,  m:false},
+    {n:"Noir et Blanc",                     d:"Solve the Painting Workshop's mystery.",         r:"silver",  s:true,  m:false},
+    {n:"Feet Collection",                   d:"Acquire all of Monoco's skills.",                r:"silver",  s:true,  m:false},
+    {n:"Lumi\u00e8re",                     d:"Embark on the Expedition.",                      r:"bronze",  s:true,  m:false},
+    {n:"Spring Meadows",                    d:"Find your way through Spring Meadows.",          r:"bronze",  s:true,  m:false},
+    {n:"Flying Waters",                     d:"Find your way through Flying Waters.",           r:"bronze",  s:true,  m:false},
+    {n:"Ancient Sanctuary",                 d:"Find your way through Ancient Sanctuary.",       r:"bronze",  s:true,  m:false},
+    {n:"Gestral Village",                   d:"Find your way through Gestral Village.",         r:"bronze",  s:true,  m:false},
+    {n:"Esquie's Nest",                     d:"Find your way through Esquie's Nest.",           r:"bronze",  s:true,  m:false},
+    {n:"Stone Wave Cliffs",                 d:"Find your way through Stone Wave Cliffs.",       r:"bronze",  s:true,  m:false},
+    {n:"Forgotten Battlefield",             d:"Find your way through Forgotten Battlefield.",   r:"bronze",  s:true,  m:false},
+    {n:"Monoco's Station",                  d:"Find your way through Monoco's Station.",        r:"bronze",  s:true,  m:false},
+    {n:"Old Lumi\u00e8re",                 d:"Find your way through Old Lumi\u00e8re.",        r:"bronze",  s:true,  m:false},
+    {n:"First Axon",                        d:"Defeat the first Axon.",                        r:"bronze",  s:true,  m:false},
+    {n:"Second Axon",                       d:"Defeat the second Axon.",                       r:"bronze",  s:true,  m:false},
+    {n:"Monolith",                          d:"Reach the Monolith.",                           r:"bronze",  s:true,  m:false},
+    {n:"Back to Lumi\u00e8re",             d:"Return to Lumi\u00e8re.",                       r:"bronze",  s:true,  m:false},
+    {n:"Plane, Train, and Submarine",       d:"Discover all of Esquie's abilities.",           r:"bronze",  s:true,  m:false},
+    {n:"Follow The Trail",                  d:"Find all of the journals from prior expeditions.", r:"bronze", s:false, m:true},
+    {n:"Aiding the Enemy",                  d:"Finish all of the Nevron quests.",              r:"bronze",  s:true,  m:true},
+    {n:"Gestral Games",                     d:"Win all of the Gestral games.",                 r:"bronze",  s:true,  m:false},
+    {n:"Lost Gestrals",                     d:"Find all of the Lost Gestrals.",                r:"bronze",  s:true,  m:false},
+    {n:"\u00c0 On",                        d:"Beat the Serpenphare.",                         r:"bronze",  s:true,  m:false},
+    {n:"Sprong",                            d:"Beat Sprong.",                                  r:"bronze",  s:false, m:false},
+    {n:"Sciel",                             d:"Reach relationship level 7 with Sciel.",         r:"bronze",  s:true,  m:false},
+    {n:"Monoco",                            d:"Reach relationship level 7 with Monoco.",        r:"bronze",  s:true,  m:false},
+    {n:"Maelle",                            d:"Reach relationship level 7 with Maelle.",        r:"bronze",  s:true,  m:true},
+    {n:"Lune",                              d:"Reach relationship level 7 with Lune.",          r:"bronze",  s:true,  m:false},
+    {n:"Esquie",                            d:"Reach relationship level 7 with Esquie.",        r:"bronze",  s:true,  m:false},
+    {n:"Weapon Upgrade",                    d:"Upgrade a weapon once.",                        r:"bronze",  s:false, m:false},
+    {n:"Weapon Mastery",                    d:"Fully upgrade a weapon.",                       r:"bronze",  s:false, m:false},
+    {n:"Lumina",                            d:"Consume a Lumina point.",                       r:"bronze",  s:false, m:false},
+    {n:"Expeditioner",                      d:"Reach level 33.",                               r:"bronze",  s:false, m:false},
+    {n:"Trailbreaker",                      d:"Reach level 66.",                               r:"bronze",  s:false, m:false},
+    {n:"Survivor",                          d:"Reach level 99.",                               r:"bronze",  s:false, m:false},
+    {n:"Overcharge",                        d:"With Gustave, use a fully charged Overcharge that Breaks an enemy.", r:"bronze", s:false, m:true},
+    {n:"Perfect Flow",                      d:"With Lune, consume Stains 4 turns in a row.",    r:"bronze",  s:true,  m:false},
+    {n:"Synergy",                           d:"With Maelle, use Perc\u00e9e on a Marked enemy while in Virtuose Stance.", r:"bronze", s:true, m:false},
+    {n:"Maximisation",                      d:"With Sciel, consume 20 Foretell on a single target during Twilight.", r:"bronze", s:true, m:false},
+    {n:"Perfection",                        d:"With Verso, reach Rank S.",                     r:"bronze",  s:true,  m:false},
+    {n:"Wheel Control",                     d:"With Monoco, cast an Upgraded Skill 4 turns in a row.", r:"bronze", s:true, m:false},
+    {n:"Carreau Parfait",                   d:"Beat the Chromatic P\u00e9tank.",              r:"bronze",  s:true,  m:false},
+    {n:"Expedition 33",                     d:"Unlock all playable characters.",               r:"bronze",  s:true,  m:false},
+    {n:"Chroma Proficiency",                d:"Use a level 3 Gradient Attack.",                r:"bronze",  s:true,  m:false},
+    {n:"Connoisseur",                       d:"Find all 33 music records.",                    r:"bronze",  s:false, m:true},
+    {n:"Paint Cage",                        d:"Break a Paint Cage.",                           r:"bronze",  s:false, m:false},
+    {n:"Time to Spill Some Ink",            d:"Break an enemy.",                               r:"bronze",  s:false, m:false},
+    {n:"Professional",                      d:"Defeat a boss without taking any damage.",      r:"bronze",  s:false, m:false},
+    {n:"Curious",                           d:"Witness an optional scene at camp.",             r:"bronze",  s:false, m:false},
+    {n:"Legend",                            d:"Unlock Esquie.",                                r:"bronze",  s:false, m:false},
+    {n:"A Peculiar Encounter",              d:"Defeat the Mime in Lumi\u00e8re.",             r:"bronze",  s:false, m:true}
+  ];
+
+  // ============================================================
   // WEAPON STATE
   // ============================================================
   var WSTORAGE_KEY = 'expedition33_weapons';
@@ -2377,6 +2618,41 @@
     return true;
   }
 
+  // ============================================================
+  // ACHIEVEMENT STATE
+  // ============================================================
+  function aLoadState() {
+    try { var raw = localStorage.getItem(ACH_KEY); if (raw) aChecked = JSON.parse(raw); }
+    catch(e) { aChecked = {}; }
+  }
+  function aSaveState() {
+    try { localStorage.setItem(ACH_KEY, JSON.stringify(aChecked)); } catch(e) {}
+    syncSaveToFirebase();
+  }
+  function aIsChecked(name) { return !!aChecked[name]; }
+  function aToggle(name) {
+    if (aChecked[name]) delete aChecked[name];
+    else aChecked[name] = true;
+    aSaveState();
+    aRender();
+  }
+  function aGetStats() {
+    var total = ACHIEVEMENT_DATA.length;
+    var earned = 0;
+    ACHIEVEMENT_DATA.forEach(function(a) { if (aIsChecked(a.n)) earned++; });
+    return { total: total, earned: earned, pct: total > 0 ? Math.round((earned/total)*100) : 0 };
+  }
+  function aMatchesFilter(a) {
+    if (aFilter === 'all') return true;
+    if (aFilter === 'checked') return aIsChecked(a.n);
+    if (aFilter === 'unchecked') return !aIsChecked(a.n);
+    if (aFilter === 'rarity-platinum') return a.r === 'platinum';
+    if (aFilter === 'rarity-gold') return a.r === 'gold';
+    if (aFilter === 'rarity-silver') return a.r === 'silver';
+    if (aFilter === 'rarity-bronze') return a.r === 'bronze';
+    return true;
+  }
+
   function wCharIcon(c) {
     if (c === 'Gustave/Verso') {
       return '<span class="char-icon-dual" title="Gustave/Verso">'
@@ -2416,6 +2692,68 @@
   // ============================================================
   // WEAPON RENDER
   // ============================================================
+  function aRender() {
+    var stats = aGetStats();
+    var grid = document.getElementById('achievementGrid');
+    if (!grid) return;
+    var visibleCount = 0;
+
+    document.getElementById('achievementProgressFill').style.width = stats.pct + '%';
+    document.getElementById('achievementProgressText').textContent = stats.earned + ' / ' + stats.total;
+
+    if (getActiveTab() === 'achievements') {
+      document.getElementById('heroTotal').textContent = stats.total;
+      document.getElementById('heroCollected').textContent = stats.earned;
+      document.getElementById('heroProgress').textContent = stats.pct + '%';
+      document.getElementById('heroTotalLabel').textContent = 'Total Trophies';
+      document.getElementById('heroCollectedLabel').textContent = 'Earned';
+      document.getElementById('heroProgressLabel').textContent = 'Progress';
+    }
+
+    var html = '';
+    ACHIEVEMENT_DATA.forEach(function(a, idx) {
+      var match = aMatchesFilter(a);
+      if (match) visibleCount++;
+
+      var chk = aIsChecked(a.n);
+      var cardClass = 'achievement-card' + (chk ? ' checked' : '') + (match ? '' : ' hidden');
+
+      var iconHTML = '<div class="achievement-icon rarity-' + a.r + '">'
+        + '<svg viewBox="0 0 14 14" width="13" height="13" fill="currentColor">'
+        + '<path d="M7 1L8.5 5H13L9.5 7.5L11 12L7 9.5L3 12L4.5 7.5L1 5H5.5Z"/></svg></div>';
+
+      var extraHTML = '';
+      if (a.s) extraHTML += '<span class="achievement-tag secret">Secret</span>';
+      if (a.m) extraHTML += '<span class="achievement-tag missable">Missable</span>';
+
+      html += '<div class="' + cardClass + '" data-idx="' + idx + '">'
+        + iconHTML
+        + '<div class="achievement-info">'
+        +   '<div class="achievement-name">' + a.n + '</div>'
+        +   '<div class="achievement-desc">' + a.d + '</div>'
+        +   (extraHTML ? '<div class="achievement-extra">' + extraHTML + '</div>' : '')
+        + '</div>'
+        + '</div>';
+    });
+
+    if (visibleCount === 0 && ACHIEVEMENT_DATA.length > 0) {
+      html += '<div class="achievement-no-results">No achievements match your filter.</div>';
+    }
+
+    grid.innerHTML = html;
+    document.getElementById('achievementResultCount').textContent =
+      'Showing ' + visibleCount + ' of ' + stats.total + ' achievements';
+
+    grid.querySelectorAll('.achievement-card').forEach(function(c) {
+      c.addEventListener('click', function() {
+        var idx = parseInt(this.getAttribute('data-idx'), 10);
+        if (!isNaN(idx) && ACHIEVEMENT_DATA[idx]) {
+          aToggle(ACHIEVEMENT_DATA[idx].n);
+        }
+      });
+    });
+  }
+
   function wRender() {
     var stats = wGetStats();
     var grid = document.getElementById('weaponGrid');
@@ -2523,6 +2861,8 @@
           sub.textContent = 'The complete tracker \u2014 every Picto, every Weapon, every detail';
         } else if (tab === 'weapons') {
           sub.textContent = 'All ' + WEAPON_DATA.length + ' weapons \u2014 stats, passives, locations & more';
+        } else if (tab === 'achievements') {
+          sub.textContent = 'All ' + ACHIEVEMENT_DATA.length + ' achievements & trophies \u2014 track your completion';
         } else {
           sub.textContent = 'Pictos, Luminas, stats & mechanics \u2014 everything you need to know';
         }
@@ -2551,6 +2891,15 @@
           document.getElementById('heroTotalLabel').textContent = 'Total Pictos';
           document.getElementById('heroCollectedLabel').textContent = 'Collected';
           document.getElementById('heroProgressLabel').textContent = 'Progress';
+        } else if (tab === 'achievements') {
+          // Achievements tab — restore hero stats
+          var ach = aGetStats();
+          document.getElementById('heroTotal').textContent = ach.total;
+          document.getElementById('heroCollected').textContent = ach.earned;
+          document.getElementById('heroProgress').textContent = ach.pct + '%';
+          document.getElementById('heroTotalLabel').textContent = 'Total Trophies';
+          document.getElementById('heroCollectedLabel').textContent = 'Earned';
+          document.getElementById('heroProgressLabel').textContent = 'Progress';
         }
         // Info tab leaves hero stats unchanged
 
@@ -2567,12 +2916,31 @@
     } else if (savedTab === 'info') {
       var infoBtn = document.querySelector('.tab-btn[data-tab="info"]');
       if (infoBtn) infoBtn.click();
+    } else if (savedTab === 'achievements') {
+      var achBtn = document.querySelector('.tab-btn[data-tab="achievements"]');
+      if (achBtn) achBtn.click();
     }
   }
 
   // ============================================================
   // WEAPONS INIT
   // ============================================================
+  function initAchievements() {
+    aLoadState();
+
+    document.querySelectorAll('#rarityFilters .filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#rarityFilters .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        aFilter = this.getAttribute('data-afilter');
+        aRender();
+      });
+    });
+    document.querySelector('#rarityFilters .filter-btn[data-afilter="all"]').classList.add('active');
+
+    aRender();
+  }
+
   function initWeapons() {
     wLoadState();
 
