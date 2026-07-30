@@ -1538,30 +1538,28 @@
 
       if (data.fields.pictos && data.fields.pictos.mapValue) {
         var pf = data.fields.pictos.mapValue.fields;
+        var temp = {};
         if (pf) {
-          var temp = {};
           for (var key in pf) { if (pf[key].booleanValue) temp[key] = true; }
-          result.pictos = temp;
         }
+        result.pictos = temp;
       }
       if (data.fields.weapons && data.fields.weapons.mapValue) {
         var wf = data.fields.weapons.mapValue.fields;
+        var temp = {};
         if (wf) {
-          var temp = {};
           for (var key in wf) { if (wf[key].booleanValue) temp[key] = true; }
-          result.weapons = temp;
         }
+        result.weapons = temp;
       }
 
       if (data.fields.achievements && data.fields.achievements.mapValue) {
         var af = data.fields.achievements.mapValue.fields;
+        var temp = {};
         if (af) {
-          var temp = {};
           for (var key in af) { if (af[key].booleanValue) temp[key] = true; }
-          // Always pass through the achievements map — even if empty — so the
-          // caller can distinguish "field doesn't exist" from "deliberately empty".
-          result.achievements = temp;
         }
+        result.achievements = temp;
       }
 
       console.log('[sync] LOAD parsed result.pictos=' + (result.pictos ? Object.keys(result.pictos).length : 0)
