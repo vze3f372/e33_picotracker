@@ -1351,17 +1351,19 @@
       var result = {};
 
       if (data.fields.pictos && data.fields.pictos.mapValue) {
-        result.pictos = {};
         var pf = data.fields.pictos.mapValue.fields;
         if (pf) {
-          for (var key in pf) { if (pf[key].booleanValue) result.pictos[key] = true; }
+          var temp = {};
+          for (var key in pf) { if (pf[key].booleanValue) temp[key] = true; }
+          if (Object.keys(temp).length > 0) result.pictos = temp;
         }
       }
       if (data.fields.weapons && data.fields.weapons.mapValue) {
-        result.weapons = {};
         var wf = data.fields.weapons.mapValue.fields;
         if (wf) {
-          for (var key in wf) { if (wf[key].booleanValue) result.weapons[key] = true; }
+          var temp = {};
+          for (var key in wf) { if (wf[key].booleanValue) temp[key] = true; }
+          if (Object.keys(temp).length > 0) result.weapons = temp;
         }
       }
 
@@ -1398,10 +1400,15 @@
           for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
         }
         console.log('[sync] poll pictos: local=' + Object.keys(checked).length + ' remote=' + Object.keys(newP).length);
-        if (JSON.stringify(checked) !== JSON.stringify(newP)) {
-          checked = newP;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-          changed = true;
+        // Only apply remote pictos if they have entries, or if local is already empty
+        if (Object.keys(newP).length > 0 || Object.keys(checked).length === 0) {
+          if (JSON.stringify(checked) !== JSON.stringify(newP)) {
+            checked = newP;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+            changed = true;
+          }
+        } else {
+          console.log('[sync] poll pictos: remote is empty but local has data, keeping local');
         }
       } else {
         console.log('[sync] poll pictos field missing or null');
@@ -1415,10 +1422,15 @@
           for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
         }
         console.log('[sync] poll weapons: local=' + Object.keys(wChecked).length + ' remote=' + Object.keys(newW).length);
-        if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
-          wChecked = newW;
-          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-          changed = true;
+        // Only apply remote weapons if they have entries, or if local is already empty
+        if (Object.keys(newW).length > 0 || Object.keys(wChecked).length === 0) {
+          if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
+            wChecked = newW;
+            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+            changed = true;
+          }
+        } else {
+          console.log('[sync] poll weapons: remote is empty but local has data, keeping local');
         }
       } else {
         console.log('[sync] poll weapons field missing or null');
@@ -2071,13 +2083,13 @@
       }
       if (exists === true && data) {
         var changed = false;
-        if (data.pictos && typeof data.pictos === 'object') {
+        if (data.pictos && typeof data.pictos === 'object' && Object.keys(data.pictos).length > 0) {
           console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
           checked = data.pictos;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           changed = true;
         }
-        if (data.weapons && typeof data.weapons === 'object') {
+        if (data.weapons && typeof data.weapons === 'object' && Object.keys(data.weapons).length > 0) {
           console.log('[sync] initial load weapons:', Object.keys(data.weapons).length);
           wChecked = data.weapons;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
