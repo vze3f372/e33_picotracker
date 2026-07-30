@@ -60,6 +60,7 @@
       background: var(--bg-deep);
       line-height: 1.6;
       min-height: 100vh;
+      font-variant-emoji: text;
     }
 
     a { color: var(--gold); text-decoration: none; }
@@ -1065,7 +1066,7 @@
       </div>
 
       <div class="sync-bar" id="syncBar">
-        <span class="sync-icon"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M6 11L7 12C8 13 9.5 13 10.5 12L13 9.5C14 8.5 14 7 13 6L12 5M10 5L9 4C8 3 6.5 3 5.5 4L3 6.5C2 7.5 2 9 3 10L4 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="sync-icon"><svg viewBox="0 0 18 18" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3C5.7 3 3 5.7 3 9"/><polyline points="3,9 6,7 3,5"/><path d="M9 15C12.3 15 15 12.3 15 9"/><polyline points="15,9 12,11 15,13"/></svg></span>
         <span class="sync-label">Sync:</span>
         <code class="sync-code" id="syncCodeDisplay">------</code>
         <button class="sync-btn" id="syncCopyBtn">Copy</button>
@@ -1106,7 +1107,7 @@
     <div class="controls">
       <div class="controls-row">
         <div class="search-wrap">
-          <span class="search-icon"><svg viewBox="0 0 16 16" width="14" height="14"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="search-icon"><svg viewBox="0 0 18 18" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.2"/><line x1="14" y1="14" x2="11.2" y2="11.2"/></svg></span>
           <input type="text" id="searchInput" placeholder="Search pictos by name, effect, or location&hellip;" autocomplete="off">
         </div>
         <div class="progress-bar-wrap">
@@ -1120,8 +1121,8 @@
       <div class="controls-row">
         <div class="filter-group" id="statFilters">
           <button class="filter-btn" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="checked"><svg viewBox="0 0 12 12" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><polyline points="2,6 5,9 10,2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Collected</button>
-          <button class="filter-btn" data-filter="unchecked"><svg viewBox="0 0 12 12" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> Missing</button>
+          <button class="filter-btn" data-filter="checked">&#10003; Collected</button>
+          <button class="filter-btn" data-filter="unchecked">&#9711; Missing</button>
           <button class="filter-btn stat-health" data-filter="stat-health">HP</button>
           <button class="filter-btn stat-speed" data-filter="stat-speed">SPD</button>
           <button class="filter-btn stat-defense" data-filter="stat-defense">DEF</button>
@@ -1222,7 +1223,7 @@
     <div class="weapon-controls">
       <div class="controls-row">
         <div class="search-wrap">
-          <span class="search-icon"><svg viewBox="0 0 16 16" width="14" height="14"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="search-icon"><svg viewBox="0 0 18 18" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.2"/><line x1="14" y1="14" x2="11.2" y2="11.2"/></svg></span>
           <input type="text" id="weaponSearch" placeholder="Search weapons by name, character, or location&hellip;" autocomplete="off">
         </div>
         <div class="progress-bar-wrap">
@@ -1236,8 +1237,8 @@
       <div class="controls-row">
         <div class="filter-group" id="charFilters">
           <button class="filter-btn" data-wfilter="all">All</button>
-          <button class="filter-btn" data-wfilter="checked"><svg viewBox="0 0 12 12" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><polyline points="2,6 5,9 10,2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Collected</button>
-          <button class="filter-btn" data-wfilter="unchecked"><svg viewBox="0 0 12 12" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> Missing</button>
+          <button class="filter-btn" data-wfilter="checked">&#10003; Collected</button>
+          <button class="filter-btn" data-wfilter="unchecked">&#9711; Missing</button>
           <button class="filter-btn" data-wfilter="char-gustave">Gustave</button>
           <button class="filter-btn" data-wfilter="char-verso">Verso</button>
           <button class="filter-btn" data-wfilter="char-lune">Lune</button>
@@ -1978,7 +1979,7 @@
       var dlcTag = p.dlc ? '<span class="picto-dlc-tag">DLC</span>' : '';
 
       html += '<div class="' + cardClass + '" data-name="' + p.name.replace(/'/g, '&#39;') + '">'
-        + '<div class="picto-check">' + (chk ? '<svg viewBox="0 0 14 14" width="13" height="13"><polyline points="2,7 5,10 11,3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '') + '</div>'
+        + '<div class="picto-check">' + (chk ? '&#10003;' : '') + '</div>'
         + '<div class="picto-name">' + p.name + '</div>'
         + '<div class="picto-location"><strong>Location:</strong> ' + p.location + '</div>'
         + '<div class="picto-effect">' + p.effect + '</div>'
@@ -2347,7 +2348,7 @@
     if (file) {
       return '<span class="char-icon" title="' + c + '"><img src="icons/' + file + '.png" alt="' + c + '"></span>';
     }
-    return '<span class="char-icon char-icon-fallback" title="' + c + '">' + c.charAt(0).toUpperCase() + '</span>';
+    return '<span class="char-icon char-icon-fallback" title="' + c + '">&#9733;</span>';
   }
 
   function wScaleBadge(rank) {
