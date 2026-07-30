@@ -1057,6 +1057,7 @@
       border-color: var(--gold-dark);
     }
     .achievement-card.hidden { display: none; }
+    .achievement-card.no-click { cursor: default; opacity: 0.85; }
     .achievement-icon {
       flex-shrink: 0;
       width: 36px;
@@ -1635,6 +1636,7 @@
         if (Object.keys(newA).length > 0 || Object.keys(aChecked).length === 0) {
           if (JSON.stringify(aChecked) !== JSON.stringify(newA)) {
             aChecked = newA;
+            aUpdatePlatinum();
             localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
             changed = true;
           }
@@ -1789,6 +1791,7 @@
           }
           if (data && data.achievements) {
             aChecked = data.achievements;
+            aUpdatePlatinum();
             localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
           }
           render();
@@ -2317,6 +2320,7 @@
         if (data.achievements && typeof data.achievements === 'object' && Object.keys(data.achievements).length > 0) {
           console.log('[sync] initial load achievements:', Object.keys(data.achievements).length);
           aChecked = data.achievements;
+          aUpdatePlatinum();
           localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
           changed = true;
         }
@@ -2631,15 +2635,39 @@
   function aLoadState() {
     try { var raw = localStorage.getItem(ACH_KEY); if (raw) aChecked = JSON.parse(raw); }
     catch(e) { aChecked = {}; }
+    aUpdatePlatinum();
   }
   function aSaveState() {
     try { localStorage.setItem(ACH_KEY, JSON.stringify(aChecked)); } catch(e) {}
     syncSaveToFirebase();
   }
   function aIsChecked(name) { return !!aChecked[name]; }
+  /** Find the name of the platinum (Platinum) achievement. */
+  function aGetPlatinumName() {
+    for (var i = 0; i < ACHIEVEMENT_DATA.length; i++) {
+      if (ACHIEVEMENT_DATA[i].r === 'platinum') return ACHIEVEMENT_DATA[i].n;
+    }
+    return null;
+  }
+  /** Auto-check or uncheck the platinum trophy based on all others. */
+  function aUpdatePlatinum() {
+    var pName = aGetPlatinumName();
+    if (!pName) return;
+    var allDone = true;
+    for (var i = 0; i < ACHIEVEMENT_DATA.length; i++) {
+      if (ACHIEVEMENT_DATA[i].r === 'platinum') continue;
+      if (!aChecked[ACHIEVEMENT_DATA[i].n]) { allDone = false; break; }
+    }
+    if (allDone) { aChecked[pName] = true; }
+    else         { delete aChecked[pName]; }
+  }
   function aToggle(name) {
+    // The platinum trophy cannot be toggled manually
+    var pName = aGetPlatinumName();
+    if (name === pName) return;
     if (aChecked[name]) delete aChecked[name];
     else aChecked[name] = true;
+    aUpdatePlatinum();
     aSaveState();
     aRender();
   }
@@ -2723,7 +2751,7 @@
       if (match) visibleCount++;
 
       var chk = aIsChecked(a.n);
-      var cardClass = 'achievement-card' + (chk ? ' checked' : '') + (match ? '' : ' hidden');
+      var cardClass = 'achievement-card' + (chk ? ' checked' : '') + (match ? '' : ' hidden') + (a.r === 'platinum' ? ' no-click' : '');
 
       var iconHTML = '<div class="achievement-icon rarity-' + a.r + '">'
         + '<svg viewBox="0 0 14 14" width="13" height="13" fill="currentColor">'
@@ -2751,7 +2779,7 @@
     document.getElementById('achievementResultCount').textContent =
       'Showing ' + visibleCount + ' of ' + stats.total + ' achievements';
 
-    grid.querySelectorAll('.achievement-card').forEach(function(c) {
+    grid.querySelectorAll('.achievement-card:not(.no-click)').forEach(function(c) {
       c.addEventListener('click', function() {
         var idx = parseInt(this.getAttribute('data-idx'), 10);
         if (!isNaN(idx) && ACHIEVEMENT_DATA[idx]) {
