@@ -2,7 +2,7 @@
 
 A comprehensive single-page checklist and reference for every **Picto** in *Clair Obscur: Expedition 33*. Track what you've found, search by name/effect/location, filter by stat or DLC — all in a game-styled UI.
 
-**Live site:** <https://vze3f372.github.io/e33_picotracker/>
+**Live site:** <https://vze3f372.github.io/e33_pictotracker/>
 
 ---
 
