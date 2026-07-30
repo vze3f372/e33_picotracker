@@ -1122,11 +1122,7 @@
       color: var(--text-muted);
       padding: 3rem 1rem;
     }
-    .achievement-result-count {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
+
 
     @media (max-width: 40em) {
       .hero { padding: 2.5rem 1rem 1.5rem; }
@@ -1421,6 +1417,19 @@
 
     <div class="controls">
       <div class="controls-row">
+        <div class="search-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" id="achievementSearch" placeholder="Search achievements by name or description&hellip;" autocomplete="off">
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="achievementProgressFill" style="width:0%"></div>
+          </div>
+          <span class="progress-text" id="achievementProgressText">0 / 55</span>
+        </div>
+      </div>
+
+      <div class="controls-row">
         <div class="filter-group" id="rarityFilters">
           <button class="filter-btn" data-afilter="all">All</button>
           <button class="filter-btn" data-afilter="checked">&#10003; Earned</button>
@@ -1430,19 +1439,16 @@
           <button class="filter-btn" data-afilter="rarity-silver">Silver</button>
           <button class="filter-btn" data-afilter="rarity-bronze">Bronze</button>
         </div>
-      </div>
-      <div class="controls-row">
-        <div class="progress-bar-wrap">
-          <div class="progress-bar">
-            <div class="progress-bar-fill" id="achievementProgressFill" style="width:0%"></div>
-          </div>
-          <span class="progress-text" id="achievementProgressText">0 / 55</span>
+        <div class="control-actions">
+          <button class="action-btn" id="achievementClearAll">Clear All</button>
+          <button class="action-btn primary" id="achievementCheckAll">Check All</button>
         </div>
       </div>
     </div>
 
+    <p class="pictos-count" id="achievementResultCount">Showing 55 of 55 achievements</p>
+
     <div class="achievement-grid" id="achievementGrid"></div>
-    <div class="achievement-result-count" id="achievementResultCount"></div>
   </section>
 
   </div><!-- /tab-achievements -->
@@ -2098,6 +2104,7 @@
   var currentFilter = 'all';
   var currentSearch = '';
   var aFilter = 'all';
+  var aSearch = '';
 
   // ============================================================
   // HELPERS
@@ -2678,6 +2685,11 @@
     ACHIEVEMENT_DATA.forEach(function(a) { if (aIsChecked(a.n)) earned++; });
     return { total: total, earned: earned, pct: total > 0 ? Math.round((earned/total)*100) : 0 };
   }
+  function aMatchesSearch(a) {
+    if (!aSearch) return true;
+    var lc = aSearch.toLowerCase();
+    return a.n.toLowerCase().indexOf(lc) !== -1 || a.d.toLowerCase().indexOf(lc) !== -1;
+  }
   function aMatchesFilter(a) {
     if (aFilter === 'all') return true;
     if (aFilter === 'checked') return aIsChecked(a.n);
@@ -2687,6 +2699,20 @@
     if (aFilter === 'rarity-silver') return a.r === 'silver';
     if (aFilter === 'rarity-bronze') return a.r === 'bronze';
     return true;
+  }
+  function aCheckAll() {
+    for (var i = 0; i < ACHIEVEMENT_DATA.length; i++) {
+      if (ACHIEVEMENT_DATA[i].r !== 'platinum') aChecked[ACHIEVEMENT_DATA[i].n] = true;
+    }
+    aUpdatePlatinum();
+    aSaveState();
+    aRender();
+  }
+  function aClearAll() {
+    aChecked = {};
+    aUpdatePlatinum();
+    aSaveState();
+    aRender();
   }
 
   function wCharIcon(c) {
@@ -2748,7 +2774,7 @@
 
     var html = '';
     ACHIEVEMENT_DATA.forEach(function(a, idx) {
-      var match = aMatchesFilter(a);
+      var match = aMatchesFilter(a) && aMatchesSearch(a);
       if (match) visibleCount++;
 
       var chk = aIsChecked(a.n);
@@ -2964,6 +2990,11 @@
   function initAchievements() {
     aLoadState();
 
+    document.getElementById('achievementSearch').addEventListener('input', function() {
+      aSearch = this.value;
+      aRender();
+    });
+
     document.querySelectorAll('#rarityFilters .filter-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('#rarityFilters .filter-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -2973,6 +3004,9 @@
       });
     });
     document.querySelector('#rarityFilters .filter-btn[data-afilter="all"]').classList.add('active');
+
+    document.getElementById('achievementCheckAll').addEventListener('click', aCheckAll);
+    document.getElementById('achievementClearAll').addEventListener('click', aClearAll);
 
     aRender();
   }
