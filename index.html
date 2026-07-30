@@ -1150,6 +1150,49 @@
   <!-- ========== TAB: INFO CONTENT ========== -->
   <div class="tab-content hidden" id="tab-info">
 
+  <!-- ========== ABOUT THIS SITE ========== -->
+  <section class="info-section">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>About This Tracker</h2>
+          <p>This is a completion checklist for <em>Clair Obscur: Expedition 33</em>, covering all <strong>210 Pictos</strong> (193 base + 17 DLC) and all <strong>117 weapons</strong> with stats, passives, and locations. Click any card to mark it collected &mdash; the progress bar at the top shows your completion at a glance.</p>
+        </div>
+        <div class="info-card">
+          <h2>Local Storage</h2>
+          <p>Your checkmarks are saved automatically to <strong>localStorage</strong> in your browser. This means you can close the page and come back later &mdash; everything is still there. No account, no server, no sign-up needed.</p>
+          <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted);">Caveat: localStorage is tied to the browser and device. Clearing your browser data will reset your checkmarks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SYNC GUIDE ========== -->
+  <section class="info-section">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>Cross-Device Sync</h2>
+          <p>Use the <strong>Sync bar</strong> at the top of the page to share your progress between devices &mdash; phone, tablet, PC, it all works.</p>
+          <ol style="margin-top:0.5rem; padding-left:1.2rem;">
+            <li style="margin-bottom:0.4rem;">On your <strong>first device</strong>, click <em>Generate</em> in the sync bar to create a sync code (starts with <code>exp33-</code>).</li>
+            <li style="margin-bottom:0.4rem;">Copy the code and send it to your other device (text, email, however you like).</li>
+            <li style="margin-bottom:0.4rem;">On your <strong>second device</strong>, paste the code into the sync input box and click <em>Sync</em>.</li>
+            <li style="margin-bottom:0.4rem;">Your checkmarks are now shared &mdash; changes on either device sync automatically every 15 seconds.</li>
+          </ol>
+        </div>
+        <div class="info-card">
+          <h2>How Sync Works</h2>
+          <p>Sync uses <strong>Google Firestore</strong> (a cloud database) to store your checklist data. When you save, your checked items are sent to the cloud. When you load, the cloud data is pulled back down.</p>
+          <p style="margin-top:0.5rem;">If you ever enter a code that doesn&rsquo;t exist yet, the site creates a new entry in the cloud with your current data &mdash; so either device can be the &ldquo;source of truth.&rdquo;</p>
+          <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted);">No login, no sign-up &mdash; the sync code is the only key. Keep it safe if you want to recover your data on a new device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== INFO SECTION ========== -->
   <section class="info-section">
     <div class="container">
