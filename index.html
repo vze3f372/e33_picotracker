@@ -1541,7 +1541,7 @@
         if (pf) {
           var temp = {};
           for (var key in pf) { if (pf[key].booleanValue) temp[key] = true; }
-          if (Object.keys(temp).length > 0) result.pictos = temp;
+          result.pictos = temp;
         }
       }
       if (data.fields.weapons && data.fields.weapons.mapValue) {
@@ -1549,7 +1549,7 @@
         if (wf) {
           var temp = {};
           for (var key in wf) { if (wf[key].booleanValue) temp[key] = true; }
-          if (Object.keys(temp).length > 0) result.weapons = temp;
+          result.weapons = temp;
         }
       }
 
@@ -1558,7 +1558,9 @@
         if (af) {
           var temp = {};
           for (var key in af) { if (af[key].booleanValue) temp[key] = true; }
-          if (Object.keys(temp).length > 0) result.achievements = temp;
+          // Always pass through the achievements map — even if empty — so the
+          // caller can distinguish "field doesn't exist" from "deliberately empty".
+          result.achievements = temp;
         }
       }
 
@@ -1596,15 +1598,10 @@
           for (var key in pf) { if (pf[key].booleanValue) newP[key] = true; }
         }
         console.log('[sync] poll pictos: local=' + Object.keys(checked).length + ' remote=' + Object.keys(newP).length);
-        // Only apply remote pictos if they have entries, or if local is already empty
-        if (Object.keys(newP).length > 0 || Object.keys(checked).length === 0) {
-          if (JSON.stringify(checked) !== JSON.stringify(newP)) {
-            checked = newP;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-            changed = true;
-          }
-        } else {
-          console.log('[sync] poll pictos: remote is empty but local has data, keeping local');
+        if (JSON.stringify(checked) !== JSON.stringify(newP)) {
+          checked = newP;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+          changed = true;
         }
       } else {
         console.log('[sync] poll pictos field missing or null');
@@ -1618,15 +1615,10 @@
           for (var key in wf) { if (wf[key].booleanValue) newW[key] = true; }
         }
         console.log('[sync] poll weapons: local=' + Object.keys(wChecked).length + ' remote=' + Object.keys(newW).length);
-        // Only apply remote weapons if they have entries, or if local is already empty
-        if (Object.keys(newW).length > 0 || Object.keys(wChecked).length === 0) {
-          if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
-            wChecked = newW;
-            localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
-            changed = true;
-          }
-        } else {
-          console.log('[sync] poll weapons: remote is empty but local has data, keeping local');
+        if (JSON.stringify(wChecked) !== JSON.stringify(newW)) {
+          wChecked = newW;
+          localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
+          changed = true;
         }
       } else {
         console.log('[sync] poll weapons field missing or null');
@@ -1640,15 +1632,11 @@
           for (var key in af) { if (af[key].booleanValue) newA[key] = true; }
         }
         console.log('[sync] poll achievements: local=' + Object.keys(aChecked).length + ' remote=' + Object.keys(newA).length);
-        if (Object.keys(newA).length > 0 || Object.keys(aChecked).length === 0) {
-          if (JSON.stringify(aChecked) !== JSON.stringify(newA)) {
-            aChecked = newA;
-            aUpdatePlatinum();
-            localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
-            changed = true;
-          }
-        } else {
-          console.log('[sync] poll achievements: remote is empty but local has data, keeping local');
+        if (JSON.stringify(aChecked) !== JSON.stringify(newA)) {
+          aChecked = newA;
+          aUpdatePlatinum();
+          localStorage.setItem(ACH_KEY, JSON.stringify(aChecked));
+          changed = true;
         }
       } else {
         console.log('[sync] poll achievements field missing or null');
@@ -2313,19 +2301,19 @@
       }
       if (exists === true && data) {
         var changed = false;
-        if (data.pictos && typeof data.pictos === 'object' && Object.keys(data.pictos).length > 0) {
+        if (data.pictos && typeof data.pictos === 'object') {
           console.log('[sync] initial load pictos:', Object.keys(data.pictos).length);
           checked = data.pictos;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
           changed = true;
         }
-        if (data.weapons && typeof data.weapons === 'object' && Object.keys(data.weapons).length > 0) {
+        if (data.weapons && typeof data.weapons === 'object') {
           console.log('[sync] initial load weapons:', Object.keys(data.weapons).length);
           wChecked = data.weapons;
           localStorage.setItem(WSTORAGE_KEY, JSON.stringify(wChecked));
           changed = true;
         }
-        if (data.achievements && typeof data.achievements === 'object' && Object.keys(data.achievements).length > 0) {
+        if (data.achievements && typeof data.achievements === 'object') {
           console.log('[sync] initial load achievements:', Object.keys(data.achievements).length);
           aChecked = data.achievements;
           aUpdatePlatinum();
