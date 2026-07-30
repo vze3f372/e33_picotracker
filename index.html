@@ -811,6 +811,17 @@
       font-size: 1.25rem;
       flex-shrink: 0;
       color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .weapon-card.checked .weapon-icon-placeholder {
+      background: rgba(201,168,76,0.15);
+      border-color: var(--gold-dark);
+      color: var(--gold);
+    }
+    .weapon-card.dlc.checked .weapon-icon-placeholder {
+      background: rgba(138,74,138,0.15);
+      border-color: var(--accent-purple);
+      color: #b08ad0;
     }
     .weapon-name {
       font-family: var(--font-display);
@@ -1071,8 +1082,6 @@
     <div class="site-nav-inner">
       <span class="nav-title">Expedition 33</span>
       <div class="nav-links">
-        <a href="#how-it-works" data-scroll>How It Works</a>
-        <a href="#stats" data-scroll>Stats</a>
         <a href="#checklist" data-scroll>Checklist</a>
       </div>
     </div>
@@ -1083,75 +1092,12 @@
     <div class="tab-bar">
       <button class="tab-btn active" data-tab="pictos">&#9670; Pictos</button>
       <button class="tab-btn" data-tab="weapons">&#9876; Weapons</button>
+      <button class="tab-btn" data-tab="info">&#8505; Info</button>
     </div>
   </div>
 
   <!-- ========== TAB: PICTO CONTENT ========== -->
   <div class="tab-content" id="tab-pictos">
-
-  <!-- ========== INFO SECTION ========== -->
-  <section class="info-section" id="how-it-works">
-    <div class="container">
-      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
-      <div class="info-grid">
-        <div class="info-card">
-          <h2>What Are Pictos?</h2>
-          <p>Pictos are the equipment system in <em>Clair Obscur: Expedition 33</em>. Each character can equip up to three Pictos at once, which provide both <strong>stat bonuses</strong> (Health, Defense, Speed, or Critical Rate) and a <strong>unique passive ability</strong> (the Lumina).</p>
-          <p style="margin-top:0.75rem;">After using a Picto in four battles, all characters permanently learn its Lumina &mdash; the passive can then be equipped in a Lumina slot using Lumina Points (LP), freeing up the Picto slot for something else.</p>
-        </div>
-        <div class="info-card">
-          <h2>How To Get Pictos</h2>
-          <ul>
-            <li><strong>Found in the world</strong> &mdash; scattered across every area, often tucked away in side paths</li>
-            <li><strong>Bought from merchants</strong> &mdash; some require defeating the merchant in combat first</li>
-            <li><strong>Dropped by enemies &amp; bosses</strong> &mdash; certain bosses always drop specific Pictos</li>
-            <li><strong>Quest rewards</strong> &mdash; completing side quests and challenges</li>
-            <li><strong>DLC (Verso&rsquo;s Drafts)</strong> &mdash; 17 new Pictos in the free Thank You Update</li>
-          </ul>
-          <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted);">Tip: Duplicate Pictos you find will stack and upgrade the level of the one you already own, improving its stats.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== STATS TABLE ========== -->
-  <section class="info-section" id="stats">
-    <div class="container">
-      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
-      <div class="info-grid">
-        <div class="info-card">
-          <h2>Stat Bonuses</h2>
-          <p>Each Picto boosts two of four stats. The amount scales with the Picto&rsquo;s level (max level 33).</p>
-          <table style="margin-top:0.75rem;">
-            <thead>
-              <tr><th>Icon</th><th>Stat</th><th>Effect</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><span class="stat-tag health">HP</span></td><td>Health</td><td>Increases maximum HP</td></tr>
-              <tr><td><span class="stat-tag defense">DEF</span></td><td>Defense</td><td>Reduces incoming damage</td></tr>
-              <tr><td><span class="stat-tag speed">SPD</span></td><td>Speed</td><td>Affects turn order</td></tr>
-              <tr><td><span class="stat-tag crit">CRT</span></td><td>Critical Rate</td><td>Chance to deal bonus damage</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="info-card">
-          <h2>Lumina Costs</h2>
-          <p>Once a Lumina is learned, it can be equipped using Lumina Points (LP). Characters gain 1 LP per level-up; additional LP can be acquired using <em>Colour of Lumina</em> expedition resources.</p>
-          <table style="margin-top:0.75rem;">
-            <thead>
-              <tr><th>Cost</th><th>Categories</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>1&ndash;5 LP</td><td>Basic passives, utility effects</td></tr>
-              <tr><td>5&ndash;15 LP</td><td>Strong combat passives</td></tr>
-              <tr><td>15&ndash;30 LP</td><td>Build-defining effects</td></tr>
-              <tr><td>30&ndash;40 LP</td><td>Ultra-powerful / unique effects</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ========== CHECKLIST ========== -->
   <section class="container" id="checklist">
@@ -1197,6 +1143,75 @@
   </section>
 
   </div><!-- /tab-pictos -->
+
+  <!-- ========== TAB: INFO CONTENT ========== -->
+  <div class="tab-content hidden" id="tab-info">
+
+  <!-- ========== INFO SECTION ========== -->
+  <section class="info-section">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>What Are Pictos?</h2>
+          <p>Pictos are the equipment system in <em>Clair Obscur: Expedition 33</em>. Each character can equip up to three Pictos at once, which provide both <strong>stat bonuses</strong> (Health, Defense, Speed, or Critical Rate) and a <strong>unique passive ability</strong> (the Lumina).</p>
+          <p style="margin-top:0.75rem;">After using a Picto in four battles, all characters permanently learn its Lumina &mdash; the passive can then be equipped in a Lumina slot using Lumina Points (LP), freeing up the Picto slot for something else.</p>
+        </div>
+        <div class="info-card">
+          <h2>How To Get Pictos</h2>
+          <ul>
+            <li><strong>Found in the world</strong> &mdash; scattered across every area, often tucked away in side paths</li>
+            <li><strong>Bought from merchants</strong> &mdash; some require defeating the merchant in combat first</li>
+            <li><strong>Dropped by enemies &amp; bosses</strong> &mdash; certain bosses always drop specific Pictos</li>
+            <li><strong>Quest rewards</strong> &mdash; completing side quests and challenges</li>
+            <li><strong>DLC (Verso&rsquo;s Drafts)</strong> &mdash; 17 new Pictos in the free Thank You Update</li>
+          </ul>
+          <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted);">Tip: Duplicate Pictos you find will stack and upgrade the level of the one you already own, improving its stats.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STATS TABLE ========== -->
+  <section class="info-section">
+    <div class="container">
+      <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h2>Stat Bonuses</h2>
+          <p>Each Picto boosts two of four stats. The amount scales with the Picto&rsquo;s level (max level 33).</p>
+          <table style="margin-top:0.75rem;">
+            <thead>
+              <tr><th>Icon</th><th>Stat</th><th>Effect</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="stat-tag health">HP</span></td><td>Health</td><td>Increases maximum HP</td></tr>
+              <tr><td><span class="stat-tag defense">DEF</span></td><td>Defense</td><td>Reduces incoming damage</td></tr>
+              <tr><td><span class="stat-tag speed">SPD</span></td><td>Speed</td><td>Affects turn order</td></tr>
+              <tr><td><span class="stat-tag crit">CRT</span></td><td>Critical Rate</td><td>Chance to deal bonus damage</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-card">
+          <h2>Lumina Costs</h2>
+          <p>Once a Lumina is learned, it can be equipped using Lumina Points (LP). Characters gain 1 LP per level-up; additional LP can be acquired using <em>Colour of Lumina</em> expedition resources.</p>
+          <table style="margin-top:0.75rem;">
+            <thead>
+              <tr><th>Cost</th><th>Categories</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1&ndash;5 LP</td><td>Basic passives, utility effects</td></tr>
+              <tr><td>5&ndash;15 LP</td><td>Strong combat passives</td></tr>
+              <tr><td>15&ndash;30 LP</td><td>Build-defining effects</td></tr>
+              <tr><td>30&ndash;40 LP</td><td>Ultra-powerful / unique effects</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /tab-info -->
 
   <!-- ========== TAB: WEAPONS CONTENT ========== -->
   <div class="tab-content hidden" id="tab-weapons">
@@ -2448,8 +2463,10 @@
         var sub = document.getElementById('heroSub');
         if (tab === 'pictos') {
           sub.textContent = 'The complete tracker \u2014 every Picto, every Weapon, every detail';
-        } else {
+        } else if (tab === 'weapons') {
           sub.textContent = 'All ' + WEAPON_DATA.length + ' weapons \u2014 stats, passives, locations & more';
+        } else {
+          sub.textContent = 'Pictos, Luminas, stats & mechanics \u2014 everything you need to know';
         }
 
         // Refresh hero stats on tab switch
@@ -2467,7 +2484,7 @@
             document.getElementById('heroCollectedLabel').textContent = 'Collected';
             document.getElementById('heroProgressLabel').textContent = 'Progress';
           }
-        } else {
+        } else if (tab === 'pictos') {
           // Pictos tab — restore hero stats from picto data
           var ps = getStats();
           document.getElementById('heroTotal').textContent = ps.total;
@@ -2477,6 +2494,7 @@
           document.getElementById('heroCollectedLabel').textContent = 'Collected';
           document.getElementById('heroProgressLabel').textContent = 'Progress';
         }
+        // Info tab leaves hero stats unchanged
 
         // Remember active tab
         localStorage.setItem(tabKey, tab);
@@ -2488,6 +2506,9 @@
     if (savedTab === 'weapons') {
       var weaponsBtn = document.querySelector('.tab-btn[data-tab="weapons"]');
       if (weaponsBtn) weaponsBtn.click();
+    } else if (savedTab === 'info') {
+      var infoBtn = document.querySelector('.tab-btn[data-tab="info"]');
+      if (infoBtn) infoBtn.click();
     }
   }
 
