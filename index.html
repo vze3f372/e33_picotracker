@@ -1308,7 +1308,7 @@
       <button class="tab-btn active" data-tab="pictos">&#9670; Pictos</button>
       <button class="tab-btn" data-tab="weapons">&#9876; Weapons</button>
       <button class="tab-btn" data-tab="achievements"><svg viewBox="0 0 14 14" width="13" height="13" style="vertical-align:-2px;margin-right:3px;" fill="currentColor"><path d="M7 1L8.5 5H13L9.5 7.5L11 12L7 9.5L3 12L4.5 7.5L1 5H5.5Z"/></svg> Achievements</button>
-      <button class="tab-btn" data-tab="map"><span style="font-variant-emoji:text;">&#128506;</span> Map</button>
+      <button class="tab-btn" data-tab="map"><svg viewBox="0 0 14 14" width="13" height="13" fill="currentColor" style="vertical-align:-2px;margin-right:3px;" aria-hidden="true"><path d="M7 1C4.79 1 3 2.79 3 5c0 3.04 4 8 4 8s4-4.96 4-8c0-2.21-1.79-4-4-4zm0 5.5A1.5 1.5 0 1 1 7 3.5a1.5 1.5 0 0 1 0 3z"/></svg> Map</button>
     </div>
   </div>
 
@@ -1571,10 +1571,10 @@
   <section class="container" id="map-section">
     <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
 
-    <p class="map-intro">Every Picto and Weapon card links to <strong>MapGenie&rsquo;s interactive map</strong> of the continent. Click the <span class="map-link-example">Map</span> link next to any item&rsquo;s location to open its area, or jump straight to a region below.</p>
+    <p class="map-intro">Every Picto and Weapon card links to <strong>MapGenie&rsquo;s interactive map</strong> of the continent. Click the <span class="map-link-example">Map</span> link next to any item&rsquo;s location to open the map <em>already zoomed onto that exact item</em> &mdash; its popup opens with all other markers hidden, so there is nothing else to sift through. Or jump straight to a whole region below.</p>
 
     <div class="map-resources">
-      <a class="map-open-btn" href="https://mapgenie.io/clair-obscur-expedition-33/maps/the-continent" target="_blank" rel="noopener">&#128506; Open Interactive Map</a>
+      <a class="map-open-btn" href="https://mapgenie.io/clair-obscur-expedition-33/maps/the-continent" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" width="15" height="15" fill="currentColor" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true"><path d="M7 1C4.79 1 3 2.79 3 5c0 3.04 4 8 4 8s4-4.96 4-8c0-2.21-1.79-4-4-4zm0 5.5A1.5 1.5 0 1 1 7 3.5a1.5 1.5 0 0 1 0 3z"/></svg> Open Interactive Map</a>
       <p class="map-resources-note">Free to use, no account needed &mdash; every Picto, Weapon, Chroma &amp; more at exact positions.</p>
     </div>
 
@@ -2347,7 +2347,7 @@
         + '<div class="picto-check">' + (chk ? '&#10003;' : '') + '</div>'
         + '<div class="picto-name">' + p.name + '</div>'
         + '<div class="picto-location"><strong>Location:</strong> ' + p.location
-        +   ' <a class="card-map-link" href="' + mapGenieUrl(p.location) + '" target="_blank" rel="noopener" title="Open on MapGenie map">&#128506; Map</a></div>'
+        +   ' <a class="card-map-link" href="' + mapGenieUrl(p.name) + '" target="_blank" rel="noopener" title="Open on MapGenie map">' + MAP_ICON + ' Map</a></div>'
         + '<div class="picto-effect">' + p.effect + '</div>'
         + '<div class="picto-meta">'
         +   '<span class="picto-cost">' + p.cost + ' LP</span>'
@@ -2702,8 +2702,9 @@
   // MAPGENIE LINKS
   // ============================================================
   // Deep links into MapGenie's interactive map of The Continent:
-  //   ?regions=<id>&highlightRegions=true  -> focus + pulse a region
-  //   ?search=<text>                       -> run their marker search
+  //   ?locationIds=<id>                  -> show ONLY that marker, open its popup
+  //   ?regions=<id>&highlightRegions=true -> focus + pulse a region (region grid)
+  //   ?search=<text>                     -> filter to markers matching a search
   // Region ids come from MapGenie's own page markup (data-region-id).
   // Match is by longest prefix, so "Stone Wave Cliffs Cave" wins over
   // "Stone Wave Cliffs".
@@ -2742,6 +2743,340 @@
   var START_WEAPON_AREAS = ["Gustave's starting weapon","Verso's starting weapon",
     "Lune's starting weapon","Maelle's starting weapon","Monoco's starting weapon",
     "Sciel's starting weapon"];
+
+  // MapGenie location IDs keyed by our item names.
+  // Pictos use the picto name; weapons use "Name (Characters)".
+  // A value may be a comma-separated list: shows exactly those markers
+  // (filters out all other map markers - no pollution).
+  // Items missing from this map fall back to ?search=<name>.
+  var MAPGENIE_IDS = {
+    'Accelerating Heal': 448534,
+    'Accelerating Last Stand': 455370,
+    'Accelerating Shots': 456340,
+    'Accelerating Tint': 456348,
+    'Aegis Revival': 448929,
+    'Alternating Critical': 543233,
+    'Anti-Blight': 521425,
+    'Anti-Burn': 455396,
+    'Anti-Charm': 455146,
+    'Anti-Freeze': 452839,
+    'Anti-Stun': 456357,
+    'AP Discount': 518872,
+    'At Death\'s Door': 455106,
+    'Attack Lifesteal': 449472,
+    'Augmented Aim': 455372,
+    'Augmented Attack': 449765,
+    'Augmented Counter I': 449463,
+    'Augmented Counter II': 455138,
+    'Augmented Counter III': 456360,
+    'Augmented First Strike': 449491,
+    'Auto Death': 453324,
+    'Auto Powerful': 450907,
+    'Auto Regen': 449893,
+    'Auto Rush': 454667,
+    'Auto Shell': 454681,
+    'Base Shield': 454703,
+    'Beneficial Contamination': 456361,
+    'Break Specialist': 456345,
+    'Breaker': 449475,
+    'Breaking Attack': 456362,
+    'Breaking Burn': 448513,
+    'Breaking Counter': 448836,
+    'Breaking Death': 456363,
+    'Breaking Shots': 454682,
+    'Breaking Slow': 452879,
+    'Burn Affinity': 452842,
+    'Burning Break': 452844,
+    'Burning Death': 521810,
+    'Burning Mark': 448820,
+    'Burning Shots': 448802,
+    'Charging Alteration': 456528,
+    'Charging Attack': 455865,
+    'Charging Burn': 456529,
+    'Charging Counter': 456535,
+    'Charging Critical': 456530,
+    'Charging Mark': 456349,
+    'Charging Stun': 456559,
+    'Charging Tint': 448508,
+    'Charging Weakness': 456531,
+    'Cheater': 456570,
+    'Cleansing Tint': 448928,
+    'Clea\'s Death': 527278,
+    'Clea\'s Life': 456551,
+    'Combo Attack I': 455116,
+    'Combo Attack II': 456544,
+    'Combo Attack III': 456538,
+    'Confident': 449493,
+    'Confident Fighter': 449757,
+    'Consuming Attack': 518873,
+    'Critical Break': 449884,
+    'Critical Burn': 448800,
+    'Critical Moment': 449477,
+    'Critical Stun': 455282,
+    'Critical Vulnerability': 448518,
+    'Critical Weakness': 456545,
+    'Damage Share': 543232,
+    'Dead Energy I': 448612,
+    'Dead Energy II': 448803,
+    'Death Bomb': 452875,
+    'Defensive Mode': 453348,
+    'Dodger': 448799,
+    'Double Burn': 449751,
+    'Double Mark': 455148,
+    'Double Third': 522328,
+    'Draining Cleanse': 454677,
+    'Effective Heal': 452802,
+    'Effective Support': 452783,
+    'Empowered Healer': 543264,
+    'Empowering Attack': 448807,
+    'Empowering Break': 456552,
+    'Empowering Dodge': 452780,
+    'Empowering Jumps': 543444,
+    'Empowering Last Stand': 456557,
+    'Empowering Parry': 518756,
+    'Empowering Tint': 449731,
+    'Energetic Healer': 456553,
+    'Energising Attack I': 455412,
+    'Energising Attack II': 455149,
+    'Energising Break': 449468,
+    'Energising Burn': 456556,
+    'Energising Cleanse': 456574,
+    'Energising Death': 449727,
+    'Energising Gradient': 456571,
+    'Energising Heal': 448545,
+    'Energising Jump': 449469,
+    'Energising Pain': 449494,
+    'Energising Parry': 455112,
+    'Energising Powerful': 456561,
+    'Energising Revive': 455869,
+    'Energising Rush': 456546,
+    'Energising Shell': 452888,
+    'Energising Shots': 456554,
+    'Energising Start I': 448585,
+    'Energising Start II': 449473,
+    'Energising Start III': 449492,
+    'Energising Start IV': 449723,
+    'Energising Stun': 456342,
+    'Energising Turn': 455152,
+    'Energy Master': 456572,
+    'Enfeebling Attack': 454448,
+    'Enfeebling Mark': 454683,
+    'Exhausting Power': 449721,
+    'Exposing Attack': 448931,
+    'Exposing Break': 456532,
+    'Faster Than Strong': 456565,
+    'Feint': 543330,
+    'First Life': 527273,
+    'First Offensive': 455864,
+    'First Strike': 449701,
+    'Frenzy': 543422,
+    'Fueling Break': 448494,
+    'Full Strength': 455434,
+    'Gradient Break': 454580,
+    'Gradient Breaker': 456539,
+    'Gradient Fighter': 456558,
+    'Gradient Overcharge': 543297,
+    'Gradient Parry': 543262,
+    'Greater Defenceless': 456541,
+    'Greater Powerful': 455150,
+    'Greater Powerless': 456547,
+    'Greater Rush': 455121,
+    'Greater Shell': 452801,
+    'Greater Slow': 450916,
+    'Healing Boon': 456533,
+    'Healing Counter': 455128,
+    'Healing Death': 452818,
+    'Healing Fire': 449905,
+    'Healing Mark': 449482,
+    'Healing Parry': 448556,
+    'Healing Share': 455135,
+    'Healing Stun': 456560,
+    'Healing Tint Energy': 455867,
+    'Immaculate': 455141,
+    'In Medias Res': 454859,
+    'Inverted Affinity': 455113,
+    'Last Stand Critical': 455369,
+    'Longer Break': 522329,
+    'Longer Burn': 456346,
+    'Longer Powerful': 455126,
+    'Longer Rush': 452848,
+    'Longer Shell': 455110,
+    'Marking Break': 456350,
+    'Marking Shots': 448798,
+    'Painted Power': 456575,
+    'Painter': 521703,
+    'Perilous Parry': 454687,
+    'Piercing Shot': 449476,
+    'Powered Attack': 449750,
+    'Powerful Heal': 456351,
+    'Powerful Mark': 456555,
+    'Powerful Revive': 455868,
+    'Powerful Shield': 456352,
+    'Powerful Shots': 449487,
+    'Powerful on Shell': 454690,
+    'Pro Retreat': 456537,
+    'Protecting Attack': 456353,
+    'Protecting Death': 449896,
+    'Protecting Last Stand': 455368,
+    'Protecting Shots': 452854,
+    'Protecting Tint': 456536,
+    'Random Defense': 454444,
+    'Recovery': 452891,
+    'Rejuvenating Revive': 455108,
+    'Revive Paradox': 455133,
+    'Revive Tint Energy': 448846,
+    'Rewarding Mark': 449458,
+    'Roulette': 449485,
+    'Rush on Powerful': 456548,
+    'Second Chance': 456576,
+    'Shared Care': 448591,
+    'Shell On Rush': 456354,
+    'Shield Affinity': 454689,
+    'Shielding Death': 456573,
+    'Shielding Tint': 452859,
+    'Shortcut': 542727,
+    'Slowing Attack': 522330,
+    'Slowing Break': 456347,
+    'Sniper': 454676,
+    'Solidifying': 455283,
+    'Solo Fighter': 455367,
+    'SOS Healing Tint': 543235,
+    'SOS Power': 449702,
+    'SOS Rush': 450899,
+    'SOS Shell': 448809,
+    'Staggering Attack': 449457,
+    'Stay Marked': 454450,
+    'Stun Boost': 448822,
+    'Survivor': 455120,
+    'Sweet Kill': 449726,
+    'Tainted': 455107,
+    'Teamwork': 453323,
+    'The One': 456569,
+    'Time Tint': 449747,
+    'Trigger-Happy': 543407,
+    'Versatile': 449464,
+    'Warming Up': 456567,
+    'Weakness Gain': 454449,
+    'Noahram (Gustave/Verso)': 455160,
+    'Lanceram (Gustave/Verso)': 448924,
+    'Cruleram (Gustave/Verso)': 449456,
+    'Abysseram (Gustave/Verso)': 449462,
+    'Sakaram (Gustave/Verso)': 449470,
+    'Demonam (Gustave/Verso)': 449478,
+    'Delaram (Gustave/Verso)': 448835,
+    'Gaulteram (Gustave/Verso)': 455105,
+    'Chevalam (Gustave/Verso)': 452860,
+    'Blodam (Gustave/Verso)': 455153,
+    'Confuso (Gustave/Verso)': 449758,
+    'Contorso (Gustave/Verso)': 455136,
+    'Corpeso (Gustave/Verso)': 455154,
+    'Cultam (Gustave/Verso)': 455123,
+    'Dualiso (Gustave/Verso)': 455115,
+    'Danseso (Gustave/Verso)': 455132,
+    'Glaceso (Gustave/Verso)': 455158,
+    'Liteso (Gustave/Verso)': 455159,
+    'Nosaram (Gustave/Verso)': 455161,
+    'Seeram (Gustave/Verso)': 455162,
+    'Simoso (Gustave/Verso)': 455165,
+    'Sireso (Gustave/Verso)': 455143,
+    'Tireso (Gustave/Verso)': 455166,
+    'Verleso (Gustave/Verso)': 455167,
+    'Gesam (Gustave/Verso)': 455157,
+    'Dreameso (Gustave/Verso)': 455156,
+    'Sucreso (Gustave/Verso)': 543273,
+    'Esquiso (Gustave/Verso)': 543364,
+    'Lunerim (Lune)': 455389,
+    'Lighterim (Lune)': 448926,
+    'Deminerim (Lune)': 448933,
+    'Troubadim (Lune)': 449467,
+    'Trebuchim (Lune)': 449471,
+    'Kralim (Lune)': 455387,
+    'Colim (Lune)': 455144,
+    'Potierim (Lune)': 453338,
+    'Redalim (Lune)': 452820,
+    'Coralim (Lune)': 454679,
+    'Chapelim (Lune)': 455137,
+    'Braselim (Lune)': 455383,
+    'Angerim (Lune)': 455382,
+    'Choralim (Lune)': 456337,
+    'Scaverim (Lune)': 455393,
+    'Benisim (Lune)': 455114,
+    'Snowim (Lune)': 455395,
+    'Betelim (Lune)': 449489,
+    'Saperim (Lune)': 455392,
+    'Elerim (Lune)': 449880,
+    'Painerim (Lune)': 455391,
+    'Lithelim (Lune)': 454440,
+    'Bonbim (Lune)': 518879,
+    'Esquim (Lune)': 543234,
+    'Cleim (Lune)': 527277,
+    'Maellum (Maelle)': 455408,
+    'Brulerum (Maelle)': 448932,
+    'Sekarum (Maelle)': 449479,
+    'Medalum (Maelle)': 449486,
+    'Plenum (Maelle)': 455410,
+    'Duenum (Maelle)': 454680,
+    'Battlum (Maelle)': 455129,
+    'Chalium (Maelle)': 455399,
+    'Chantenum (Maelle)': 455147,
+    'Clierum (Maelle)': 455140,
+    'Coldum (Maelle)': 455124,
+    'Facesum (Maelle)': 455402,
+    'Glaisum (Maelle)': 455404,
+    'Jarum (Maelle)': 455405,
+    'Lithum (Maelle)': 455407,
+    'Melarum (Maelle)': 455131,
+    'Stalum (Maelle)': 455427,
+    'Tissenum (Maelle)': 455145,
+    'Veremum (Maelle)': 455428,
+    'Volesterum (Maelle)': 455430,
+    'Yeverum (Maelle)': 455436,
+    'Barrier Breaker (Maelle)': 456338,
+    'Esqium (Maelle)': 543311,
+    'Licorum (Maelle)': 543304,
+    'Scieleson (Sciel)': 455621,
+    'Chation (Sciel)': 454678,
+    'Rangeson (Sciel)': 455620,
+    'Algueron (Sciel)': 455127,
+    'Bourgelon (Sciel)': 455163,
+    'Gobluson (Sciel)': 455164,
+    'Lusteson (Sciel)': 455111,
+    'Direton (Sciel)': 455613,
+    'Minason (Sciel)': 455618,
+    'Ramasson (Sciel)': 455109,
+    'Charnon (Sciel)': 455612,
+    'Moisson (Sciel)': 455619,
+    'Sadon (Sciel)': 455134,
+    'Garganon (Sciel)': 455614,
+    'Blizzon (Sciel)': 455611,
+    'Tisseron (Sciel)': 455151,
+    'Martenon (Sciel)': 455424,
+    'Guleson (Sciel)': 455615,
+    'Litheson (Sciel)': 455617,
+    'Corderon (Sciel)': 449879,
+    'Sucetton (Sciel)': 543435,
+    'Esquion (Sciel)': 543231,
+    'Duollison (Sciel)': 527261,
+    'Monocaro (Monoco)': 455628,
+    'Ballaro (Monoco)': 455622,
+    'Boucharo (Monoco)': 455139,
+    'Brumaro (Monoco)': 455623,
+    'Chromaro (Monoco)': 455625,
+    'Fragaro (Monoco)': 455626,
+    'Grandaro (Monoco)': 455122,
+    'Joyaro (Monoco)': 455627,
+    'Nusaro (Monoco)': 449746,
+    'Sidaro (Monoco)': 455426,
+    'Urnaro (Monoco)': 455629,
+    'Baguettaro (Monoco)': 543319,
+    'Cannaro (Monoco)': 543351,
+    'Esquiaro (Monoco)': 543402,
+    'Glass Canon': 449762,
+    'Seashellum (Maelle)': 455423,
+    'Hevason (Sciel)': 455616,
+    'Baguette (Any (NG+))': [456332,456333,456334,456335,456336]
+  };
+  
 
 
   // ============================================================
@@ -3028,14 +3363,22 @@
     return best;
   }
 
-  /** Deep link to MapGenie for a location, focused on its region. */
-  function mapGenieUrl(loc) {
-    var region = mapRegionFor(loc);
-    if (region) {
-      return MAPGENIE_URL + '?regions=' + region.id + '&highlightRegions=true';
+  /** Map pin icon (inline SVG so it renders regardless of emoji fonts). */
+  var MAP_ICON = '<svg viewBox="0 0 14 14" width="12" height="12" fill="currentColor" style="vertical-align:-1px;margin-right:3px;" aria-hidden="true"><path d="M7 1C4.79 1 3 2.79 3 5c0 3.04 4 8 4 8s4-4.96 4-8c0-2.21-1.79-4-4-4zm0 5.5A1.5 1.5 0 1 1 7 3.5a1.5 1.5 0 0 1 0 3z"/></svg>';
+
+  /** Deep link to MapGenie for a specific item (by our item key).
+   *  ?locationIds=<id> filters the map to exactly that marker (opens its
+   *  popup and centres the camera), so there is no marker pollution.
+   *  A list of ids shows exactly those markers (e.g. the 5 Baguettes).
+   *  Items without a known marker fall back to MapGenie's marker search,
+   *  which also filters the map down to matching markers only. */
+  function mapGenieUrl(key) {
+    var ids = MAPGENIE_IDS[key];
+    if (ids) {
+      var list = Array.isArray(ids) ? ids.join(',') : ids;
+      return MAPGENIE_URL + '?locationIds=' + list;
     }
-    // Fall back to MapGenie's marker search for unmatched areas
-    return MAPGENIE_URL + '?search=' + encodeURIComponent(mapAreaPrefix(loc));
+    return MAPGENIE_URL + '?search=' + encodeURIComponent(key);
   }
 
   /** Build the region quick-link grid on the Map tab. */
@@ -3124,7 +3467,7 @@
         + (anyScaling ? '<div class="weapon-scalings">' + scHTML + '</div>' : '')
         + '<div class="weapon-passives">' + pasHTML + '</div>'
         + '<div class="weapon-location"><strong>Location:</strong> ' + w.loc
-        +   ' <a class="card-map-link" href="' + mapGenieUrl(w.loc) + '" target="_blank" rel="noopener" title="Open on MapGenie map">&#128506; Map</a></div>'
+        +   ' <a class="card-map-link" href="' + mapGenieUrl(w.n + ' (' + w.c + ')') + '" target="_blank" rel="noopener" title="Open on MapGenie map">' + MAP_ICON + ' Map</a></div>'
         + '</div>';
     });
 
@@ -3175,7 +3518,7 @@
         } else if (tab === 'achievements') {
           sub.textContent = 'All ' + ACHIEVEMENT_DATA.length + ' achievements & trophies \u2014 track your completion';
         } else if (tab === 'map') {
-          sub.textContent = 'Every location links to MapGenie\u2019s interactive map \u2014 zoomed to the right area';
+          sub.textContent = 'Every Map link opens MapGenie\u2019s interactive map on the exact item \u2014 no hunting';
         } else {
           sub.textContent = 'Pictos, Luminas, stats & mechanics \u2014 everything you need to know';
         }
