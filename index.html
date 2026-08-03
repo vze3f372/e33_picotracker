@@ -1146,6 +1146,96 @@
       padding: 3rem 1rem;
     }
 
+    /* ================= MAP TAB ================= */
+    .map-intro {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.55;
+      max-width: 56rem;
+    }
+    .map-link-example {
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      border-radius: 3px;
+      padding: 0 0.3rem;
+      font-size: 0.75rem;
+    }
+    .map-resources {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+    }
+    .map-open-btn {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #0a0a0f;
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 0.6rem 1.4rem;
+      cursor: pointer;
+    }
+    .map-open-btn:hover {
+      background: #ffe8a0;
+      text-decoration: none;
+      color: #0a0a0f;
+    }
+    .map-resources-note {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .map-region-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.55rem;
+    }
+    .map-region-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding: 0.55rem 0.7rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .map-region-link:hover {
+      border-color: var(--gold-dark);
+      color: var(--gold);
+      text-decoration: none;
+      background: var(--bg-card-hover);
+    }
+    .map-region-count {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    /* Card map links */
+    .card-map-link {
+      color: var(--gold);
+      border: 1px solid var(--gold-dark);
+      border-radius: 3px;
+      padding: 0 0.35rem;
+      font-size: 0.72rem;
+      margin-left: 0.4rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-map-link:hover {
+      background: rgba(201,168,76,0.15);
+      text-decoration: none;
+    }
 
     @media (max-width: 40em) {
       .hero { padding: 2.5rem 1rem 1.5rem; }
@@ -1158,6 +1248,7 @@
       .search-wrap { min-width: 0; }
       .sync-bar { font-size: 0.7rem; gap: 0.3rem; }
       .sync-input { width: 90px; }
+      .map-region-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -1217,6 +1308,7 @@
       <button class="tab-btn active" data-tab="pictos">&#9670; Pictos</button>
       <button class="tab-btn" data-tab="weapons">&#9876; Weapons</button>
       <button class="tab-btn" data-tab="achievements"><svg viewBox="0 0 14 14" width="13" height="13" style="vertical-align:-2px;margin-right:3px;" fill="currentColor"><path d="M7 1L8.5 5H13L9.5 7.5L11 12L7 9.5L3 12L4.5 7.5L1 5H5.5Z"/></svg> Achievements</button>
+      <button class="tab-btn" data-tab="map"><span style="font-variant-emoji:text;">&#128506;</span> Map</button>
     </div>
   </div>
 
@@ -1472,6 +1564,24 @@
   </section>
 
   </div><!-- /tab-achievements -->
+
+  <!-- ========== TAB: MAP CONTENT ========== -->
+  <div class="tab-content hidden" id="tab-map">
+
+  <section class="container" id="map-section">
+    <div class="ornament"><i>&#9670; &#9670; &#9670;</i></div>
+
+    <p class="map-intro">Every Picto and Weapon card links to <strong>MapGenie&rsquo;s interactive map</strong> of the continent. Click the <span class="map-link-example">Map</span> link next to any item&rsquo;s location to open its area, or jump straight to a region below.</p>
+
+    <div class="map-resources">
+      <a class="map-open-btn" href="https://mapgenie.io/clair-obscur-expedition-33/maps/the-continent" target="_blank" rel="noopener">&#128506; Open Interactive Map</a>
+      <p class="map-resources-note">Free to use, no account needed &mdash; every Picto, Weapon, Chroma &amp; more at exact positions.</p>
+    </div>
+
+    <div class="map-region-grid" id="mapRegionGrid"></div>
+  </section>
+
+  </div><!-- /tab-map -->
 
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
@@ -2236,7 +2346,8 @@
       html += '<div class="' + cardClass + '" data-name="' + p.name.replace(/'/g, '&#39;') + '">'
         + '<div class="picto-check">' + (chk ? '&#10003;' : '') + '</div>'
         + '<div class="picto-name">' + p.name + '</div>'
-        + '<div class="picto-location"><strong>Location:</strong> ' + p.location + '</div>'
+        + '<div class="picto-location"><strong>Location:</strong> ' + p.location
+        +   ' <a class="card-map-link" href="' + mapGenieUrl(p.location) + '" target="_blank" rel="noopener" title="Open on MapGenie map">&#128506; Map</a></div>'
         + '<div class="picto-effect">' + p.effect + '</div>'
         + '<div class="picto-meta">'
         +   '<span class="picto-cost">' + p.cost + ' LP</span>'
@@ -2260,6 +2371,13 @@
     cards.forEach(function(c) {
       c.addEventListener('click', function() {
         toggleCheck(this.getAttribute('data-name'));
+      });
+    });
+
+    // Map links (open MapGenie, don't toggle the card)
+    grid.querySelectorAll('.card-map-link').forEach(function(l) {
+      l.addEventListener('click', function(e) {
+        e.stopPropagation();
       });
     });
   }
@@ -2581,6 +2699,52 @@
   ];
 
   // ============================================================
+  // MAPGENIE LINKS
+  // ============================================================
+  // Deep links into MapGenie's interactive map of The Continent:
+  //   ?regions=<id>&highlightRegions=true  -> focus + pulse a region
+  //   ?search=<text>                       -> run their marker search
+  // Region ids come from MapGenie's own page markup (data-region-id).
+  // Match is by longest prefix, so "Stone Wave Cliffs Cave" wins over
+  // "Stone Wave Cliffs".
+  var MAPGENIE_URL = 'https://mapgenie.io/clair-obscur-expedition-33/maps/the-continent';
+  var MAPGENIE_REGIONS = [
+    { id: 3363, name: 'Lumi\u00e8re (Intro)',          areas: ['Lumiere', 'Your Camp', 'New Game+'] },
+    { id: 4205, name: 'Lumi\u00e8re (Act III)',        areas: ['Lumiere (Act III)', 'Lumiere Act III'] },
+    { id: 3626, name: 'Spring Meadows',                 areas: ['Spring Meadows', 'Abbest Cave'] },
+    { id: 3766, name: 'Ancient Sanctuary',              areas: ['Ancient Sanctuary'] },
+    { id: 3454, name: 'Flying Waters',                  areas: ['Flying Waters'] },
+    { id: 3846, name: 'Flying Manor',                   areas: ['Flying Manor', 'Sky Island'] },
+    { id: 3767, name: 'Gestral Village',                areas: ['Gestral Village', 'Hidden Gestral Arena', 'Dark Gestral Arena'] },
+    { id: 3768, name: "Esquie's Nest",                  areas: ["Esquie's Nest"] },
+    { id: 3769, name: 'Stone Wave Cliffs',              areas: ['Stone Wave Cliffs Cave', 'Stone Wave Cliffs'] },
+    { id: 3455, name: 'Forgotten Battlefield',          areas: ['Forgotten Battlefield'] },
+    { id: 3845, name: 'Crimson Forest',                 areas: ['Crimson Forest'] },
+    { id: 3848, name: 'Dark Shores',                    areas: ['Dark Shores'] },
+    { id: 3774, name: 'Esoteric Ruins',                 areas: ['Esoteric Ruins'] },
+    { id: 3773, name: 'Frozen Hearts',                  areas: ['Frozen Hearts'] },
+    { id: 3771, name: 'Old Lumi\u00e8re',              areas: ['Old Lumiere'] },
+    { id: 3772, name: 'Sirene',                         areas: ['Sirene', "Sirene's Dress"] },
+    { id: 3770, name: 'Yellow Harvest',                 areas: ['Yellow Harvest'] },
+    { id: 3844, name: 'The Reacher',                    areas: ['The Reacher'] },
+    { id: 3847, name: 'Endless Night Sanctuary',        areas: ['Endless Night Sanctuary'] },
+    { id: 3804, name: 'Inside the Monolith',            areas: ['The Monolith'] },
+    { id: 3805, name: 'The Continent',                  areas: ['The Continent (Overworld)', 'The Continent', 'Coastal Cave',
+        'The Camp', 'Falling Leaves', 'The Crows', 'The Chosen Path', 'Red Woods',
+        'Sacred River', 'Floating Cemetery', 'Sunless Cliffs', 'Crushing Cavern',
+        'Isle of the Eyes', 'Sinister Cave', 'Monoco\'s Station', 'Endless Tower',
+        'Endless Tower DLC'] },
+    { id: 4204, name: "Renoir's Drafts",                areas: ["Renoir's Drafts"] },
+    { id: 4206, name: "Verso's Drafts (DLC)",           areas: ["Verso's Drafts"] },
+    { id: 3775, name: 'Visages',                        areas: ['Visages'] }
+  ];
+  // Starting weapons are all found in the opening Lumiere segment
+  var START_WEAPON_AREAS = ["Gustave's starting weapon","Verso's starting weapon",
+    "Lune's starting weapon","Maelle's starting weapon","Monoco's starting weapon",
+    "Sciel's starting weapon"];
+
+
+  // ============================================================
   // WEAPON STATE
   // ============================================================
   var WSTORAGE_KEY = 'expedition33_weapons';
@@ -2828,6 +2992,71 @@
     });
   }
 
+  // ============================================================
+  // MAPGENIE HELPERS
+  // ============================================================
+
+  /** Extract the area prefix from a location string (text before " — "). */
+  function mapAreaPrefix(loc) {
+    var i = loc.indexOf('\u2014'); // em dash
+    if (i === -1) return loc;
+    return loc.substring(0, i).trim();
+  }
+
+  /** Return the MapGenie region entry for a location string, or null. */
+  function mapRegionFor(loc) {
+    var prefix = mapAreaPrefix(loc);
+    var lc = prefix.toLowerCase();
+    // Starting weapons are all found in the opening Lumiere segment
+    for (var s = 0; s < START_WEAPON_AREAS.length; s++) {
+      if (lc.indexOf(START_WEAPON_AREAS[s].toLowerCase()) !== -1) {
+        return MAPGENIE_REGIONS[0]; // Lumiere (Intro)
+      }
+    }
+    // Longest area string matches first (more specific wins)
+    var bestLen = -1;
+    var best = null;
+    for (var i = 0; i < MAPGENIE_REGIONS.length; i++) {
+      var areas = MAPGENIE_REGIONS[i].areas;
+      for (var a = 0; a < areas.length; a++) {
+        if (areas[a].length > bestLen && lc.indexOf(areas[a].toLowerCase()) !== -1) {
+          bestLen = areas[a].length;
+          best = MAPGENIE_REGIONS[i];
+        }
+      }
+    }
+    return best;
+  }
+
+  /** Deep link to MapGenie for a location, focused on its region. */
+  function mapGenieUrl(loc) {
+    var region = mapRegionFor(loc);
+    if (region) {
+      return MAPGENIE_URL + '?regions=' + region.id + '&highlightRegions=true';
+    }
+    // Fall back to MapGenie's marker search for unmatched areas
+    return MAPGENIE_URL + '?search=' + encodeURIComponent(mapAreaPrefix(loc));
+  }
+
+  /** Build the region quick-link grid on the Map tab. */
+  function renderMapRegions() {
+    var grid = document.getElementById('mapRegionGrid');
+    if (!grid) return;
+    var html = '';
+    MAPGENIE_REGIONS.forEach(function(r) {
+      var p = 0;
+      var w = 0;
+      PICTO_DATA.forEach(function(pic) { if (mapRegionFor(pic.location) === r) p++; });
+      WEAPON_DATA.forEach(function(wep) { if (mapRegionFor(wep.loc) === r) w++; });
+      var total = p + w;
+      html += '<a class="map-region-link" href="' + MAPGENIE_URL + '?regions=' + r.id + '&highlightRegions=true" target="_blank" rel="noopener">'
+        + '<span>' + r.name + '</span>'
+        + '<span class="map-region-count">' + total + ' items</span>'
+        + '</a>';
+    });
+    grid.innerHTML = html;
+  }
+
   function wRender() {
     var stats = wGetStats();
     var grid = document.getElementById('weaponGrid');
@@ -2894,7 +3123,8 @@
         + '<div class="weapon-element">' + elemTag + '<span class="weapon-power"><strong>' + (w.p).toLocaleString() + '</strong> Power</span></div>'
         + (anyScaling ? '<div class="weapon-scalings">' + scHTML + '</div>' : '')
         + '<div class="weapon-passives">' + pasHTML + '</div>'
-        + '<div class="weapon-location"><strong>Location:</strong> ' + w.loc + '</div>'
+        + '<div class="weapon-location"><strong>Location:</strong> ' + w.loc
+        +   ' <a class="card-map-link" href="' + mapGenieUrl(w.loc) + '" target="_blank" rel="noopener" title="Open on MapGenie map">&#128506; Map</a></div>'
         + '</div>';
     });
 
@@ -2911,6 +3141,13 @@
     grid.querySelectorAll('.weapon-card').forEach(function(c) {
       c.addEventListener('click', function() {
         wToggle(this.getAttribute('data-wname'));
+      });
+    });
+
+    // Map links (open MapGenie, don't toggle the card)
+    grid.querySelectorAll('.card-map-link').forEach(function(l) {
+      l.addEventListener('click', function(e) {
+        e.stopPropagation();
       });
     });
   }
@@ -2937,6 +3174,8 @@
           sub.textContent = 'All ' + WEAPON_DATA.length + ' weapons \u2014 stats, passives, locations & more';
         } else if (tab === 'achievements') {
           sub.textContent = 'All ' + ACHIEVEMENT_DATA.length + ' achievements & trophies \u2014 track your completion';
+        } else if (tab === 'map') {
+          sub.textContent = 'Every location links to MapGenie\u2019s interactive map \u2014 zoomed to the right area';
         } else {
           sub.textContent = 'Pictos, Luminas, stats & mechanics \u2014 everything you need to know';
         }
@@ -2974,6 +3213,9 @@
           document.getElementById('heroTotalLabel').textContent = 'Total Trophies';
           document.getElementById('heroCollectedLabel').textContent = 'Earned';
           document.getElementById('heroProgressLabel').textContent = 'Progress';
+        } else if (tab === 'map') {
+          // Map tab — build the MapGenie region quick-links on first activation
+          renderMapRegions();
         }
         // Info tab leaves hero stats unchanged
 
@@ -2993,6 +3235,9 @@
     } else if (savedTab === 'achievements') {
       var achBtn = document.querySelector('.tab-btn[data-tab="achievements"]');
       if (achBtn) achBtn.click();
+    } else if (savedTab === 'map') {
+      var mapBtn = document.querySelector('.tab-btn[data-tab="map"]');
+      if (mapBtn) mapBtn.click();
     }
   }
 
